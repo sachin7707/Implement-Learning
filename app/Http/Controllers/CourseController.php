@@ -9,7 +9,7 @@ use App\Wordpress\Client as WordpressClient;
  * @author jimmiw
  * @since 2018-09-26
  */
-class ApiController extends Controller
+class CourseController extends Controller
 {
     /** @var MaconomyClient  */
     private $maconomyClient;
