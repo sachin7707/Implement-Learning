@@ -15,7 +15,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        
+        return response()->json(Order::all()->sortBy('id', [], true));
     }
 
     /**
@@ -25,6 +25,7 @@ class OrderController extends Controller
     public function show(string $id)
     {
         $order = Order::findOrFail($id);
-        return response()->json($order->toJson());
+
+        return response()->json($order);
     }
 }
