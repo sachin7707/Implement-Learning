@@ -14,6 +14,7 @@ class MaconomySerivceProvider extends ServiceProvider
 {
     public function register()
     {
+        // registering our client
         $this->app->singleton(SoapClient::class, function ($app) {
             return new Maconomy(env('MACONOMY_URL'), env('MACONOMY_LOCATION'));
         });
