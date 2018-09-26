@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Order;
+
 /**
  * @author jimmiw
  * @since 2018-09-26
@@ -22,6 +24,7 @@ class OrderController extends Controller
      */
     public function show(string $id)
     {
-
+        $order = Order::findOrFail($id);
+        return response()->json($order->toJson());
     }
 }
