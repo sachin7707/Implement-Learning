@@ -15,7 +15,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return response()->json(Order::orderBy('id', 'desc')->get());
+        return response()->json(Order::orderByDesc('id')->get());
     }
 
     /**
