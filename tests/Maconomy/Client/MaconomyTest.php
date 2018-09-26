@@ -1,7 +1,5 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
-
 /**
  * @author jimmiw
  * @since 2018-09-26
