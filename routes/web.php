@@ -14,3 +14,12 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+$router->group(['prefix' => 'api/v1'], function () use ($router) {
+    $router->get('/sync', 'ApiController@sync');
+    $router->get('/sync/{id}', 'ApiController@syncSingle');
+
+    // handles orders
+    $router->get('/orders', 'OrderController@index');
+    $router->get('/orders/{id}', 'OrderController@show');
+});
