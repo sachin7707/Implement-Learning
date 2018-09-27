@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Course;
 use App\Jobs\ImportCourses;
-use App\Maconomy\Client\Maconomy as MaconomyClient;
-use App\Wordpress\Client as WordpressClient;
+use App\Maconomy\Client\Maconomy;
+use Illuminate\Http\Request;
 
 /**
  * @author jimmiw
@@ -12,20 +13,16 @@ use App\Wordpress\Client as WordpressClient;
  */
 class CourseController extends Controller
 {
-    /** @var MaconomyClient  */
-    private $maconomyClient;
-    /** @var WordpressClient  */
-    private $wordpressClient;
+    /** @var Maconomy  */
+    private $client;
 
     /**
      * ApiController constructor.
-     * @param MaconomyClient $maconomyClient
-     * @param WordpressClient $wordpressClient
+     * @param Maconomy $client
      */
-    public function __construct(MaconomyClient $maconomyClient, WordpressClient $wordpressClient)
+    public function __construct(Maconomy $client)
     {
-        $this->maconomyClient = $maconomyClient;
-        $this->wordpressClient = $wordpressClient;
+        $this->client = $client;
     }
     /**
      * Syncs all the courses from maconomy
@@ -42,5 +39,15 @@ class CourseController extends Controller
     public function syncSingle(string $id)
     {
         ImportCourses::dispatch($id);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $course = Course::where('maconomy_id', $id)->first();
+
+        // you are allowed to change the number of participants
+        $course->participants_max = $request->input('participants_max');
+
+        $course->save();
     }
 }

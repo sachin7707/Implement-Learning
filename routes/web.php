@@ -18,6 +18,7 @@ $router->get('/', function () use ($router) {
 $router->group(['prefix' => 'api/v1'], function () use ($router) {
     $router->get('/sync', 'CourseController@sync');
     $router->get('/sync/{id}', 'CourseController@syncSingle');
+    $router->put('/course/{id}', 'CourseController@update');
 
     // handles orders
     $router->get('/orders', 'OrderController@index');
