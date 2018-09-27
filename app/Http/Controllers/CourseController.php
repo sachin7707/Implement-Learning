@@ -41,6 +41,11 @@ class CourseController extends Controller
         ImportCourses::dispatch($id);
     }
 
+    /**
+     * Handles updating a course's details from an external provider
+     * @param Request $request
+     * @param $id
+     */
     public function update(Request $request, $id)
     {
         $course = Course::where('maconomy_id', $id)->first();
