@@ -48,6 +48,7 @@ class CourseController extends Controller
      */
     public function update(Request $request, $id)
     {
+        /** @var Course $course */
         $course = Course::where('maconomy_id', $id)->first();
 
         // you are allowed to change the maximum number of participants
