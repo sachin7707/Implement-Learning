@@ -2,6 +2,7 @@
 
 namespace App\Maconomy\Client;
 
+use App\Maconomy\Collection\CourseCollection;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 
@@ -68,6 +69,27 @@ class Maconomy implements SoapClient, LoggerAwareInterface
     public function setLogger(LoggerInterface $logger)
     {
         $this->logger = $logger;
+    }
+
+    /**
+     * Fetches the course dates from maconomy
+     * @return CourseCollection
+     */
+    public function getCourses()
+    {
+        // TODO: get the courses from maconomy
+        return new CourseCollection([]);
+    }
+
+    /**
+     * Fetches a single course from maconomy
+     * @param string $id the id of the course
+     * @return CourseCollection
+     */
+    public function getCourse(string $id)
+    {
+        // TODO: get the course from maconomy
+        return new CourseCollection([]);
     }
 
     /**

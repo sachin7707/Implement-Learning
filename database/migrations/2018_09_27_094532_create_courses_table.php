@@ -16,10 +16,13 @@ class CreateCoursesTable extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->dateTime('startTime');
-            $table->dateTime('endTime');
+            $table->dateTime('start_time');
+            $table->dateTime('end_time');
             $table->float('price');
-            $table->string('maconomyId');
+            $table->string('maconomy_id');
+            $table->unique('maconomy_id');
+            $table->integer('participants_max');
+            $table->integer('participants_current');
         });
     }
 

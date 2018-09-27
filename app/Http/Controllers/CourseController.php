@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ImportCourses;
 use App\Maconomy\Client\Maconomy as MaconomyClient;
 use App\Wordpress\Client as WordpressClient;
 
@@ -31,10 +32,7 @@ class CourseController extends Controller
      */
     public function sync()
     {
-        // TODO: start the actual sync with maconomy
-
-        // tells wordpress to sync all courses
-        $this->wordpressClient->syncAll();
+        ImportCourses::dispatch();
     }
 
     /**
@@ -43,9 +41,6 @@ class CourseController extends Controller
      */
     public function syncSingle(string $id)
     {
-        // TODO: start a single course sync with maconomy
-
-        // tells wordpress to sync a single course
-        $this->wordpressClient->syncSingle($id);
+        ImportCourses::dispatch($id);
     }
 }
