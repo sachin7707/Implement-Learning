@@ -50,7 +50,7 @@ class CourseController extends Controller
     {
         $course = Course::where('maconomy_id', $id)->first();
 
-        // you are allowed to change the number of participants
+        // you are allowed to change the maximum number of participants
         $course->participants_max = $request->input('participants_max');
 
         $course->save();
