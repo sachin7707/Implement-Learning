@@ -13,5 +13,18 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Order extends Model
 {
+    public function course()
+    {
+        return $this->hasOne(Course::class);
+    }
 
+    public function reserveSeats($numberOfSeats, $availableSeats)
+    {
+        $this->seats = $numberOfSeats;
+        $this->save();
+
+        $course = $this->course;
+        $course->availableSeats = $availableSeats - $numberOfSeats;
+        $course->save();
+    }
 }
