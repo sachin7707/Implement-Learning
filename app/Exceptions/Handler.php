@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -49,6 +50,32 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        // handles json calls, if found in ACCEPT header
+        if ($request->wantsJson()) {
+            $responseCode = 400;
+            $responseMessage = (string)$exception->getMessage();
+
+            if ($exception instanceof HttpException) {
+                $responseMessage = Response::$statusTexts[$exception->getStatusCode()];
+                $responseCode = $exception->getStatusCode();
+            } elseif ($exception instanceof ModelNotFoundException) {
+                $responseMessage = Response::$statusTexts[Response::HTTP_NOT_FOUND];
+                $responseCode = Response::HTTP_NOT_FOUND;
+            }
+
+            // TODO: handle debugging mayhaps?
+//            if ($this->isDebugMode()) {
+//                $response['debug'] = [
+//                    'exception' => get_class($exception),
+//                    'trace' => $exception->getTrace()
+//                ];
+//            }
+
+            return response()->json([
+                'massage' => $responseMessage,
+            ], $responseCode);
+        }
+
         return parent::render($request, $exception);
     }
 }
