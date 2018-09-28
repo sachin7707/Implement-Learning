@@ -53,29 +53,38 @@ class Handler extends ExceptionHandler
         // handles json calls, if found in ACCEPT header
         if ($request->wantsJson()) {
             $responseCode = 400;
-            $responseMessage = (string)$exception->getMessage();
+            $response = [
+                'message' => (string)$exception->getMessage()
+            ];
 
             if ($exception instanceof HttpException) {
-                $responseMessage = Response::$statusTexts[$exception->getStatusCode()];
+                $response['message'] = Response::$statusTexts[$exception->getStatusCode()];
                 $responseCode = $exception->getStatusCode();
             } elseif ($exception instanceof ModelNotFoundException) {
-                $responseMessage = Response::$statusTexts[Response::HTTP_NOT_FOUND];
+                $response['message'] = Response::$statusTexts[Response::HTTP_NOT_FOUND];
                 $responseCode = Response::HTTP_NOT_FOUND;
             }
 
-            // TODO: handle debugging mayhaps?
-//            if ($this->isDebugMode()) {
-//                $response['debug'] = [
-//                    'exception' => get_class($exception),
-//                    'trace' => $exception->getTrace()
-//                ];
-//            }
+            // if we are debugging, add exception information
+            if ($this->isDebugMode()) {
+                $response['debug'] = [
+                    'exception' => get_class($exception),
+                    'trace' => $exception->getTraceAsString()
+                ];
+            }
 
-            return response()->json([
-                'massage' => $responseMessage,
-            ], $responseCode);
+            return response()->json($response, $responseCode);
         }
 
         return parent::render($request, $exception);
+    }
+
+    /**
+     * Checks if we are in debug mode
+     * @return bool
+     */
+    private function isDebugMode()
+    {
+        return (bool)env('APP_DEBUG');
     }
 }
