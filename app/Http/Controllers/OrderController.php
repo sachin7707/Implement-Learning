@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Maconomy\Client\Maconomy;
+use App\Maconomy\Service\OrderService;
 use App\Order;
 use Illuminate\Http\Request;
 
@@ -12,16 +13,16 @@ use Illuminate\Http\Request;
  */
 class OrderController extends Controller
 {
-    /** @var Maconomy */
-    private $client;
+    /** @var OrderService */
+    private $orderService;
 
     /**
      * OrderController constructor.
-     * @param Maconomy $client
+     * @param OrderService $orderService
      */
-    public function __construct(Maconomy $client)
+    public function __construct(OrderService $orderService)
     {
-        $this->client = $client;
+        $this->orderService = $orderService;
     }
 
     /**
@@ -38,6 +39,9 @@ class OrderController extends Controller
      */
     public function show(string $id)
     {
+        echo get_class($this->orderService);exit;
+
+
         $order = Order::findOrFail($id);
 
         return response()->json($order);
@@ -52,16 +56,17 @@ class OrderController extends Controller
     public function create(Request $request)
     {
         // validating that we have a course_id set
-        // TODO: should we use the $validatedData instead?
-        $validatedData = $this->validate($request, [
+        $this->validate($request, [
             'course_id' => 'required'
         ]);
 
         $order = new Order();
-
         $order->course_id = $request->input('course_id');
-        $order->number_of_participants = $request->input('number_of_participants', 1);
+        // saving order, before sending it to the order service
         $order->saveOrFail();
+
+        // reserving the seats on the order
+        $this->orderService->reserveSeats($order, (int)$request->input('number_of_participants', 1));
 
         return response()->json($order);
     }
@@ -76,26 +81,14 @@ class OrderController extends Controller
     {
         // validating that we have seats set
         // TODO: should we use the $validatedData instead?
-        $validatedData = $this->validate($request, [
+        $this->validate($request, [
             'seats' => 'required'
         ]);
 
         /** @var Order $order */
         $order = Order::findOrFail($id);
-        // fetches the course info
-        $course = $order->course;
 
-        // fetches the number of seats to reserve
-        $requiredSeats = (int)$request->input('seats');
-
-        // calls maconomy to get the current seats available
-        $availableSeats = $this->client->getAvailableSeats($course->maconomy_id);
-
-        if ($availableSeats >= $requiredSeats) {
-            // updates the number of seats taken
-            $order->reserveSeats($requiredSeats, $availableSeats);
-        }
-
-        $order->saveOrFail();
+        // seats are required, so do NOT use a default value
+        $this->orderService->reserveSeats($order, (int)$request->input('seats'));
     }
 }
