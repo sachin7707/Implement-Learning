@@ -25,7 +25,6 @@ class Maconomy implements SoapClient, LoggerAwareInterface
      * Crm constructor.
      * @param string $url the wsdl url of the webservice to connect to
      * @param string $location the location
-     * @param LoggerInterface $logger
      */
     public function __construct(string $url, string $location)
     {
@@ -37,7 +36,6 @@ class Maconomy implements SoapClient, LoggerAwareInterface
     /**
      * Fetches the actual soap client to use.
      * @return \SoapClient
-     * @throws \ErrorException if the client cannot be initialized
      */
     private function getClient(): \SoapClient
     {
@@ -61,9 +59,7 @@ class Maconomy implements SoapClient, LoggerAwareInterface
 
     /**
      * Sets a logger instance on the object.
-     *
      * @param LoggerInterface $logger
-     *
      * @return void
      */
     public function setLogger(LoggerInterface $logger)
@@ -78,6 +74,8 @@ class Maconomy implements SoapClient, LoggerAwareInterface
     public function getCourses()
     {
         // TODO: get the courses from maconomy
+        $client = $this->getClient();
+
         return new CourseCollection([]);
     }
 
@@ -89,6 +87,8 @@ class Maconomy implements SoapClient, LoggerAwareInterface
     public function getCourse(string $id)
     {
         // TODO: get the course from maconomy
+        $client = $this->getClient();
+
         return new CourseCollection([]);
     }
 
@@ -99,6 +99,8 @@ class Maconomy implements SoapClient, LoggerAwareInterface
     public function orderCreate(): Response
     {
         // TODO: Implement orderCreate() method.
+        $client = $this->getClient();
+
     }
 
     /**
@@ -108,6 +110,8 @@ class Maconomy implements SoapClient, LoggerAwareInterface
     public function orderUpdate(Order $data): Response
     {
         // TODO: Implement orderUpdate() method.
+        $client = $this->getClient();
+
     }
 
     /**
@@ -118,5 +122,19 @@ class Maconomy implements SoapClient, LoggerAwareInterface
     public function orderDelete(int $id): Response
     {
         // TODO: Implement orderDelete() method.
+        $client = $this->getClient();
+
+    }
+
+    /**
+     * @param string $maconomyId
+     * @return int
+     */
+    public function getAvailableSeats(string $maconomyId): int
+    {
+        // TODO: implement getAvailableSeats
+        $client = $this->getClient();
+
+        return 10;
     }
 }
