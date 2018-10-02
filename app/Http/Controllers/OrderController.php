@@ -87,6 +87,7 @@ class OrderController extends Controller
      * Updates an order, adding more information about participants etc to it.
      * @param Request $request
      * @param string $id the order id
+     * @return \Illuminate\Http\JsonResponse
      * @throws \Throwable
      */
     public function update(Request $request, $id)
@@ -100,7 +101,17 @@ class OrderController extends Controller
         /** @var Order $order */
         $order = Order::findOrFail($id);
 
+        $requiredSeats = (int)$request->input('seats', 1);
+
         // seats are required, so do NOT use a default value
-        $this->orderService->reserveSeats($order, (int)$request->input('seats'));
+        if ($this->orderService->reserveSeats($order, $requiredSeats)) {
+            return response()->json($order);
+        }
+
+        return response()->json([
+            'error' => 'Not enough seats available',
+            'seats_required' => $requiredSeats,
+            'seats_available' => $this->courseService->getSeatsAvailable($order->course),
+        ]);
     }
 }

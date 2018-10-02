@@ -25,4 +25,6 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
     $router->get('/orders/{id}', 'OrderController@show');
     // creates a new order
     $router->post('/orders', 'OrderController@create');
+    // updates a given order
+    $router->put('/orders/{id}', 'OrderController@update');
 });
