@@ -74,6 +74,12 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // validating that we have seats set
+        // TODO: should we use the $validatedData instead?
+        $validatedData = $this->validate($request, [
+            'seats' => 'required'
+        ]);
+
         /** @var Order $order */
         $order = Order::findOrFail($id);
         // fetches the course info
