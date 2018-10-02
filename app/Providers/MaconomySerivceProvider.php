@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Maconomy\Client\Maconomy;
-use App\Maconomy\Client\SoapClient;
 use Illuminate\Support\ServiceProvider;
 
 /**
