@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Maconomy\Client\Maconomy;
+use App\Course;
+use App\Maconomy\Service\CourseService;
 use App\Maconomy\Service\OrderService;
 use App\Order;
 use Illuminate\Http\Request;
@@ -15,14 +16,16 @@ class OrderController extends Controller
 {
     /** @var OrderService */
     private $orderService;
+    private $courseService;
 
     /**
      * OrderController constructor.
      * @param OrderService $orderService
      */
-    public function __construct(OrderService $orderService)
+    public function __construct(OrderService $orderService, CourseService $courseService)
     {
         $this->orderService = $orderService;
+        $this->courseService = $courseService;
     }
 
     /**
@@ -57,15 +60,27 @@ class OrderController extends Controller
             'course_id' => 'required'
         ]);
 
+        // fetches the course
+        $course = Course::findOrFail((int)$request->input('course_id'));
+
         $order = new Order();
-        $order->course_id = $request->input('course_id');
+        $order->course_id = $course->id;
         // saving order, before sending it to the order service
-        $order->saveOrFail();
+//        $order->saveOrFail();
+
+        $requiredSeats = (int)$request->input('seats', 1);
 
         // reserving the seats on the order
-        $this->orderService->reserveSeats($order, (int)$request->input('number_of_participants', 1));
+        if ($this->orderService->reserveSeats($order, $requiredSeats)) {
+            $order->saveOrFail();
+            return response()->json($order);
+        }
 
-        return response()->json($order);
+        return response()->json([
+            'error' => 'Not enough seats available',
+            'seats_required' => $requiredSeats,
+            'seats_available' => $this->courseService->getSeatsAvailable($course),
+        ]);
     }
 
     /**

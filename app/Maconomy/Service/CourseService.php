@@ -34,7 +34,7 @@ class CourseService
     public function hasSeatsAvailable(Course $course, int $seatsRequired): bool
     {
         // fetches the number of seats, from the webservice
-        $availableSeats = $this->client->getAvailableSeats($course->maconomy_id);
+        $availableSeats = $this->getSeatsAvailable($course);
 
         // updates the number of seats available, if needed
         if ($course->seats_available !== $availableSeats) {
@@ -60,5 +60,15 @@ class CourseService
         }
 
         return $seatsTaken;
+    }
+
+    /**
+     * Fetches the number of seats available on a given course
+     * @param Course $course
+     * @return int
+     */
+    public function getSeatsAvailable(Course $course): int
+    {
+        return $this->client->getAvailableSeats($course->maconomy_id);
     }
 }

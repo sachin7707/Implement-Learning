@@ -13,10 +13,13 @@ Creates a new order.
 
 Requires the following data:
 * course_id: string
-* number_of_participants: int
+* seats: int
 
 ### PUT: /api/v1/orders/{id}
 Updates an order, with new details about participants (names, number of, etc)
+
+Requires the following data:
+* seats: int
 
 ## Course routes
 
