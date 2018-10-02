@@ -74,7 +74,6 @@ class Maconomy implements SoapClient, LoggerAwareInterface
     public function getCourses()
     {
         // TODO: get the courses from maconomy
-        $client = $this->getClient();
 
         return new CourseCollection([]);
     }
@@ -87,7 +86,6 @@ class Maconomy implements SoapClient, LoggerAwareInterface
     public function getCourse(string $id)
     {
         // TODO: get the course from maconomy
-        $client = $this->getClient();
 
         return new CourseCollection([]);
     }
@@ -99,7 +97,6 @@ class Maconomy implements SoapClient, LoggerAwareInterface
     public function orderCreate(): Response
     {
         // TODO: Implement orderCreate() method.
-        $client = $this->getClient();
 
     }
 
@@ -110,7 +107,6 @@ class Maconomy implements SoapClient, LoggerAwareInterface
     public function orderUpdate(Order $data): Response
     {
         // TODO: Implement orderUpdate() method.
-        $client = $this->getClient();
 
     }
 
@@ -122,7 +118,6 @@ class Maconomy implements SoapClient, LoggerAwareInterface
     public function orderDelete(int $id): Response
     {
         // TODO: Implement orderDelete() method.
-        $client = $this->getClient();
 
     }
 
@@ -133,7 +128,6 @@ class Maconomy implements SoapClient, LoggerAwareInterface
     public function getAvailableSeats(string $maconomyId): int
     {
         // TODO: implement getAvailableSeats
-        $client = $this->getClient();
 
         return 10;
     }
