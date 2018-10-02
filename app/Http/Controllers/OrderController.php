@@ -51,7 +51,14 @@ class OrderController extends Controller
      */
     public function create(Request $request)
     {
+        // validating that we have a course_id set
+        // TODO: should we use the $validatedData instead?
+        $validatedData = $this->validate($request, [
+            'course_id' => 'required'
+        ]);
+
         $order = new Order();
+
         $order->course_id = $request->input('course_id');
         $order->number_of_participants = $request->input('number_of_participants', 1);
         $order->saveOrFail();
