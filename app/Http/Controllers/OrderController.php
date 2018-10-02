@@ -39,9 +39,6 @@ class OrderController extends Controller
      */
     public function show(string $id)
     {
-        echo get_class($this->orderService);exit;
-
-
         $order = Order::findOrFail($id);
 
         return response()->json($order);
