@@ -15,7 +15,7 @@ class MaconomySerivceProvider extends ServiceProvider
     {
         // registering our client
         $this->app->singleton(Maconomy::class, function ($app) {
-            return new Maconomy(env('MACONOMY_URL'), env('MACONOMY_LOCATION'));
+            return new Maconomy(env('MACONOMY_URL'));
         });
     }
 }

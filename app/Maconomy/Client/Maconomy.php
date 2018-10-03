@@ -3,6 +3,8 @@
 namespace App\Maconomy\Client;
 
 use App\Maconomy\Collection\CourseCollection;
+use App\Maconomy\Model\Course;
+use GuzzleHttp\Client;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 
@@ -10,49 +12,36 @@ use Psr\Log\LoggerInterface;
  * @author jimmiw
  * @since 2018-09-25
  */
-class Maconomy implements SoapClient, LoggerAwareInterface
+class Maconomy implements ClientAbstract, LoggerAwareInterface
 {
-    /** @var \SoapClient $client */
+    /** @var Client */
     private $client;
-    /** @var string $url */
-    private $url;
-    /** @var string $location */
-    private $location;
+    /** @var string $baseUrl */
+    private $baseUrl;
     /** @var LoggerInterface  */
     private $logger;
 
     /**
      * Crm constructor.
-     * @param string $url the wsdl url of the webservice to connect to
-     * @param string $location the location
+     * @param string $baseUrl
      */
-    public function __construct(string $url, string $location)
+    public function __construct(string $baseUrl)
     {
         // saving soap url and location
-        $this->url = $url;
-        $this->location = $location;
+        $this->baseUrl = $baseUrl;
     }
 
     /**
      * Fetches the actual soap client to use.
-     * @return \SoapClient
+     * @return Client
      */
-    private function getClient(): \SoapClient
+    private function getClient(): Client
     {
-        if (null !== $this->client) {
+        if ($this->client) {
             return $this->client;
         }
 
-        $this->client = new \SoapClient(
-            $this->url,
-            [
-                'cache_wsdl' => WSDL_CACHE_NONE,
-                'soap_version' => SOAP_1_1,
-                'exceptions' => false,
-                'trace' => false,
-            ]
-        );
-        $this->client->__setLocation($this->location);
+        $this->client = new Client(['base_uri' => $this->baseUrl]);
 
         return $this->client;
     }
@@ -70,24 +59,28 @@ class Maconomy implements SoapClient, LoggerAwareInterface
     /**
      * Fetches the course dates from maconomy
      * @return CourseCollection
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function getCourses()
     {
-        // TODO: get the courses from maconomy
-
-        return new CourseCollection([]);
+        return new CourseCollection(
+            $this->parseCourses(
+                $this->callWebservice("course")
+            )
+        );
     }
 
     /**
      * Fetches a single course from maconomy
      * @param string $id the id of the course
      * @return CourseCollection
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function getCourse(string $id)
     {
-        // TODO: get the course from maconomy
-
-        return new CourseCollection([]);
+        return new CourseCollection([
+            $this->parseCourse($this->callWebservice("course/$id"))
+        ]);
     }
 
     /**
@@ -122,13 +115,61 @@ class Maconomy implements SoapClient, LoggerAwareInterface
     }
 
     /**
-     * @param string $maconomyId
-     * @return int
+     * Calls maconomy to get the number of free seats on a given course
+     * @param string $maconomyId the course id
+     * @return int the number of available seats
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function getAvailableSeats(string $maconomyId): int
     {
-        // TODO: implement getAvailableSeats
+        $data = $this->callWebservice("courselight/$maconomyId");
+        return (int)$data->freeSeatsField;
+    }
 
-        return 10;
+    /**
+     * Calls the webservice, using the given uri part, to append to the baseurl.
+     * @param string $uri the last part of the url to call
+     * @param string $method the method to use (get, post, put etc)
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    private function callWebservice(string $uri, string $method = 'get')
+    {
+        return json_decode((string)$this->getClient()->request($method, $uri)->getBody());
+    }
+
+    /**
+     * Parses the course in the given response, returning a nice model instead
+     * @param mixed $data the data from the webservice
+     * @return Course
+     */
+    private function parseCourse($data): Course
+    {
+        $course = new Course();
+        $course->id = $data->courseNumberField;
+        $course->name = $data->courseNameField;
+        $course->price = $data->priceField;
+        $course->maxParticipants = $data->maxParticipantsField;
+        $course->startTime = new \DateTime($data->startingDateField, new \DateTimeZone('GMT'));
+        $course->endTime = new \DateTime($data->endingDateField, new \DateTimeZone('GMT'));
+
+        return $course;
+    }
+
+    /**
+     * Parses the given webservice data, containing a list of courses and returns a nice CourseCollection
+     * @param array $data the list of courses from the webservice
+     * @return CourseCollection
+     */
+    private function parseCourses(array $data)
+    {
+        $courses = [];
+
+        // parsing the courses
+        foreach ($data as $courseData) {
+            $courses[] = $this->parseCourse($courseData);
+        }
+
+        return new CourseCollection($courses);
     }
 }

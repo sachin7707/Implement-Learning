@@ -5,7 +5,7 @@ namespace App\Maconomy\Client;
 /**
  * General interface for soap clients :)
  */
-interface SoapClient
+interface ClientAbstract
 {
     /**
      * Checks if the given response is valid

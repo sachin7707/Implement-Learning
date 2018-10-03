@@ -10,6 +10,7 @@ namespace App\Maconomy\Model;
 class Course
 {
     public $id;
+    public $name;
     public $startTime;
     public $endTime;
     public $maxParticipants;
