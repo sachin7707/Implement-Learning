@@ -32,8 +32,14 @@ Syncs single course \*
 to wordpress about "something" is updated. Wordpress should then refetch the
 information and update the system.
 
-### PUT: /api/v1/courses/{id}
+### PUT: /api/v1/course/{id}
 Changes the number of participants allowed on a course.
 
 Requires the following data:
 * participants_max: int
+
+### GET: /api/v1/course
+Fetches the courses from our local database
+
+### GET: /api/v1/course/{id}
+Fetches a single course from our local database

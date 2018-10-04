@@ -8,6 +8,7 @@ use App\Maconomy\Client\Maconomy;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Queue;
+use PHPUnit\Util\Json;
 
 /**
  * @author jimmiw
@@ -26,6 +27,28 @@ class CourseController extends Controller
     {
         $this->client = $client;
     }
+
+    /**
+     * Fetches the full list of courses
+     * @return JsonResponse
+     */
+    public function index()
+    {
+        return new JsonResponse(Course::all());
+    }
+
+    /**
+     * Shows a single course
+     * @param string $id
+     * @return JsonResponse
+     */
+    public function show(string $id)
+    {
+        $course = Course::where('maconomy_id', $id)->first();
+
+        return new JsonResponse($course);
+    }
+
     /**
      * Syncs all the courses from maconomy
      * @return JsonResponse
