@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Support\Facades\Log;
+
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
@@ -32,6 +34,8 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
 
 if (env('APP_ENV') === 'local') {
     $router->get('/test/wp/sync/{id}', function ($id) {
+        Log::debug('sync/'.$id.' called');
+
         return new \Illuminate\Http\JsonResponse([
             'message' => 'sync/' . $id,
             'note' => 'this is a test route',
@@ -39,6 +43,7 @@ if (env('APP_ENV') === 'local') {
     });
 
     $router->get('/test/wp/sync_all', function () {
+        Log::debug('sync_all called');
         return new \Illuminate\Http\JsonResponse([
             'message' => 'sync_all called',
             'note' => 'this is a test route',

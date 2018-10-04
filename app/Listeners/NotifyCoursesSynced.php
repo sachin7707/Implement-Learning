@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Events\CoursesSyncedEvent;
 use App\Wordpress\Client;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -27,11 +28,10 @@ class NotifyCoursesSynced implements ShouldQueue
      * Sends a notification about re-syncing a single or multiple courses again
      * @param string $courseId
      */
-    public function handle(string $courseId)
+    public function handle(CoursesSyncedEvent $event)
     {
-        error_log('NotifyCoursesSynced');
-        if (! empty($courseId)) {
-            $this->client->syncSingle($courseId);
+        if (! empty($event->id)) {
+            $this->client->syncSingle($event->id);
             return;
         }
 
