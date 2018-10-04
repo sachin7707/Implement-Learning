@@ -15,16 +15,16 @@ use Illuminate\Support\Facades\Event;
  */
 class ImportCourses extends Job
 {
-    /** @var int */
-    private $courseId;
+    /** @var string */
+    private $maconomyId;
 
     /**
      * ImportCourses constructor.
-     * @param int $courseId
+     * @param string $maconomyId the courses maconomy id to sync, or empty for all courses
      */
-    public function __construct(int $courseId = 0)
+    public function __construct(string $maconomyId = '')
     {
-        $this->courseId = $courseId;
+        $this->maconomyId = $maconomyId;
     }
 
     /**
@@ -60,7 +60,7 @@ class ImportCourses extends Job
 
         error_log('before event being dispatched');
         // sends a notification to wordpress
-        Event::dispatch(new CoursesSyncedEvent($this->courseId));
+        Event::dispatch(new CoursesSyncedEvent($this->maconomyId));
     }
 
     /**
@@ -72,8 +72,8 @@ class ImportCourses extends Job
     private function getCourses(Maconomy $client)
     {
         // fetches a single course, if a course id was given
-        if ($this->courseId !== 0) {
-            return $client->getCourse($this->courseId);
+        if (! empty($this->maconomyId)) {
+            return $client->getCourse($this->maconomyId);
         }
 
         return $client->getCourses();
