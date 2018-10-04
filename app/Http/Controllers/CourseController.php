@@ -6,6 +6,7 @@ use App\Course;
 use App\Jobs\ImportCourses;
 use App\Maconomy\Client\Maconomy;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Queue;
 
 /**
  * @author jimmiw
@@ -29,7 +30,7 @@ class CourseController extends Controller
      */
     public function sync()
     {
-        ImportCourses::dispatch();
+        Queue::later(1, new ImportCourses());
     }
 
     /**
@@ -38,7 +39,7 @@ class CourseController extends Controller
      */
     public function syncSingle(string $id)
     {
-        ImportCourses::dispatch($id);
+        Queue::later(1, new ImportCourses($id));
     }
 
     /**
