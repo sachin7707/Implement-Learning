@@ -28,6 +28,7 @@ class CourseController extends Controller
     }
     /**
      * Syncs all the courses from maconomy
+     * @return JsonResponse
      */
     public function sync()
     {
@@ -41,6 +42,7 @@ class CourseController extends Controller
     /**
      * Syncs a single course from maconomy
      * @param string $id
+     * @return JsonResponse
      */
     public function syncSingle(string $id)
     {
@@ -55,9 +57,16 @@ class CourseController extends Controller
      * Handles updating a course's details from an external provider (wordpress in our case)
      * @param Request $request
      * @param $id
+     * @return JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, $id)
     {
+        // validating that we have a course_id set
+        $this->validate($request, [
+            'participants_max' => 'required'
+        ]);
+
         /** @var Course $course */
         $course = Course::where('maconomy_id', $id)->first();
 
@@ -65,5 +74,10 @@ class CourseController extends Controller
         $course->participants_max = $request->input('participants_max');
 
         $course->save();
+
+        return new JsonResponse([
+            'message' => 'Course ' . $id . ' has been updated',
+            'data' => $course->toJson()
+        ]);
     }
 }
