@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Course;
 use App\Jobs\ImportCourses;
 use App\Maconomy\Client\Maconomy;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Queue;
 
@@ -31,6 +32,10 @@ class CourseController extends Controller
     public function sync()
     {
         Queue::later(1, new ImportCourses());
+
+        return new JsonResponse([
+            'message' => 'Sync all added to queue'
+        ]);
     }
 
     /**
@@ -40,6 +45,10 @@ class CourseController extends Controller
     public function syncSingle(string $id)
     {
         Queue::later(1, new ImportCourses($id));
+
+        return new JsonResponse([
+            'message' => 'Sync/'.$id.' added to queue'
+        ]);
     }
 
     /**
