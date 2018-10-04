@@ -3,12 +3,13 @@
 namespace App\Listeners;
 
 use App\Wordpress\Client;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 /**
  * @author jimmiw
  * @since 2018-09-27
  */
-class NotifyCoursesSynced
+class NotifyCoursesSynced implements ShouldQueue
 {
     /** @var Client */
     private $client;
@@ -28,6 +29,7 @@ class NotifyCoursesSynced
      */
     public function handle(string $courseId)
     {
+        error_log('NotifyCoursesSynced');
         if (! empty($courseId)) {
             $this->client->syncSingle($courseId);
             return;

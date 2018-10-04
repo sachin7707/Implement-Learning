@@ -28,3 +28,20 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
     // updates a given order
     $router->put('/orders/{id}', 'OrderController@update');
 });
+
+
+if (env('APP_ENV') === 'local') {
+    $router->get('/test/wp/sync/{id}', function ($id) {
+        return new \Illuminate\Http\JsonResponse([
+            'message' => 'sync/' . $id,
+            'note' => 'this is a test route',
+        ]);
+    });
+
+    $router->get('/test/wp/sync_all', function () {
+        return new \Illuminate\Http\JsonResponse([
+            'message' => 'sync_all called',
+            'note' => 'this is a test route',
+        ]);
+    });
+}

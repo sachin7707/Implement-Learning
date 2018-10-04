@@ -23,19 +23,21 @@ class Client
     }
 
     /**
-     * Calls wordpress asynchronously to tell it to sync all course data again
+     * Calls wordpress to tell it to sync all course data again
+     * @return object the response from wordpress
      */
     public function syncAll()
     {
-        $this->getClient()->getAsync('sync_all');
+        return json_decode($this->getClient()->get('sync_all')->getBody());
     }
 
     /**
-     * Calls wordpress asynchronously to tell it to sync a single course's data again
+     * Calls wordpress to tell it to sync a single course's data again
+     * @return object the response from wordpress
      */
     public function syncSingle(string $id)
     {
-        $this->getClient()->getAsync("sync/$id");
+        return json_decode($this->getClient()->get("sync/$id")->getBody());
     }
 
     /**

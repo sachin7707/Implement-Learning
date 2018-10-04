@@ -7,6 +7,7 @@ use App\Events\CoursesSyncedEvent;
 use App\Maconomy\Client\Maconomy;
 use App\Maconomy\Collection\CourseCollection;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Support\Facades\Event;
 
 /**
  * @author jimmiw
@@ -57,8 +58,9 @@ class ImportCourses extends Job
             );
         }
 
+        error_log('before event being dispatched');
         // sends a notification to wordpress
-        event(new CoursesSyncedEvent($this->courseId));
+        Event::dispatch(new CoursesSyncedEvent($this->courseId));
     }
 
     /**

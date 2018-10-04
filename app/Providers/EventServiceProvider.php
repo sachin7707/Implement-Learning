@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\CoursesSyncedEvent;
+use App\Listeners\NotifyCoursesSynced;
 use Laravel\Lumen\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -12,8 +14,6 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\ExampleEvent' => [
-            'App\Listeners\ExampleListener',
-        ],
+        CoursesSyncedEvent::class => [NotifyCoursesSynced::class]
     ];
 }
