@@ -1,0 +1,443 @@
+{
+	"info": {
+		"_postman_id": "e6311410-5114-4dcc-b340-9edfbf495cd8",
+		"name": "ili-backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Maconomy API",
+			"item": [
+				{
+					"name": "api/Course",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://40.127.165.81/api/course",
+							"protocol": "http",
+							"host": [
+								"40",
+								"127",
+								"165",
+								"81"
+							],
+							"path": [
+								"api",
+								"course"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/Course/ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://40.127.165.81/api/course/15386-05",
+							"protocol": "http",
+							"host": [
+								"40",
+								"127",
+								"165",
+								"81"
+							],
+							"path": [
+								"api",
+								"course",
+								"15386-05"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/CourseLight",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://40.127.165.81/api/courselight",
+							"protocol": "http",
+							"host": [
+								"40",
+								"127",
+								"165",
+								"81"
+							],
+							"path": [
+								"api",
+								"courselight"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/CourseLight/ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://40.127.165.81/api/courselight/15386-05",
+							"protocol": "http",
+							"host": [
+								"40",
+								"127",
+								"165",
+								"81"
+							],
+							"path": [
+								"api",
+								"courselight",
+								"15386-05"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/MainCourse",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://40.127.165.81/api/maincourse",
+							"protocol": "http",
+							"host": [
+								"40",
+								"127",
+								"165",
+								"81"
+							],
+							"path": [
+								"api",
+								"maincourse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/Participant",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://40.127.165.81/api/participant",
+							"protocol": "http",
+							"host": [
+								"40",
+								"127",
+								"165",
+								"81"
+							],
+							"path": [
+								"api",
+								"participant"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/Participant/ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://40.127.165.81/api/participant/ID",
+							"protocol": "http",
+							"host": [
+								"40",
+								"127",
+								"165",
+								"81"
+							],
+							"path": [
+								"api",
+								"participant",
+								"ID"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "api/sync",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://ilibackend.test/api/v1/sync",
+					"protocol": "http",
+					"host": [
+						"ilibackend",
+						"test"
+					],
+					"path": [
+						"api",
+						"v1",
+						"sync"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/sync/ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://ilibackend.test/api/v1/sync/25402-01",
+					"protocol": "http",
+					"host": [
+						"ilibackend",
+						"test"
+					],
+					"path": [
+						"api",
+						"v1",
+						"sync",
+						"25402-01"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/course",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "participants_max",
+							"value": "101",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://ilibackend.test/api/v1/course/",
+					"protocol": "http",
+					"host": [
+						"ilibackend",
+						"test"
+					],
+					"path": [
+						"api",
+						"v1",
+						"course",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/course/ID",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "participants_max",
+							"value": "101",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://ilibackend.test/api/v1/course/25402-01",
+					"protocol": "http",
+					"host": [
+						"ilibackend",
+						"test"
+					],
+					"path": [
+						"api",
+						"v1",
+						"course",
+						"25402-01"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/course/ID",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "participants_max",
+							"value": "101",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://ilibackend.test/api/v1/course/25402-01",
+					"protocol": "http",
+					"host": [
+						"ilibackend",
+						"test"
+					],
+					"path": [
+						"api",
+						"v1",
+						"course",
+						"25402-01"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order Create",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "course_id",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "seats",
+							"value": "2",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://ilibackend.test/api/v1/orders",
+					"protocol": "http",
+					"host": [
+						"ilibackend",
+						"test"
+					],
+					"path": [
+						"api",
+						"v1",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Orders index",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://ilibackend.test/api/v1/orders",
+					"protocol": "http",
+					"host": [
+						"ilibackend",
+						"test"
+					],
+					"path": [
+						"api",
+						"v1",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order update",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "seats",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://ilibackend.test/api/v1/orders/7",
+					"protocol": "http",
+					"host": [
+						"ilibackend",
+						"test"
+					],
+					"path": [
+						"api",
+						"v1",
+						"orders",
+						"7"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
