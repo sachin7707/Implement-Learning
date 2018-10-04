@@ -12,7 +12,6 @@ class CoursesSyncedEvent extends Event
     public $id;
 
     /**
-     * NotifyCoursesSync constructor.
      * @param string $id the course id that was synced, if none, just leave this empty
      */
     public function __construct(string $id = '')
