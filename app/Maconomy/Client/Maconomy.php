@@ -63,10 +63,8 @@ class Maconomy implements ClientAbstract, LoggerAwareInterface
      */
     public function getCourses()
     {
-        return new CourseCollection(
-            $this->parseCourses(
-                $this->callWebservice("course")
-            )
+        return $this->parseCourses(
+            $this->callWebservice("course")
         );
     }
 
@@ -146,12 +144,18 @@ class Maconomy implements ClientAbstract, LoggerAwareInterface
     private function parseCourse($data): Course
     {
         $course = new Course();
-        $course->id = $data->courseNumberField;
+        $course->maconomyId = $data->courseNumberField;
         $course->name = $data->courseNameField;
         $course->price = $data->priceField;
         $course->maxParticipants = $data->maxParticipantsField;
+        $course->minParticipants = $data->minParticipantsField;
         $course->startTime = new \DateTime($data->startingDateField, new \DateTimeZone('GMT'));
         $course->endTime = new \DateTime($data->endingDateField, new \DateTimeZone('GMT'));
+        $course->language = $data->weblanguageField;
+        $course->venueId = $data->venueField;
+        $course->venueName = $data->venuenameField;
+        $course->seatsAvailable = $data->freeSeatsField;
+        $course->currentParticipants = $data->enrolledField;
 
         return $course;
     }

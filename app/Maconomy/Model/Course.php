@@ -9,11 +9,16 @@ namespace App\Maconomy\Model;
  */
 class Course
 {
-    public $id;
+    public $maconomyId;
     public $name;
     public $startTime;
     public $endTime;
     public $maxParticipants;
+    public $minParticipants;
+    public $seatsAvailable;
     public $currentParticipants;
     public $price;
+    public $language;
+    public $venueId;
+    public $venueName;
 }
