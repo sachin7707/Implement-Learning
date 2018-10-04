@@ -11,8 +11,10 @@
     <testsuites>
         <testsuite name="Application Test Suite">
             <directory suffix="Test.php">./tests</directory>
+            <exclude>./tests/integration</exclude>
         </testsuite>
     </testsuites>
+    <!-- handles codecoverage only -->
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./app</directory>

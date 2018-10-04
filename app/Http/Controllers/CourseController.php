@@ -42,7 +42,7 @@ class CourseController extends Controller
     }
 
     /**
-     * Handles updating a course's details from an external provider
+     * Handles updating a course's details from an external provider (wordpress in our case)
      * @param Request $request
      * @param $id
      */
