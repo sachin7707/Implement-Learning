@@ -30,6 +30,7 @@ class OrderService
      */
     public function reserveSeats(Order $order, int $requiredSeats): bool
     {
+        // TODO: reduce the number of required seats, by the number we already have reserved.
         if ($this->courseService->hasSeatsAvailable($order->course, $requiredSeats)) {
             $order->seats = $requiredSeats;
             $order->save();
