@@ -24,6 +24,7 @@ class CourseTypeParser implements Parser
         $courseType->price = $data->price;
         $courseType->maxParticipants = $data->maxParticipantsField;
         $courseType->minParticipants = $data->minParticipantsField;
+        $courseType->duration = $data->duration;
 
         return $courseType;
     }

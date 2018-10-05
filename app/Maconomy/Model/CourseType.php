@@ -13,4 +13,5 @@ class CourseType
     public $price;
     public $maxParticipants;
     public $minParticipants;
+    public $duration;
 }

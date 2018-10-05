@@ -2,7 +2,7 @@
 
 namespace App\Maconomy\Collection;
 
-use App\Maconomy\Model\Course;
+use App\Maconomy\Model\CourseType;
 
 /**
  * @author jimmiw
@@ -19,11 +19,11 @@ class CourseTypeCollection extends Collection
     }
 
     /**
-     * @return Course
+     * @return CourseType
      */
     public function current()
     {
-        /** @var Course $courseType */
+        /** @var CourseType $courseType */
         $courseType = parent::getCurrent();
         return $courseType;
     }
