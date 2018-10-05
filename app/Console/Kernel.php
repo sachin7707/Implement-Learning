@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use App\Jobs\ClearReservations;
+use App\Jobs\ImportCourses;
 use Illuminate\Console\Scheduling\Schedule;
 use Laravel\Lumen\Console\Kernel as ConsoleKernel;
 
@@ -24,8 +26,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->call(function () {
-            // TODO: fetch "Kursusdage" from maconomy here
-        })->daily();
+        $schedule->call(new ImportCourses())->daily();
+        $schedule->call(new ClearReservations())->everyFiveMinutes();
     }
 }
