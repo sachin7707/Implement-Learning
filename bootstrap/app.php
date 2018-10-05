@@ -84,7 +84,7 @@ $app->register(App\Providers\MaconomySerivceProvider::class);
 $app->register(App\Providers\WordpressServiceProvider::class);
 $app->register(\Sentry\SentryLaravel\SentryLumenServiceProvider::class);
 
-if ($app->environment() !== 'production') {
+if ($app->environment() === 'local') {
     $app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
 }
 
