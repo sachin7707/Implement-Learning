@@ -50,4 +50,9 @@ class Course extends Model
     {
         return $this->hasMany(Order::class);
     }
+
+    public function coursetype()
+    {
+        return $this->belongsTo(CourseType::class);
+    }
 }
