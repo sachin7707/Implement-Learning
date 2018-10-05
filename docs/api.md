@@ -25,8 +25,13 @@ Requires the following data:
 
 ### GET: /api/v1/sync
 Starts a sync to get new information about all courses in the system \*
+
+_NOTE: This also syncs the course types._
+
 ### GET: /api/v1/sync/{id}
-Syncs single course \* 
+Syncs single course \*
+
+_NOTE: this DOES NOT sync the course types!_ 
 
 \* The sync jobs run in the background and will issue a notification (using GET)
 to wordpress about "something" is updated. Wordpress should then refetch the
@@ -43,3 +48,6 @@ Fetches the courses from our local database
 
 ### GET: /api/v1/course/{id}
 Fetches a single course from our local database
+
+### GET: /api/v1/coursetype
+Fetches the course types from our local database

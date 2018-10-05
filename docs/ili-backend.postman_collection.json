@@ -336,6 +336,42 @@
 			"response": []
 		},
 		{
+			"name": "api/coursetype",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "participants_max",
+							"value": "101",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://ilibackend.test/api/v1/coursetype",
+					"protocol": "http",
+					"host": [
+						"ilibackend",
+						"test"
+					],
+					"path": [
+						"api",
+						"v1",
+						"coursetype"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Order Create",
 			"request": {
 				"method": "POST",
