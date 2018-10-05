@@ -135,7 +135,7 @@ class ImportCourses extends Job
                     'participants_current' => $course->currentParticipants,
                     'seats_available' => $course->seatsAvailable,
                     'price' => $course->price,
-                    'coursetypeId' => $courseType->id ?? null
+                    'coursetype_id' => $courseType->id ?? null
                 ]
             );
         }
