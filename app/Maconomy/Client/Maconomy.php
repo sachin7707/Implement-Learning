@@ -2,8 +2,9 @@
 
 namespace App\Maconomy\Client;
 
+use App\Maconomy\Client\AbstractFactory\ParserFactory;
 use App\Maconomy\Collection\CourseCollection;
-use App\Maconomy\Model\Course;
+use App\Maconomy\Collection\CourseTypeCollection;
 use GuzzleHttp\Client;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
@@ -63,7 +64,8 @@ class Maconomy implements ClientAbstract, LoggerAwareInterface
      */
     public function getCourses()
     {
-        return $this->parseCourses(
+        $parser = $this->getParserFactory()->createCourseParser();
+        return $parser->parseCollection(
             $this->callWebservice("course")
         );
     }
@@ -76,9 +78,23 @@ class Maconomy implements ClientAbstract, LoggerAwareInterface
      */
     public function getCourse(string $id)
     {
+        $parser = $this->getParserFactory()->createCourseParser();
         return new CourseCollection([
-            $this->parseCourse($this->callWebservice("course/$id"))
+            $parser->parse($this->callWebservice("course/$id"))
         ]);
+    }
+
+    /**
+     * Fetches the course dates from maconomy
+     * @return CourseTypeCollection
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getCourseTypes()
+    {
+        $parser = $this->getParserFactory()->createCourseTypeParser();
+        return $parser->parseCollection(
+            $this->callWebservice("maincourse")
+        );
     }
 
     /**
@@ -137,43 +153,10 @@ class Maconomy implements ClientAbstract, LoggerAwareInterface
     }
 
     /**
-     * Parses the course in the given response, returning a nice model instead
-     * @param mixed $data the data from the webservice
-     * @return Course
+     * @return ParserFactory
      */
-    private function parseCourse($data): Course
+    private function getParserFactory(): ParserFactory
     {
-        $course = new Course();
-        $course->maconomyId = $data->courseNumberField;
-        $course->name = $data->courseNameField;
-        $course->price = $data->priceField;
-        $course->maxParticipants = $data->maxParticipantsField;
-        $course->minParticipants = $data->minParticipantsField;
-        $course->startTime = new \DateTime($data->startingDateField, new \DateTimeZone('GMT'));
-        $course->endTime = new \DateTime($data->endingDateField, new \DateTimeZone('GMT'));
-        $course->language = $data->weblanguageField;
-        $course->venueId = $data->venueField;
-        $course->venueName = $data->venuenameField;
-        $course->seatsAvailable = $data->freeSeatsField;
-        $course->currentParticipants = $data->enrolledField;
-
-        return $course;
-    }
-
-    /**
-     * Parses the given webservice data, containing a list of courses and returns a nice CourseCollection
-     * @param array $data the list of courses from the webservice
-     * @return CourseCollection
-     */
-    private function parseCourses(array $data)
-    {
-        $courses = [];
-
-        // parsing the courses
-        foreach ($data as $courseData) {
-            $courses[] = $this->parseCourse($courseData);
-        }
-
-        return new CourseCollection($courses);
+        return new ParserFactory();
     }
 }
