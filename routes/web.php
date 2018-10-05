@@ -36,7 +36,7 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
 });
 
 
-if (env('APP_ENV') === 'local') {
+if (env('APP_ENV') !== 'production') {
     $router->get('/test/wp/sync/{id}', function ($id) {
         Log::debug('sync/'.$id.' called');
 
