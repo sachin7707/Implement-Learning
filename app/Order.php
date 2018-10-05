@@ -24,6 +24,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Order extends Model
 {
+    const STATE_NEW = 0;
+    const STATE_CONFIRMED = 1;
+
     public function course()
     {
         return $this->belongsTo(Course::class);

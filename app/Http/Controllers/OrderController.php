@@ -64,6 +64,7 @@ class OrderController extends Controller
         $course = Course::findOrFail((int)$request->input('course_id'));
 
         $order = new Order();
+        $order->state = Order::STATE_NEW;
         $order->course_id = $course->id;
         // saving order, before sending it to the order service
 //        $order->saveOrFail();
@@ -111,7 +112,7 @@ class OrderController extends Controller
         return response()->json([
             'error' => 'Not enough seats available',
             'seats_required' => $requiredSeats,
-            'seats_available' => $this->courseService->getSeatsAvailable($order->course),
+            'seats_available' => $this->orderService->getAvailableSeatsOnCourse($order),
         ]);
     }
 }

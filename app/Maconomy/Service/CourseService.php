@@ -28,10 +28,8 @@ class CourseService
      * Checks if we have any seats available on the given course, using the number of seats required, to ensure we have
      * enough.
      * @param Course $course the course to get the number of seats for
-     * @param int $seatsRequired the number of seats needed
-     * @return bool
      */
-    public function hasSeatsAvailable(Course $course, int $seatsRequired): bool
+    public function updateSeatsAvailable(Course $course): void
     {
         // fetches the number of seats, from the webservice
         $availableSeats = $this->getSeatsAvailable($course);
@@ -42,8 +40,6 @@ class CourseService
             // updating our course in the database (this is used when syncing to WP)
             $course->save();
         }
-
-        return $availableSeats > $seatsRequired;
     }
 
     /**
