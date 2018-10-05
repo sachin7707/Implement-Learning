@@ -15,7 +15,7 @@ class AddCoursetypeToCourses extends Migration
     {
         Schema::table('courses', function (Blueprint $table) {
             $table->unsignedInteger('coursetype_id')->nullable(true);
-            $table->foreign('coursetype_id')->references('id')->on('coursetypes');
+            $table->foreign('coursetype_id')->references('id')->on('course_types');
         });
     }
 

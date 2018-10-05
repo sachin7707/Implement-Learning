@@ -13,7 +13,7 @@ class CreateCourseTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('coursetypes', function (Blueprint $table) {
+        Schema::create('course_types', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
             $table->string('name');
@@ -32,6 +32,6 @@ class CreateCourseTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('coursetypes');
+        Schema::dropIfExists('course_types');
     }
 }
