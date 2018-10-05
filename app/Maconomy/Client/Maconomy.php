@@ -134,10 +134,10 @@ class Maconomy implements ClientAbstract, LoggerAwareInterface
      * @return int the number of available seats
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function getAvailableSeats(string $maconomyId): int
+    public function getEnrolledSeats(string $maconomyId): int
     {
-        $data = $this->callWebservice("courselight/$maconomyId");
-        return (int)$data->freeSeatsField;
+        $data = $this->callWebservice("course/$maconomyId");
+        return (int)$data->enrolledField;
     }
 
     /**

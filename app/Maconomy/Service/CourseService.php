@@ -62,9 +62,11 @@ class CourseService
      * Fetches the number of seats available on a given course
      * @param Course $course
      * @return int
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function getSeatsAvailable(Course $course): int
     {
-        return $this->client->getAvailableSeats($course->maconomy_id);
+        $usedSeats = $this->client->getEnrolledSeats($course->maconomy_id);
+        return $course->participants_max - $usedSeats;
     }
 }
