@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Course;
+use App\Jobs\ImportCourses;
 use App\Maconomy\Service\CourseService;
 use App\Maconomy\Service\OrderService;
 use App\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Queue;
 
 /**
  * @author jimmiw
@@ -77,11 +79,7 @@ class OrderController extends Controller
             return response()->json($order);
         }
 
-        return response()->json([
-            'error' => 'Not enough seats available',
-            'seats_required' => $requiredSeats,
-            'seats_available' => $this->courseService->getSeatsAvailable($course),
-        ]);
+        return response()->json($this->getNotEnoughSeatsError($requiredSeats, $course));
     }
 
     /**
@@ -106,13 +104,43 @@ class OrderController extends Controller
 
         // seats are required, so do NOT use a default value
         if ($this->orderService->reserveSeats($order, $requiredSeats)) {
+            // Sends an event to update the course, if needed
+            $this->updateCourse($order->course, $order);
+
             return response()->json($order);
         }
 
-        return response()->json([
+        return response()->json($this->getNotEnoughSeatsError($requiredSeats, $order->course, $order));
+    }
+
+    /**
+     * Fetches a nice error message, saying that there are not enough seats left to reserve.
+     * @param int $requiredSeats the number of required seats
+     * @param Course $course the course to get the current number of seats from
+     * @param Order|null $order the current order (if any)
+     * @return array
+     */
+    private function getNotEnoughSeatsError(int $requiredSeats, Course $course, Order $order = null): array
+    {
+        // Sends an event to update the course, if needed
+        $this->updateCourse($course, $order);
+
+        return [
             'error' => 'Not enough seats available',
             'seats_required' => $requiredSeats,
-            'seats_available' => $this->orderService->getAvailableSeatsOnCourse($order),
-        ]);
+            'seats_available' => $course->getAvailableSeats($order),
+        ];
+    }
+
+    /**
+     * @param Course $course
+     * @param Order|null $order
+     */
+    private function updateCourse(Course $course, Order $order = null): void
+    {
+        // no seats available? tell wordpress to resync the course, to bust the cache in their end
+        if ($course->getAvailableSeats($order) <= 0) {
+            Queue::later(1, new ImportCourses($course->maconomy_id));
+        }
     }
 }

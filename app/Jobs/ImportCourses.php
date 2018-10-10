@@ -7,6 +7,7 @@ use App\Events\CoursesSyncedEvent;
 use App\Maconomy\Client\Maconomy;
 use App\Maconomy\Collection\CourseCollection;
 use App\CourseType;
+use App\Maconomy\Service\CourseService;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Event;
 
@@ -31,14 +32,15 @@ class ImportCourses extends Job
     /**
      * Starts the import of the courses
      * @param Maconomy $client the maconomy client to use, when syncing the course(s)
+     * @param CourseService $courseService
      * @throws GuzzleException
      */
-    public function handle(Maconomy $client)
+    public function handle(Maconomy $client, CourseService $courseService)
     {
         // syncs the course types first
         $this->syncCourseTypes($client);
         // then syncs the courses
-        $this->syncCourses($client);
+        $this->syncCourses($client, $courseService);
 
         // sends a notification to wordpress
         Event::dispatch(new CoursesSyncedEvent($this->maconomyId));
@@ -111,33 +113,48 @@ class ImportCourses extends Job
      * @param Maconomy $client
      * @throws GuzzleException
      */
-    private function syncCourses(Maconomy $client): void
+    private function syncCourses(Maconomy $client, CourseService $courseService): void
     {
         $courses = $this->getCourses($client);
 
         foreach ($courses as $course) {
             $courseType = $this->getCourseType($course->maconomyId);
 
-            // updates the courses in the database
-            Course::updateOrCreate(
-                [
+            $data = [
+                'name' => $course->name,
+                'language' => $course->language,
+                'venue_number' => $course->venueId,
+                'venue_name' => $course->venueName,
+                'start_time' => $course->startTime,
+                'end_time' => $course->endTime,
+                'participants_min' => $course->minParticipants,
+                'participants_current' => $course->currentParticipants,
+                'price' => $course->price,
+                'seats_available' => $course->seatsAvailable,
+                'coursetype_id' => $courseType->id ?? null
+            ];
+
+            /** @var Course $dbCourse */
+            $dbCourse = Course::where('maconomy_id', $course->maconomyId)
+                ->first();
+
+            // update existing course
+            if ($dbCourse) {
+                $dbCourse->update(array_merge($data, [
+                    // also calculating the number of seats available, since max participants "can be" changed locally
+                    'seats_available' => $dbCourse->participants_max - $course->currentParticipants
+                ]));
+            } else {
+                // create a new course, by adding a bit more details
+                $dbCourse = new Course(array_merge($data, [
+                    // maconomy id should only be set on create
                     'maconomy_id' => $course->maconomyId,
-                ],
-                [
-                    'name' => $course->name,
-                    'language' => $course->language,
-                    'venue_number' => $course->venueId,
-                    'venue_name' => $course->venueName,
-                    'start_time' => $course->startTime,
-                    'end_time' => $course->endTime,
+                    // max participants is only set on create, since it can be changed in the wp admin
                     'participants_max' => $course->maxParticipants,
-                    'participants_min' => $course->minParticipants,
-                    'participants_current' => $course->currentParticipants,
-                    'seats_available' => $course->seatsAvailable,
-                    'price' => $course->price,
-                    'coursetype_id' => $courseType->id ?? null
-                ]
-            );
+                ]));
+
+                $dbCourse->save();
+            }
         }
     }
 

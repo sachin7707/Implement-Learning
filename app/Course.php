@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 /**
  * App\Course
@@ -55,5 +56,39 @@ class Course extends Model
     public function coursetype()
     {
         return $this->belongsTo(CourseType::class);
+    }
+
+    /**
+     * Fetches the number of available seats, on a course, on the given order.
+     * @param Course $course the course to check
+     * @param Order $order the current order. (can be null)
+     * @return int the number of seats available on a given course
+     */
+    public function getAvailableSeats(Order $order = null): int
+    {
+        $select = DB::table('orders')
+            ->select(DB::raw('sum(seats) as seat_count'))
+            ->where('state', '!=', Order::STATE_CONFIRMED)
+            ->where('course_id', $this->id);
+
+        // if an order was given, add an excluding id to the select, to avoid counting these reservations
+        // since the order is "in progress"
+        if ($order !== null) {
+            // excluding current order
+            $select->where('id', '!=', $order->id);
+        }
+
+        // fetches the seat count
+        $reservedSeats = $select->value('seat_count');
+        // calculates the number of available seats, using max and current number of participants
+        $seatsAvailable = $this->participants_max - $this->participants_current;
+
+        // no seats available? return 0
+        if ($seatsAvailable <= $reservedSeats) {
+            return 0;
+        }
+
+        // return the number of available seats, when reserved seats are removed
+        return $seatsAvailable - $reservedSeats;
     }
 }

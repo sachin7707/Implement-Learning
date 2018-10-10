@@ -16,6 +16,7 @@ class Course
     public $maxParticipants;
     public $minParticipants;
     public $seatsAvailable;
+    public $seatsTaken;
     public $currentParticipants;
     public $price;
     public $language;

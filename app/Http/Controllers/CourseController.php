@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Course;
+use App\Http\Resources\Course as CourseResource;
 use App\Jobs\ImportCourses;
 use App\Maconomy\Client\Maconomy;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Queue;
-use PHPUnit\Util\Json;
 
 /**
  * @author jimmiw
@@ -34,7 +34,7 @@ class CourseController extends Controller
      */
     public function index()
     {
-        return new JsonResponse(Course::all());
+        return new JsonResponse(CourseResource::collection(Course::all()));
     }
 
     /**
@@ -46,7 +46,7 @@ class CourseController extends Controller
     {
         $course = Course::where('maconomy_id', $id)->first();
 
-        return new JsonResponse($course);
+        return new JsonResponse(new CourseResource($course));
     }
 
     /**
