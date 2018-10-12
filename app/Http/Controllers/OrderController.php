@@ -76,6 +76,10 @@ class OrderController extends Controller
         // reserving the seats on the order
         if ($this->orderService->reserveSeats($order, $requiredSeats)) {
             $order->saveOrFail();
+
+            // Sends an event to update the course, if needed
+            $this->updateCourse($order->course, $order);
+
             return response()->json($order);
         }
 
