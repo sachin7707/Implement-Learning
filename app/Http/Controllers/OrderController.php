@@ -59,11 +59,11 @@ class OrderController extends Controller
     {
         // validating that we have a course_id set
         $this->validate($request, [
-            'course_id' => 'required'
+            'maconomy_id' => 'required'
         ]);
 
         // fetches the course
-        $course = Course::findOrFail((int)$request->input('course_id'));
+        $course = Course::where('maconomy_id', $request->input('maconomy_id'))->first();
 
         $order = new Order();
         $order->state = Order::STATE_NEW;

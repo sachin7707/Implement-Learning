@@ -12,8 +12,8 @@ Fetches one order, to show it's information
 Creates a new order.
 
 Requires the following data:
-* course_id: string
-* seats: int
+* maconomy_id: string the maconomy id from the course to signup to
+* seats: int, defaults to 1, so not really needed :)
 
 ### PUT: /api/v1/orders/{id}
 Updates an order, with new details about participants (names, number of, etc)
