@@ -28,7 +28,7 @@ class Client
      */
     public function syncAll()
     {
-        return json_decode($this->getClient()->get('sync_all')->getBody());
+        return json_decode($this->getClient()->get('sync')->getBody());
     }
 
     /**
