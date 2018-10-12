@@ -46,7 +46,7 @@ if (env('APP_ENV') !== 'production') {
         ]);
     });
 
-    $router->get('/test/wp/sync_all', function () {
+    $router->get('/test/wp/sync', function () {
         Log::debug('sync_all called');
         return new \Illuminate\Http\JsonResponse([
             'message' => 'sync_all called',
