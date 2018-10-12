@@ -2,6 +2,7 @@
 
 namespace App\Maconomy\Service;
 
+use App\Course;
 use App\Order;
 
 /**
@@ -47,5 +48,18 @@ class OrderService
         }
 
         return false;
+    }
+
+    /**
+     * Checks if the given course is still signupable, by looking at the signup deadline
+     * @param Course $course the course to check
+     * @return bool
+     */
+    public function isBeforeDeadline(Course $course): bool
+    {
+        // fetching "now"
+        $now = new \DateTime('now', new \DateTimeZone('GMT'));
+
+        return $course->deadline > $now;
     }
 }

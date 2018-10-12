@@ -74,6 +74,10 @@ class OrderController extends Controller
         // saving order, before sending it to the order service
 //        $order->saveOrFail();
 
+        if (! $this->orderService->isBeforeDeadline($course)) {
+            return response()->json($this->getPastDeadlineError($course));
+        }
+
         $requiredSeats = (int)$request->input('seats', 1);
 
         // reserving the seats on the order
@@ -105,6 +109,10 @@ class OrderController extends Controller
 
         /** @var Order $order */
         $order = Order::findOrFail($id);
+
+        if (! $this->orderService->isBeforeDeadline($order->course)) {
+            return response()->json($this->getPastDeadlineError($order->course));
+        }
 
         $requiredSeats = (int)$request->input('seats', 1);
 
@@ -149,5 +157,18 @@ class OrderController extends Controller
         if ($course->getAvailableSeats($order) <= 0) {
             Queue::later(1, new ImportCourses($course->maconomy_id));
         }
+    }
+
+    /**
+     * Fetches the error message to send, if the course is past the booking deadline
+     * @param Course $course
+     * @return array
+     */
+    private function getPastDeadlineError(Course $course): array
+    {
+        return [
+            'error' => 'Past deadline',
+            'deadline' => $course->deadline,
+        ];
     }
 }
