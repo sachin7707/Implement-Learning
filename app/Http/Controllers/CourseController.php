@@ -100,7 +100,7 @@ class CourseController extends Controller
 
         return new JsonResponse([
             'message' => 'Course ' . $id . ' has been updated',
-            'data' => $course->toJson()
+            'data' => new CourseResource($course)
         ]);
     }
 }
