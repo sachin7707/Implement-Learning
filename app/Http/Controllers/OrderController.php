@@ -141,6 +141,7 @@ class OrderController extends Controller
      */
     private function updateCourse(Course $course, Order $order = null): void
     {
+        // TODO: this doesn't work, when $this->create is called, and the sum goes from 1 -> 0
         // no seats available? tell wordpress to resync the course, to bust the cache in their end
         if ($course->getAvailableSeats($order) <= 0) {
             Queue::later(1, new ImportCourses($course->maconomy_id));
