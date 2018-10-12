@@ -42,6 +42,7 @@ class OrderController extends Controller
     /**
      * Shows a single orders information
      * @param string $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(string $id)
     {
@@ -55,6 +56,7 @@ class OrderController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      * @throws \Throwable
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function create(Request $request)
     {
@@ -91,6 +93,7 @@ class OrderController extends Controller
      * @param string $id the order id
      * @return \Illuminate\Http\JsonResponse
      * @throws \Throwable
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function update(Request $request, $id)
     {
