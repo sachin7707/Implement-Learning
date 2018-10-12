@@ -120,6 +120,12 @@ class ImportCourses extends Job
         foreach ($courses as $course) {
             $courseType = $this->getCourseType($course->maconomyId);
 
+            // creating a deadline for course signup
+            $signupDeadline = new \DateTime($course->startTime->format('r'));
+            // default signup deadline is two weeks before the start date
+            $signupDeadline->sub(new \DateInterval('P14D'));
+
+
             $data = [
                 'name' => $course->name,
                 'language' => $course->language,
@@ -131,7 +137,8 @@ class ImportCourses extends Job
                 'participants_current' => $course->currentParticipants,
                 'price' => $course->price,
                 'seats_available' => $course->seatsAvailable,
-                'coursetype_id' => $courseType->id ?? null
+                'coursetype_id' => $courseType->id ?? null,
+                'deadline' => $signupDeadline
             ];
 
             /** @var Course $dbCourse */
@@ -140,6 +147,12 @@ class ImportCourses extends Job
 
             // update existing course
             if ($dbCourse) {
+                // handling signup date on course update
+                if ($dbCourse->deadline !== null) {
+                    // removing the deadline date, to be sure we don't overwrite stuff from WP
+                    unset($data['deadline']);
+                }
+
                 $dbCourse->update(array_merge($data, [
                     // also calculating the number of seats available, since max participants "can be" changed locally
                     'seats_available' => $dbCourse->participants_max - $course->currentParticipants
