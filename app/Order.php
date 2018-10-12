@@ -27,6 +27,10 @@ class Order extends Model
     const STATE_NEW = 0;
     const STATE_CONFIRMED = 1;
 
+    protected $hidden = [
+        'course_id',
+    ];
+
     public function course()
     {
         return $this->belongsTo(Course::class);

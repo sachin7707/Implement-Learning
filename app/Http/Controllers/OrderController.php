@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Course;
+use App\Http\Resources\Order as OrderResource;
 use App\Jobs\ImportCourses;
 use App\Maconomy\Service\CourseService;
 use App\Maconomy\Service\OrderService;
@@ -75,12 +76,10 @@ class OrderController extends Controller
 
         // reserving the seats on the order
         if ($this->orderService->reserveSeats($order, $requiredSeats)) {
-            $order->saveOrFail();
-
             // Sends an event to update the course, if needed
             $this->updateCourse($order->course, $order);
 
-            return response()->json($order);
+            return response()->json(new OrderResource($order));
         }
 
         return response()->json($this->getNotEnoughSeatsError($requiredSeats, $course));
@@ -111,7 +110,7 @@ class OrderController extends Controller
             // Sends an event to update the course, if needed
             $this->updateCourse($order->course, $order);
 
-            return response()->json($order);
+            return response()->json(new OrderResource($order));
         }
 
         return response()->json($this->getNotEnoughSeatsError($requiredSeats, $order->course, $order));
