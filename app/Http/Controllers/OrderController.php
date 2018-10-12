@@ -75,7 +75,7 @@ class OrderController extends Controller
 //        $order->saveOrFail();
 
         if (! $this->orderService->isBeforeDeadline($course)) {
-            return response()->json($this->getPastDeadlineError($course));
+            return response()->json($this->getPastDeadlineError($course), 400);
         }
 
         $requiredSeats = (int)$request->input('seats', 1);
@@ -88,7 +88,7 @@ class OrderController extends Controller
             return response()->json(new OrderResource($order));
         }
 
-        return response()->json($this->getNotEnoughSeatsError($requiredSeats, $course));
+        return response()->json($this->getNotEnoughSeatsError($requiredSeats, $course), 400);
     }
 
     /**
@@ -111,7 +111,7 @@ class OrderController extends Controller
         $order = Order::findOrFail($id);
 
         if (! $this->orderService->isBeforeDeadline($order->course)) {
-            return response()->json($this->getPastDeadlineError($order->course));
+            return response()->json($this->getPastDeadlineError($order->course), 400);
         }
 
         $requiredSeats = (int)$request->input('seats', 1);
@@ -124,7 +124,7 @@ class OrderController extends Controller
             return response()->json(new OrderResource($order));
         }
 
-        return response()->json($this->getNotEnoughSeatsError($requiredSeats, $order->course, $order));
+        return response()->json($this->getNotEnoughSeatsError($requiredSeats, $order->course, $order), 400);
     }
 
     /**
