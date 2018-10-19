@@ -60,6 +60,6 @@ class OrderService
         // fetching "now"
         $now = new \DateTime('now', new \DateTimeZone('GMT'));
 
-        return $course->deadline > $now;
+        return $course->deadline > $now->format('Y-m-d H:i:s');
     }
 }
