@@ -17,7 +17,7 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->group(['prefix' => 'api/v1'], function () use ($router) {
+$router->group(['prefix' => 'api/v1', 'middleware' => 'cors'], function () use ($router) {
     $router->get('/sync', 'CourseController@sync');
     $router->get('/sync/{id}', 'CourseController@syncSingle');
     $router->get('/course', 'CourseController@index');
