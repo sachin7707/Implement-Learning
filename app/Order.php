@@ -24,8 +24,12 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Order extends Model
 {
+    // a brand new order
     const STATE_NEW = 0;
-    const STATE_CONFIRMED = 1;
+    // before being confirmed
+    const STATE_CLOSED = 1;
+    // order is synced with maconomy, and thereby confirmed
+    const STATE_CONFIRMED = 2;
 
     protected $hidden = [
         'course_id',

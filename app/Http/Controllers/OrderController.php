@@ -171,4 +171,35 @@ class OrderController extends Controller
             'deadline' => $course->deadline,
         ];
     }
+
+    /**
+     * Closes the order with the given id
+     * @param Request $request
+     * @param string $id the order id to close
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function closeOrder(Request $request, $id)
+    {
+        /** @var Order $order */
+        $order = Order::findOrFail($id);
+
+        $this->validate($request, [
+            'participants' => 'required',
+            'company' => 'required'
+        ]);
+
+        // fails if the order is past deadline for signups
+        if (! $this->orderService->isBeforeDeadline($order->course)) {
+            return response()->json($this->getPastDeadlineError($order->course), 400);
+        }
+
+        $company = $request->input('company', []);
+        $participants = $request->input('participants', []);
+
+        // closes the order
+        $this->orderService->closeOrder($order, $participants, $company);
+
+        return response()->json(new OrderResource($order));
+    }
 }

@@ -21,6 +21,13 @@ Updates an order, with new details about participants (names, number of, etc)
 Requires the following data:
 * seats: int
 
+### POST: /api/v1/orders/{id}/close
+Closes the given order, marking it as ready to be synced with maconomy.
+
+Requires the following data:
+* participants: array, a list of participant data (name, email etc) to send to maconomy
+* company: array, the company information as an indexed array
+
 ## Course routes
 
 ### GET: /api/v1/sync

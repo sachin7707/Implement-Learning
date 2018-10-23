@@ -33,6 +33,8 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
     $router->post('/orders', 'OrderController@create');
     // updates a given order
     $router->put('/orders/{id}', 'OrderController@update');
+    // updates a given order
+    $router->post('/orders/{id}/close', 'OrderController@closeOrder');
 });
 
 

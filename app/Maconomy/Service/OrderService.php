@@ -62,4 +62,18 @@ class OrderService
 
         return $course->deadline > $now;
     }
+
+    /**
+     * Closes the given order, marking it as ready for sync with maconomy.
+     * @param Order $order the order to close and save participants and company info on.
+     * @param array $participants the list of participants to add to the order
+     * @param array $company the company information
+     */
+    public function closeOrder(Order $order, array $participants, array $company): void
+    {
+        // TODO: save participants locally
+        // TODO: save company locally
+        $order->state = Order::STATE_CLOSED;
+        $order->save();
+    }
 }
