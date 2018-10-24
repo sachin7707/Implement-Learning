@@ -10,11 +10,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Participant extends Model
 {
-    public function order()
-    {
-        return $this->belongsTo(Order::class);
-    }
-
     public function company()
     {
         return $this->belongsTo(Company::class);
