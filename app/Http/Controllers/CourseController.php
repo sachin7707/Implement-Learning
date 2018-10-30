@@ -44,7 +44,7 @@ class CourseController extends Controller
      */
     public function show(string $id)
     {
-        $course = Course::where('maconomy_id', $id)->first();
+        $course = Course::getByMaconomyIdOrFail($id);
 
         return new JsonResponse(new CourseResource($course));
     }
@@ -87,20 +87,26 @@ class CourseController extends Controller
     {
         // validating that we have a course_id set
         $this->validate($request, [
-            'participants_max' => 'required'
+            'participants_max' => 'required',
+            'deadline' => 'nullable|date',
         ]);
 
         /** @var Course $course */
-        $course = Course::where('maconomy_id', $id)->first();
+        $course = Course::getByMaconomyIdOrFail($id);
 
         // you are allowed to change the maximum number of participants
         $course->participants_max = $request->input('participants_max');
+
+        // if the deadline isset, save it to the database
+        if ($request->input('deadline', null) !== null) {
+            $course->deadline = new \DateTime($request->input('deadline'), new \DateTimeZone('GMT'));
+        }
 
         $course->save();
 
         return new JsonResponse([
             'message' => 'Course ' . $id . ' has been updated',
-            'data' => new CourseResource($course)
+            'data' => new CourseResource(Course::getByMaconomyId($id))
         ]);
     }
 }

@@ -3,7 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 /**
  * App\Course
@@ -90,5 +92,32 @@ class Course extends Model
 
         // return the number of available seats, when reserved seats are removed
         return $seatsAvailable - $reservedSeats;
+    }
+
+    /**
+     * Fetches the course, that has the given maconomy id
+     * @param string $maconomyId
+     * @return Course|null the course found
+     */
+    public static function getByMaconomyId(string $maconomyId)
+    {
+        return self::where('maconomy_id', $maconomyId)->first();
+    }
+
+    /**
+     * Same as getByMaconomyId, but this throws an error if the item is not found.
+     * @param string $maconomyId
+     * @return Course|null
+     * @throws ModelNotFoundException
+     */
+    public static function getByMaconomyIdOrFail(string $maconomyId)
+    {
+        $course = self::getByMaconomyId($maconomyId);
+
+        if ($course === null) {
+            throw new ModelNotFoundException(self::class . ' not found with id ' . $maconomyId);
+        }
+
+        return $course;
     }
 }
