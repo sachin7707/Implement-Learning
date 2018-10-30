@@ -3,7 +3,9 @@
 namespace App\Maconomy\Service;
 
 use App\Course;
+use App\Mail\OrderBooker;
 use App\Order;
+use Illuminate\Support\Facades\Mail;
 
 /**
  * @author jimmiw
@@ -73,7 +75,12 @@ class OrderService
     {
         // TODO: save participants locally
         // TODO: save company locally
+
         $order->state = Order::STATE_CLOSED;
         $order->save();
+
+        // queues the mail to the booker
+        Mail::to($order->company->email)
+            ->queue(new OrderBooker($order));
     }
 }
