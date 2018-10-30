@@ -10,6 +10,7 @@
         "ext-soap": "*",
         "doctrine/dbal": "^2.8",
         "guzzlehttp/guzzle": "^6.3",
+        "illuminate/mail": "^5.7",
         "laravel/lumen-framework": "5.7.*",
         "sentry/sentry-laravel": "^0.10.0",
         "vlucas/phpdotenv": "~2.2"

@@ -83,10 +83,17 @@ $app->register(App\Providers\EventServiceProvider::class);
 $app->register(App\Providers\MaconomySerivceProvider::class);
 $app->register(App\Providers\WordpressServiceProvider::class);
 $app->register(\Sentry\SentryLaravel\SentryLumenServiceProvider::class);
+$app->register(Illuminate\Mail\MailServiceProvider::class);
 
 if ($app->environment() === 'local') {
     $app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
 }
+
+/*
+ * Configurations?
+ */
+
+$app->configure('mail');
 
 /*
 |--------------------------------------------------------------------------
