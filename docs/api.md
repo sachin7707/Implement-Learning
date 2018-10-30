@@ -49,6 +49,7 @@ Changes the number of participants allowed on a course.
 
 Requires the following data:
 * participants_max: int
+* deadline: string, a strtotime parsable string (in GMT). OPTIONAL
 
 ### GET: /api/v1/course
 Fetches the courses from our local database
