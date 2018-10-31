@@ -104,7 +104,7 @@ class OrderService
             ->queue(new OrderBooker($order));
 
         // queues the mails to the participants
-        foreach ($order->participants as $participant) {
+        foreach ($order->company->participants as $participant) {
             // queues the mail to the booker
             Mail::to($participant->email)
                 ->queue(new OrderParticipant($order, $participant));

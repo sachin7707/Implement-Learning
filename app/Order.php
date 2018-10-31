@@ -41,6 +41,11 @@ class Order extends Model
         return $this->belongsTo(Course::class);
     }
 
+    public function company()
+    {
+        return $this->hasOne(Company::class);
+    }
+
     /**
      * Tests if the current order is set to be a "waiting list" order.
      * NOTE: This simply means that there were no seats left, but we are not after the deadline when the order was made.
