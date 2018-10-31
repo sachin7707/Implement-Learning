@@ -32,6 +32,9 @@ class OrderParticipant extends Mailable
     {
         // TODO: we need to get the course material to "include" in the email. Kontainer vs Attachment?
 
+        // TODO: check if we are sending a waiting list email
+        // $this->order->isOnWaitingList();
+
         return $this->view('emails.orders.participant')
             ->text('emails.orders.participant_plain');
     }
