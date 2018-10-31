@@ -4,6 +4,7 @@ namespace App\Maconomy\Service;
 
 use App\Course;
 use App\Mail\OrderBooker;
+use App\Mail\OrderParticipant;
 use App\Order;
 use Illuminate\Support\Facades\Mail;
 
@@ -66,6 +67,19 @@ class OrderService
     }
 
     /**
+     * Checks if the given course is still signupable, by looking at the course start time
+     * @param Course $course the course to check
+     * @return bool
+     */
+    public function isBeforeStartDate(Course $course): bool
+    {
+        // fetching "now"
+        $now = new \DateTime('now', new \DateTimeZone('GMT'));
+
+        return $course->start_time <= $now->format('Y-m-d H:i:s');
+    }
+
+    /**
      * Closes the given order, marking it as ready for sync with maconomy.
      * @param Order $order the order to close and save participants and company info on.
      * @param array $participants the list of participants to add to the order
@@ -76,11 +90,24 @@ class OrderService
         // TODO: save participants locally
         // TODO: save company locally
 
+        // if the order has not been closed before the deadline, the seats are set to be on a waiting list - ILI-336
+        if (! $this->isBeforeDeadline($order->course)) {
+            $order->on_waitinglist = true;
+        }
+
+        // sets the order state
         $order->state = Order::STATE_CLOSED;
         $order->save();
 
         // queues the mail to the booker
         Mail::to($order->company->email)
             ->queue(new OrderBooker($order));
+
+        // queues the mails to the participants
+        foreach ($order->participants as $participant) {
+            // queues the mail to the booker
+            Mail::to($participant->email)
+                ->queue(new OrderParticipant($order, $participant));
+        }
     }
 }

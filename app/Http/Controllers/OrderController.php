@@ -74,8 +74,8 @@ class OrderController extends Controller
         // saving order, before sending it to the order service
 //        $order->saveOrFail();
 
-        if (! $this->orderService->isBeforeDeadline($course)) {
-            return response()->json($this->getPastDeadlineError($course), 400);
+        if (! $this->orderService->isBeforeStartDate($course)) {
+            return response()->json($this->getPastCourseStartError($course), 400);
         }
 
         $requiredSeats = (int)$request->input('seats', 1);
@@ -110,8 +110,8 @@ class OrderController extends Controller
         /** @var Order $order */
         $order = Order::findOrFail($id);
 
-        if (! $this->orderService->isBeforeDeadline($order->course)) {
-            return response()->json($this->getPastDeadlineError($order->course), 400);
+        if (! $this->orderService->isBeforeStartDate($order->course)) {
+            return response()->json($this->getPastCourseStartError($order->course), 400);
         }
 
         $requiredSeats = (int)$request->input('seats', 1);
@@ -164,11 +164,11 @@ class OrderController extends Controller
      * @param Course $course
      * @return array
      */
-    private function getPastDeadlineError(Course $course): array
+    private function getPastCourseStartError(Course $course): array
     {
         return [
-            'error' => 'Past deadline',
-            'deadline' => $course->deadline,
+            'error' => 'Past course start',
+            'start_date' => $course->start_time,
         ];
     }
 
@@ -189,9 +189,9 @@ class OrderController extends Controller
             'company' => 'required'
         ]);
 
-        // fails if the order is past deadline for signups
-        if (! $this->orderService->isBeforeDeadline($order->course)) {
-            return response()->json($this->getPastDeadlineError($order->course), 400);
+        // fails if the order is past course date for signups
+        if (! $this->orderService->isBeforeStartDate($order->course)) {
+            return response()->json($this->getPastCourseStartError($order->course), 400);
         }
 
         $company = $request->input('company', []);
