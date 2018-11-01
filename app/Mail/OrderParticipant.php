@@ -26,7 +26,8 @@ class OrderParticipant extends Mailable
         $this->order = $order;
         $this->participant = $participant;
         // creating the calendar url for the participants
-        $this->calendarUrl = '/course/'.$order->course->maconomy_id.'/cal';
+        // TODO: change this url in the future? since it goes directly to the api instead of WP site.
+        $this->calendarUrl = '/api/v1/course/'.$order->course->maconomy_id.'/cal';
     }
 
     /**
