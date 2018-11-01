@@ -78,7 +78,8 @@ class OrderService
         // fetching "now"
         $now = new \DateTime('now', new \DateTimeZone('GMT'));
 
-        return $course->start_time <= $now->format('Y-m-d H:i:s');
+        $courseStart = new \DateTime($course->start_time, new \DateTimeZone('GMT'));
+        return $courseStart > $now->format('Y-m-d H:i:s');
     }
 
     /**
