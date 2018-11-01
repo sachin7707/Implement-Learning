@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Maconomy\Service\CourseService;
 use App\Order;
 use App\Participant;
 use Illuminate\Mail\Mailable;
@@ -14,6 +15,7 @@ class OrderParticipant extends Mailable
 {
     public $order;
     public $participant;
+    public $calendarUrl;
 
     /**
      * OrderParticipant constructor.
@@ -23,6 +25,8 @@ class OrderParticipant extends Mailable
     {
         $this->order = $order;
         $this->participant = $participant;
+        // creating the calendar url for the participants
+        $this->calendarUrl = '/course/'.$order->course->maconomy_id.'/cal';
     }
 
     /**

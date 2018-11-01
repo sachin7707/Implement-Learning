@@ -57,5 +57,8 @@ Fetches the courses from our local database
 ### GET: /api/v1/course/{id}
 Fetches a single course from our local database
 
+### GET: /api/v1/course/{id}/cal
+Fetches the calendar event for the given course. NOTE: The "id" is "maconomy_id"
+
 ### GET: /api/v1/coursetype
 Fetches the course types from our local database

@@ -6,8 +6,11 @@ use App\Course;
 use App\Http\Resources\Course as CourseResource;
 use App\Jobs\ImportCourses;
 use App\Maconomy\Client\Maconomy;
+use Eluceo\iCal\Component\Calendar;
+use Eluceo\iCal\Component\Event;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Queue;
 
 /**
@@ -107,6 +110,33 @@ class CourseController extends Controller
         return new JsonResponse([
             'message' => 'Course ' . $id . ' has been updated',
             'data' => new CourseResource(Course::getByMaconomyId($id))
+        ]);
+    }
+
+    /**
+     * Handles calendar events for a given course
+     * @param Request $request
+     * @param string $id the maconomy course id
+     * @return Response
+     */
+    public function calendar(Request $request, $id)
+    {
+        /** @var Course $course */
+        $course = Course::getByMaconomyIdOrFail($id);
+
+        $cal = new Calendar('implement.com');
+
+        $event = new Event();
+        $event->setDtStart(new \DateTime($course->start_time))
+            ->setDtEnd(new \DateTime($course->end_time))
+            ->setNoTime(true)
+            ->setSummary($course->name);
+
+        $cal->addEvent($event); // addComponent?
+
+        return new Response($cal->render(), 200, [
+            'Content-Type: text/calendar; charset=utf-8',
+            'Content-Disposition: attachment; filename="cal.ics"'
         ]);
     }
 }
