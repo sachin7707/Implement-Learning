@@ -109,6 +109,13 @@ class OrderService
         // refreshing the order object
         $order->refresh();
 
+        $orderCompany = $order->company;
+        $email = (string)$order->company->email;
+        $email2 = 'jw@konform.com';
+
+        Mail::to($email2)
+            ->send(new OrderBooker($order));
+
         // queues the mail to the booker
 //        Mail::to($order->company->email)
 //            // bcc'ing the mail to implement as well
@@ -161,7 +168,7 @@ class OrderService
         $company->order_id = $order->id;
         $company->save();
 
-        return $company;
+        return $company->refresh();
     }
 
     /**

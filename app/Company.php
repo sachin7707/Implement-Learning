@@ -10,28 +10,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Company extends Model
 {
-    protected $fillable = [
-        'name',
-        'cvr',
-        'attention',
-        'address',
-        'postal',
-        'city',
-        'country',
-        'phone',
-        'email',
-        'ean',
-        'purchase_no',
-        'billing_name',
-        'billing_cvr',
-        'billing_attention',
-        'billing_address',
-        'billing_postal',
-        'billing_city',
-        'billing_country',
-        'billing_phone',
-        'billing_email',
-    ];
+    protected $guarded = [];
+    protected $hidden = ['created_at', 'updated_at'];
 
     public function order()
     {
