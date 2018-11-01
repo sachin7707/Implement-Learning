@@ -145,7 +145,7 @@ class OrderService
         $company->purchase_no = $companyData['purchase_no'];
 
         // only save billing info, if it's not empty
-        if (!empty($billingData)) {
+        if (! empty($billingData)) {
             $company->billing_name = $billingData['name'];
             $company->billing_cvr = $billingData['cvr'];
             $company->billing_attention = $billingData['attention'];
