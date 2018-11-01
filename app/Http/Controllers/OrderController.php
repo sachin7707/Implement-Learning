@@ -185,9 +185,9 @@ class OrderController extends Controller
         $order = Order::findOrFail($id);
 
         $this->validate($request, [
-            'participants' => 'required',
-            'company' => 'required',
-            'billing' => 'required'
+            'participants' => 'required|array',
+            'company' => 'required|array',
+            'billing' => 'optional|array'
         ]);
 
         // fails if the order is past course date for signups
