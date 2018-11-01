@@ -186,7 +186,8 @@ class OrderController extends Controller
 
         $this->validate($request, [
             'participants' => 'required',
-            'company' => 'required'
+            'company' => 'required',
+            'billing' => 'required'
         ]);
 
         // fails if the order is past course date for signups
@@ -196,9 +197,10 @@ class OrderController extends Controller
 
         $company = $request->input('company', []);
         $participants = $request->input('participants', []);
+        $billing = $request->input('billing', []);
 
         // closes the order
-        $this->orderService->closeOrder($order, $participants, $company);
+        $this->orderService->closeOrder($order, $participants, $company, $billing);
 
         return response()->json(new OrderResource($order));
     }
