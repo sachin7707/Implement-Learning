@@ -101,6 +101,8 @@ class OrderService
 
         // queues the mail to the booker
         Mail::to($order->company->email)
+            // bcc'ing the mail to implement as well
+            ->bcc('ili@implement.dk')
             ->queue(new OrderBooker($order));
 
         // queues the mails to the participants
