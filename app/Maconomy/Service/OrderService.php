@@ -110,17 +110,17 @@ class OrderService
         $order->refresh();
 
         // queues the mail to the booker
-        Mail::to($order->company->email)
-            // bcc'ing the mail to implement as well
-            ->bcc('ili@implement.dk')
-            ->queue(new OrderBooker($order));
-
-        // queues the mails to the participants
-        foreach ($order->company->participants as $participant) {
-            // queues the mail to the booker
-            Mail::to($participant->email)
-                ->queue(new OrderParticipant($order, $participant));
-        }
+//        Mail::to($order->company->email)
+//            // bcc'ing the mail to implement as well
+//            ->bcc('ili@implement.dk')
+//            ->send(new OrderBooker($order));
+//
+//        // queues the mails to the participants
+//        foreach ($order->company->participants as $participant) {
+//            // queues the mail to the booker
+//            Mail::to($participant->email)
+//                ->queue(new OrderParticipant($order, $participant));
+//        }
     }
 
     /**
@@ -133,28 +133,29 @@ class OrderService
     private function saveCompanyData(Order $order, array $companyData, array $billingData): Company
     {
         $company = new Company();
-        $company->name = $companyData['name'];
-        $company->cvr = $companyData['cvr'];
-        $company->attention = $companyData['attention'];
-        $company->address = $companyData['address'];
-        $company->postal = $companyData['postal'];
-        $company->city = $companyData['city'];
-        $company->country = $companyData['country'];
-        $company->phone = $companyData['phone'];
-        $company->email = $companyData['email'];
-        $company->purchase_no = $companyData['purchase_no'];
+        $company->fill($companyData);
+//        $company->name = $companyData['name'];
+//        $company->cvr = $companyData['cvr'];
+//        $company->attention = $companyData['attention'];
+//        $company->address = $companyData['address'];
+//        $company->postal = $companyData['postal'];
+//        $company->city = $companyData['city'];
+//        $company->country = $companyData['country'];
+//        $company->phone = $companyData['phone'];
+//        $company->email = $companyData['email'];
+//        $company->purchase_no = $companyData['purchase_no'];
 
         // only save billing info, if it's not empty
         if (! empty($billingData)) {
-            $company->billing_name = $billingData['name'];
-            $company->billing_cvr = $billingData['cvr'];
-            $company->billing_attention = $billingData['attention'];
-            $company->billing_address = $billingData['address'];
-            $company->billing_postal = $billingData['postal'];
-            $company->billing_city = $billingData['city'];
-            $company->billing_country = $billingData['country'];
-            $company->billing_phone = $billingData['phone'];
-            $company->billing_email = $billingData['email'];
+            $company->billing_name = $billingData['name'] ?? '';
+            $company->billing_cvr = $billingData['cvr'] ?? '';
+            $company->billing_attention = $billingData['attention'] ?? '';
+            $company->billing_address = $billingData['address'] ?? '';
+            $company->billing_postal = $billingData['postal'] ?? '';
+            $company->billing_city = $billingData['city'] ?? '';
+            $company->billing_country = $billingData['country'] ?? '';
+            $company->billing_phone = $billingData['phone'] ?? '';
+            $company->billing_email = $billingData['email'] ?? '';
         }
 
         $company->order_id = $order->id;
@@ -172,7 +173,7 @@ class OrderService
     {
         foreach ($participantsData as $row) {
             $participant = new Participant();
-            $participant->name = $row['name'];
+            $participant->name = $row['fullname'];
             $participant->email = $row['email'];
             $participant->title = $row['title'];
             $participant->phone = $row['phone'];

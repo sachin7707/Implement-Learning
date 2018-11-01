@@ -5,7 +5,9 @@ namespace App\Mail;
 use App\Maconomy\Service\CourseService;
 use App\Order;
 use App\Participant;
+use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
 
 /**
  * @author jimmiw
@@ -13,6 +15,8 @@ use Illuminate\Mail\Mailable;
  */
 class OrderParticipant extends Mailable
 {
+    use Queueable, SerializesModels;
+
     public $order;
     public $participant;
     public $calendarUrl;

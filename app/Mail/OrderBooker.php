@@ -3,7 +3,9 @@
 namespace App\Mail;
 
 use App\Order;
+use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
 
 /**
  * Mailable builder for the booker of the order.
@@ -14,6 +16,8 @@ use Illuminate\Mail\Mailable;
  */
 class OrderBooker extends Mailable
 {
+    use Queueable, SerializesModels;
+
     /** @var Order $order the order to get access to in the views */
     public $order;
 
