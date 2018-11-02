@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Course;
+use App\Http\Resources\Course as CourseResource;
 use App\Http\Resources\Order as OrderResource;
 use App\Jobs\ImportCourses;
 use App\Maconomy\Service\CourseService;
@@ -143,6 +144,7 @@ class OrderController extends Controller
             'error' => 'Not enough seats available',
             'seats_required' => $requiredSeats,
             'seats_available' => $course->getAvailableSeats($order),
+            'course' => new CourseResource($course),
         ];
     }
 
@@ -169,6 +171,7 @@ class OrderController extends Controller
         return [
             'error' => 'Past course start',
             'start_date' => $course->start_time,
+            'course' => new CourseResource($course),
         ];
     }
 
