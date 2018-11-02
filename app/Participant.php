@@ -10,12 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Participant extends Model
 {
-    protected $fillable = [
-        'name',
-        'email',
-        'phone',
-        'title',
-    ];
+    protected $guarded = [];
 
     public function company()
     {

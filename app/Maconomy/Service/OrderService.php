@@ -139,6 +139,9 @@ class OrderService
      */
     private function saveCompanyData(Order $order, array $companyData, array $billingData): Company
     {
+        // deleting existing company (if any)
+        $order->company()->delete();
+
         $company = new Company();
         $company->fill($companyData);
 //        $company->name = $companyData['name'];
@@ -178,6 +181,9 @@ class OrderService
      */
     private function saveParticipants(Company $company, array $participantsData)
     {
+        // removing existing participants
+        $company->participants()->delete();
+
         foreach ($participantsData as $row) {
             $participant = new Participant();
             $participant->name = $row['fullname'];
