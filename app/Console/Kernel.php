@@ -26,7 +26,19 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->job(new ImportCourses())->daily();
-        $schedule->job(new ClearReservations())->everyFiveMinutes();
+        // broken in 5.7.1
+        //$schedule->job(new ImportCourses())->daily();
+
+        $schedule->call(function () {
+            $job = new ImportCourses();
+            dispatch($job);
+        })->daily();
+
+        $schedule->call(function () {
+            $job = new ClearReservations();
+            dispatch($job);
+        })->everyFiveMinutes();
+        // broken in 5.7.1
+        //$schedule->job(new ClearReservations())->everyFiveMinutes();
     }
 }
