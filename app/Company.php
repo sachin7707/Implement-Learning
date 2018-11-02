@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 class Company extends Model
 {
     protected $guarded = [];
-    protected $hidden = ['created_at', 'updated_at'];
+    protected $hidden = ['created_at', 'updated_at', 'order_id'];
 
     public function order()
     {
