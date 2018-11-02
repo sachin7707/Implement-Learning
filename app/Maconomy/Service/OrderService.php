@@ -109,25 +109,22 @@ class OrderService
         // refreshing the order object
         $order->refresh();
 
-        $orderCompany = $order->company;
-        $email = (string)$order->company->email;
-        $email2 = 'jw@konform.com';
-
-        Mail::to($email2)
-            ->send(new OrderBooker($order));
-
         // queues the mail to the booker
-//        Mail::to($order->company->email)
-//            // bcc'ing the mail to implement as well
-//            ->bcc('ili@implement.dk')
-//            ->send(new OrderBooker($order));
-//
-//        // queues the mails to the participants
-//        foreach ($order->company->participants as $participant) {
-//            // queues the mail to the booker
-//            Mail::to($participant->email)
-//                ->queue(new OrderParticipant($order, $participant));
-//        }
+        $orderMail = Mail::to($order->company->email);
+
+        if (! empty(env('MAIL_ORDER_BCC_EMAIL'))) {
+            // bcc'ing the mail to implement as well
+            $orderMail->bcc(env('MAIL_ORDER_BCC_EMAIL'));
+        }
+
+        $orderMail->queue(new OrderBooker($order));
+
+        // queues the mails to the participants
+        foreach ($order->company->participants as $participant) {
+            // queues the mail to the booker
+            Mail::to($participant->email)
+                ->queue(new OrderParticipant($order, $participant));
+        }
     }
 
     /**
