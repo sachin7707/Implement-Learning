@@ -27,6 +27,7 @@ class MoveOrderCourseDataToManytomany extends Migration
 
         // dropping the course_id column from the orders table
         Schema::table('orders', function ($table) {
+            $table->dropForeign(['course_id']);
             $table->dropColumn('course_id');
         });
     }
