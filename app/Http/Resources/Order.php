@@ -21,7 +21,7 @@ class Order extends JsonResource
         return array_merge(
             parent::toArray($request),
             [
-                'course' => new CourseResource($this->course)
+                'courses' => new CourseResource($this->courses),
             ]
         );
     }
