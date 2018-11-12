@@ -52,7 +52,7 @@ class Course extends Model
 
     public function orders()
     {
-        return $this->hasMany(Order::class);
+        return $this->belongsToMany(Order::class);
     }
 
     public function coursetype()
