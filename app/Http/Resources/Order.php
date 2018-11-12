@@ -22,6 +22,8 @@ class Order extends JsonResource
             parent::toArray($request),
             [
                 'courses' => new CourseResource($this->courses),
+                'company' => $this->company,
+                'participants' => $this->company->participants
             ]
         );
     }
