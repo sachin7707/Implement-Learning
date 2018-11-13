@@ -65,6 +65,6 @@ class Order extends Model
      */
     public function getOnWaitingListAsText(): string
     {
-        return $this->on_waitinglist === 0 ? 'normal order' : 'on waiting list';
+        return $this->on_waitinglist === 1 ? 'on waiting list' : 'normal order';
     }
 }

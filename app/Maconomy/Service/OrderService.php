@@ -27,21 +27,28 @@ class OrderService
      * Reserves the given number of seats, on the given order.
      * @param Order $order
      * @param int $requiredSeats
+     * @param array $courses
      * @return bool false if the seats could not be reserved, else true
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function reserveSeats(Order $order, int $requiredSeats): bool
+    public function reserveSeats(Order $order, int $requiredSeats, $courses): bool
     {
-        $course = $order->course;
-        // updates the seats available from maconomy
-        $this->courseService->updateSeatsAvailable($course);
+        $seatsAreAvailable = true;
+        /** @var Course $course */
+        foreach ($courses as $course) {
+            // updates the seats available from maconomy
+            $this->courseService->updateSeatsAvailable($course);
 
-        // fetching the number of seats available on the course (without the currently reserved seats)
-        $availableSeats = $course->getAvailableSeats($order);
+            // fetching the number of seats available on the course (without the currently reserved seats)
+            if ($course->getAvailableSeats($order) < $requiredSeats) {
+                $seatsAreAvailable = true;
+            }
+        }
 
         // if we can, reserve the seats!
-        if ($availableSeats >= $requiredSeats) {
+        if ($seatsAreAvailable) {
             $order->seats = $requiredSeats;
+            $order->courses()->saveMany($courses);
             $order->save();
 
             return true;
