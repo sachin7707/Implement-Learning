@@ -36,7 +36,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return response()->json(new OrderResource(Order::orderByDesc('id')->get()));
+        return response()->json(OrderResource::collection(Order::orderByDesc('id')->get()));
     }
 
     /**
