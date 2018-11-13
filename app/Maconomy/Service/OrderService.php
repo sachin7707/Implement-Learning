@@ -57,6 +57,10 @@ class OrderService
      */
     public function isBeforeDeadline(Course $course): bool
     {
+        if ($course->deadline === null) {
+            return true;
+        }
+
         // fetching "now"
         $now = new \DateTime('now', new \DateTimeZone('GMT'));
 
