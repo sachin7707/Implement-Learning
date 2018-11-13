@@ -48,7 +48,7 @@ use Symfony\Component\Translation\Exception\NotFoundResourceException;
 class Course extends Model
 {
     protected $guarded = [];
-    protected $hidden = ['created_at', 'updated_at'];
+    protected $hidden = ['created_at', 'updated_at', 'pivot'];
 
     public function orders()
     {
@@ -70,6 +70,7 @@ class Course extends Model
     {
         $select = DB::table('orders')
             ->select(DB::raw('sum(seats) as seat_count'))
+            ->leftJoin('course_order', 'course_order.order_id', '=', 'orders.id')
             ->where('state', '!=', Order::STATE_CONFIRMED)
             ->where('course_id', $this->id);
 
@@ -77,7 +78,7 @@ class Course extends Model
         // since the order is "in progress"
         if ($order !== null) {
             // excluding current order
-            $select->where('id', '!=', $order->id);
+            $select->where('orders.id', '!=', $order->id);
         }
 
         // fetches the seat count

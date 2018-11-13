@@ -48,7 +48,7 @@ class OrderController extends Controller
     {
         $order = Order::findOrFail($id);
 
-        return response()->json($order);
+        return response()->json(new OrderResource($order));
     }
 
     /**

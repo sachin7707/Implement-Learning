@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Course as CourseResource;
+use App\Http\Resources\Company as CompanyResource;
 
 /**
  * @author jimmiw
@@ -21,9 +22,10 @@ class Order extends JsonResource
         return array_merge(
             parent::toArray($request),
             [
-                'courses' => new CourseResource($this->courses),
-                'company' => $this->company,
-                'participants' => $this->company->participants
+                'state_text' => $this->getStateAsText(),
+                'on_waitinglist_text' => $this->getOnWaitingListAsText(),
+                'courses' => CourseResource::collection($this->courses),
+                'company' => new CompanyResource($this->company)
             ]
         );
     }

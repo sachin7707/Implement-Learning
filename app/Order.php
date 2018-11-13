@@ -31,6 +31,7 @@ class Order extends Model
     // order is synced with maconomy, and thereby confirmed
     const STATE_CONFIRMED = 2;
 
+    protected $guarded = [];
     protected $hidden = [
         'course_id',
     ];
@@ -38,5 +39,32 @@ class Order extends Model
     public function courses()
     {
         return $this->belongsToMany(Course::class);
+    }
+
+    public function company()
+    {
+        return $this->hasOne(Company::class);
+    }
+
+    /**
+     * @return string
+     */
+    public function getStateAsText(): string
+    {
+        if ($this->state === self::STATE_CLOSED) {
+            return 'closed, but not synced';
+        } elseif ($this->state === self::STATE_CONFIRMED) {
+            return 'confirmed and synced';
+        }
+
+        return 'new';
+    }
+
+    /**
+     * @return string
+     */
+    public function getOnWaitingListAsText(): string
+    {
+        return $this->on_waitinglist === 0 ? 'normal order' : 'on waiting list';
     }
 }
