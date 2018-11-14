@@ -61,39 +61,12 @@ class OrderController extends Controller
      */
     public function create(Request $request)
     {
-        // validating that we have a course_id set
-//        $this->validate($request, [
-//            'maconomy_id' => 'required'
-//        ]);
-
-        // fetches the course
-//        $course = Course::where('maconomy_id', $request->input('maconomy_id'))->first();
-
         // creates the new order object, and returns the data
         $order = new Order();
         $order->state = Order::STATE_NEW;
         $order->save();
+
         return response()->json(new OrderResource($order));
-
-//        $order->course_id = $course->id;
-        // saving order, before sending it to the order service
-//        $order->saveOrFail();
-
-//        if (! $this->orderService->isBeforeDeadline($course)) {
-//            return response()->json($this->getPastDeadlineError($course), 400);
-//        }
-
-//        $requiredSeats = (int)$request->input('seats', 1);
-//
-//        // reserving the seats on the order
-//        if ($this->orderService->reserveSeats($order, $requiredSeats)) {
-//            // Sends an event to update the course, if needed
-//            $this->updateCourse($order->course, $order);
-//
-//            return response()->json(new OrderResource($order));
-//        }
-//
-//        return response()->json($this->getNotEnoughSeatsError($requiredSeats, $course), 400);
     }
 
     /**
