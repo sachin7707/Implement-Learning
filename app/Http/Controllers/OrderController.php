@@ -8,6 +8,7 @@ use App\Jobs\ImportCourses;
 use App\Maconomy\Service\CourseService;
 use App\Maconomy\Service\OrderService;
 use App\Order;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Queue;
 
@@ -116,7 +117,8 @@ class OrderController extends Controller
         $order = Order::findOrFail($id);
 
         // fetches the list of courses to use
-        $courses = Course::where('maconomy_id', $request->input('courses'))->get();
+        $courseKeys = $request->input('courses');
+        $courses = Course::whereIn('maconomy_id', $courseKeys)->get();
 
         foreach ($courses as $course) {
             if (!$this->orderService->isBeforeDeadline($course)) {
@@ -134,25 +136,43 @@ class OrderController extends Controller
             return response()->json(new OrderResource($order));
         }
 
-        return response()->json($this->getNotEnoughSeatsError($requiredSeats, $order->course, $order), 400);
+        return response()->json($this->getNotEnoughSeatsError($requiredSeats, $courses, $order), 400);
     }
 
     /**
      * Fetches a nice error message, saying that there are not enough seats left to reserve.
      * @param int $requiredSeats the number of required seats
-     * @param Course $course the course to get the current number of seats from
+     * @param Collection $courses
      * @param Order|null $order the current order (if any)
      * @return array
      */
-    private function getNotEnoughSeatsError(int $requiredSeats, Course $course, Order $order = null): array
+    private function getNotEnoughSeatsError(int $requiredSeats, Collection $courses, Order $order = null): array
     {
         // Sends an event to update the course, if needed
         $this->updateCourse($order);
 
+        $coursesWithErrors = [];
+
+        // finds "the courses" that doesn't have enough seats available
+        $seatsAvailable = 0;
+        /** @var Course $course */
+        foreach ($courses as $course) {
+            if ($course->seats_available < $requiredSeats) {
+                // used for setting a general number
+                $seatsAvailable = $course->getAvailableSeats($order);
+
+                $coursesWithErrors[] = (object) [
+                    'maconomy_id' => $course->maconomy_id,
+                    'seats_available' => $seatsAvailable,
+                ];
+            }
+        }
+
         return [
             'error' => 'Not enough seats available',
             'seats_required' => $requiredSeats,
-            'seats_available' => $course->getAvailableSeats($order),
+            'seats_available' => $seatsAvailable,
+            'courses_with_error' => $coursesWithErrors
         ];
     }
 

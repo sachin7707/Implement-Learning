@@ -4,6 +4,7 @@ namespace App\Maconomy\Service;
 
 use App\Course;
 use App\Order;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @author jimmiw
@@ -41,13 +42,16 @@ class OrderService
 
             // fetching the number of seats available on the course (without the currently reserved seats)
             if ($course->getAvailableSeats($order) < $requiredSeats) {
-                $seatsAreAvailable = true;
+                $seatsAreAvailable = false;
             }
         }
 
         // if we can, reserve the seats!
         if ($seatsAreAvailable) {
             $order->seats = $requiredSeats;
+            // removing existing courses on the order
+            DB::table('course_order')->where('order_id', '=', $order->id)->delete();
+            // adding the courses to be used
             $order->courses()->saveMany($courses);
             $order->save();
 
