@@ -67,4 +67,20 @@ class Order extends Model
     {
         return $this->on_waitinglist === 1 ? 'on waiting list' : 'normal order';
     }
+
+    /**
+     * Fetches the total price for the order
+     * @return int
+     */
+    public function getTotalPrice()
+    {
+        $totalPrice = 0;
+
+        /** @var Course $course */
+        foreach ($this->courses as $course) {
+            $totalPrice += (int)$course->price;
+        }
+
+        return $totalPrice;
+    }
 }
