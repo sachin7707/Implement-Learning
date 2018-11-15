@@ -15,7 +15,7 @@ class ClearReservations extends Job
     {
         // fetches "now", 15 minutes ago
         $now = new \DateTime('now', new \DateTimeZone('GMT'));
-        $now->sub(new \DateInterval('PT15M'));
+        $now->sub(new \DateInterval('PT30M'));
 
         // fetches the orders, that has not been updated in 15 minutes, and removes the taken seats from them.
         $orders = Order::where('state', '!=', Order::STATE_CONFIRMED)

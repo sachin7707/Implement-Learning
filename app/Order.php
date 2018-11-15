@@ -32,13 +32,57 @@ class Order extends Model
     // order is synced with maconomy, and thereby confirmed
     const STATE_CONFIRMED = 2;
 
+    protected $guarded = [];
     protected $hidden = [
         'course_id',
     ];
 
-    public function course()
+    public function courses()
     {
-        return $this->belongsTo(Course::class);
+        return $this->belongsToMany(Course::class);
+    }
+
+    public function company()
+    {
+        return $this->hasOne(Company::class);
+    }
+
+    /**
+     * @return string
+     */
+    public function getStateAsText(): string
+    {
+        if ($this->state === self::STATE_CLOSED) {
+            return 'closed, but not synced';
+        } elseif ($this->state === self::STATE_CONFIRMED) {
+            return 'confirmed and synced';
+        }
+
+        return 'new';
+    }
+
+    /**
+     * @return string
+     */
+    public function getOnWaitingListAsText(): string
+    {
+        return $this->on_waitinglist === 1 ? 'on waiting list' : 'normal order';
+    }
+
+    /**
+     * Fetches the total price for the order
+     * @return int
+     */
+    public function getTotalPrice()
+    {
+        $totalPrice = 0;
+
+        /** @var Course $course */
+        foreach ($this->courses as $course) {
+            $totalPrice += (int)$course->price;
+        }
+
+        return $totalPrice;
     }
 
     public function company()

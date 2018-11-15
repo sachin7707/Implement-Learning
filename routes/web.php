@@ -29,6 +29,7 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
 
     // handles orders
     $router->get('/orders', 'OrderController@index');
+    // fetches a given order
     $router->get('/orders/{id}', 'OrderController@show');
     // creates a new order
     $router->post('/orders', 'OrderController@create');
