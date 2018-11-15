@@ -17,9 +17,16 @@ class Course extends JsonResource
      */
     public function toArray($request)
     {
+        // finds the difference between the start and end dates
+        $diff = (new \DateTime($this->end_time))->diff(new \DateTime($this->start_time));
+
         return array_merge(
             parent::toArray($request),
-            ['seats_available_including_reservations' => $this->getAvailableSeats()]
+            [
+                // sets the duration on the course as well
+                'duration' => $diff->days,
+                'seats_available_including_reservations' => $this->getAvailableSeats()
+            ]
         );
     }
 }
