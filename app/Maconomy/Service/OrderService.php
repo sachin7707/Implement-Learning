@@ -2,8 +2,10 @@
 
 namespace App\Maconomy\Service;
 
+use App\Company;
 use App\Course;
 use App\Order;
+use App\Participant;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -82,13 +84,38 @@ class OrderService
      * Closes the given order, marking it as ready for sync with maconomy.
      * @param Order $order the order to close and save participants and company info on.
      * @param array $participants the list of participants to add to the order
-     * @param array $company the company information
+     * @param array $companyDetails the company information
      */
-    public function closeOrder(Order $order, array $participants, array $company): void
+    public function closeOrder(Order $order, array $participants, array $companyDetails): void
     {
         // TODO: save participants locally
-        // TODO: save company locally
         $order->state = Order::STATE_CLOSED;
         $order->save();
+
+        if ($order->company === null) {
+            $order->company()->create();
+        }
+
+        // refetching the order, else the company will no work
+        $order->refresh();
+
+        // saving the company on the order
+        /** @var Company $company */
+        $order->company->update($companyDetails);
+        $company = $order->company;
+
+        // removing "old" participants
+        DB::table('participants')->where('company_id', '=', $company->id)->delete();
+
+        foreach ($participants as $participant) {
+            $company->participants()->create([
+                'name' => $participant['fullname'],
+                'email' => $participant['email'],
+                'phone' => $participant['phone'],
+                'title' => $participant['title']
+            ]);
+        }
+
+        // TODO: send the order data to maconomy... later?
     }
 }

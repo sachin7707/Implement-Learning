@@ -12,6 +12,8 @@ class Participant extends Model
 {
     protected $guarded = [];
 
+    protected $hidden = ['company_id'];
+
     public function company()
     {
         return $this->belongsTo(Company::class);
