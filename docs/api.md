@@ -11,15 +11,12 @@ Fetches one order, to show it's information
 ### POST: /api/v1/orders
 Creates a new order.
 
-Requires the following data:
-* maconomy_id: string the maconomy id from the course to signup to
-* seats: int, defaults to 1, so not really needed :)
-
 ### PUT: /api/v1/orders/{id}
 Updates an order, with new details about participants (names, number of, etc)
 
 Requires the following data:
-* seats: int
+* courses: array with a list of maconomy_id of the courses to signup to
+* seats: int, the number of seats required
 
 ### POST: /api/v1/orders/{id}/close
 Closes the given order, marking it as ready to be synced with maconomy.
