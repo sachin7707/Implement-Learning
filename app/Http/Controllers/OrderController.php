@@ -196,8 +196,10 @@ class OrderController extends Controller
         ]);
 
         // fails if the order is past deadline for signups
-        if (! $this->orderService->isBeforeDeadline($order->course)) {
-            return response()->json($this->getPastDeadlineError($order->course), 400);
+        foreach ($order->courses as $course) {
+            if (!$this->orderService->isBeforeDeadline($course)) {
+                return response()->json($this->getPastDeadlineError($course), 400);
+            }
         }
 
         $company = $request->input('company', []);
