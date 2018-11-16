@@ -46,6 +46,11 @@ class Order extends Model
         return $this->hasOne(Company::class);
     }
 
+    public function education()
+    {
+        return $this->hasOne(Course::class, 'education_id');
+    }
+
     /**
      * @return string
      */

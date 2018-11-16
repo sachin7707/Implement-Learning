@@ -61,9 +61,19 @@ class OrderController extends Controller
      */
     public function create(Request $request)
     {
+        $this->validate($request, [
+            'education_id' => 'optional|integer'
+        ]);
+
         // creates the new order object, and returns the data
         $order = new Order();
         $order->state = Order::STATE_NEW;
+
+        // adds the education if available
+        if ($request->input('education_id')) {
+            $order->education_id = $request->input('education_id');
+        }
+
         $order->save();
 
         return response()->json(new OrderResource($order));
@@ -83,11 +93,18 @@ class OrderController extends Controller
         // TODO: should we use the $validatedData instead?
         $this->validate($request, [
             'seats' => 'required|integer',
-            'courses' => 'required|array'
+            'courses' => 'required|array',
+            'education_id' => 'optional|integer'
         ]);
 
         /** @var Order $order */
         $order = Order::findOrFail($id);
+
+        // adds the education if available
+        if ($request->input('education_id')) {
+            $order->education_id = $request->input('education_id');
+            $order->save();
+        }
 
         // fetches the list of courses to use
         $courseKeys = $request->input('courses');
@@ -104,7 +121,7 @@ class OrderController extends Controller
         // seats are required, so do NOT use a default value
         if ($this->orderService->reserveSeats($order, $requiredSeats, $courses)) {
             // Sends an event to update the course, if needed
-            $this->updateCourse($order);
+            $this->updateCourses($order);
 
             return response()->json(new OrderResource($order));
         }
@@ -122,7 +139,7 @@ class OrderController extends Controller
     private function getNotEnoughSeatsError(int $requiredSeats, Collection $courses, Order $order = null): array
     {
         // Sends an event to update the course, if needed
-        $this->updateCourse($order);
+        $this->updateCourses($order);
 
         $coursesWithErrors = [];
 
@@ -153,7 +170,7 @@ class OrderController extends Controller
      * Updates the courses on the given order, if there are no available seats left
      * @param Order $order
      */
-    private function updateCourse(Order $order): void
+    private function updateCourses(Order $order): void
     {
         // TODO: this doesn't work, when $this->create is called, and the sum goes from 1 -> 0
         /** @var Course $course */
