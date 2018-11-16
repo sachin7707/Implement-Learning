@@ -12,7 +12,7 @@ class Participant extends Model
 {
     protected $guarded = [];
 
-    protected $hidden = ['company_id'];
+    protected $hidden = ['created_at', 'updated_at', 'company_id'];
 
     public function company()
     {
