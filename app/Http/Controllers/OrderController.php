@@ -95,16 +95,20 @@ class OrderController extends Controller
         $this->validate($request, [
             'seats' => 'required|integer',
             'courses' => 'required|array',
-            'education_id' => 'optional|integer'
+            'education' => 'optional|string'
         ]);
 
         /** @var Order $order */
         $order = Order::findOrFail($id);
 
         // adds the education if available
-        if ($request->input('education_id')) {
-            $order->education_id = $request->input('education_id');
-            $order->save();
+        if ($request->input('education')) {
+            $education = Course::where('maconomy_id', $request->input('education'))->first();
+
+            if ($education) {
+                $order->education_id = $education->id;
+                $order->save();
+            }
         }
 
         // fetches the list of courses to use

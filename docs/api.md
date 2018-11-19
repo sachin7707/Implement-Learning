@@ -22,7 +22,7 @@ Requires the following data:
 * seats: int, the number of seats required
 
 Optional data:
-* education_id: int, the id of the education (course) we are using
+* education: string, the maconomy id of the education (course) we are using
 
 ### POST: /api/v1/orders/{id}/close
 Closes the given order, marking it as ready to be synced with maconomy.
