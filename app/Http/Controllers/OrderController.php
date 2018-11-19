@@ -95,7 +95,7 @@ class OrderController extends Controller
         $this->validate($request, [
             'seats' => 'required|integer',
             'courses' => 'required|array',
-            'education' => 'optional|string'
+            'education' => 'nullable|string'
         ]);
 
         /** @var Order $order */
