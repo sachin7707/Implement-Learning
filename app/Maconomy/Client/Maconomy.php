@@ -4,6 +4,7 @@ namespace App\Maconomy\Client;
 
 use App\Maconomy\Client\AbstractFactory\ParserFactory;
 use App\Maconomy\Client\Exception\NoOrderException;
+use App\Maconomy\Client\Order\Participant;
 use App\Maconomy\Collection\CourseCollection;
 use App\Maconomy\Collection\CourseTypeCollection;
 use GuzzleHttp\Client;
@@ -127,9 +128,19 @@ class Maconomy implements ClientAbstract, LoggerAwareInterface
         if ($this->order === null) {
             throw new NoOrderException('No order was set');
         }
+
         // TODO: Implement orderCreate() method.
 
+        // runs though the participants, sending them to the webservice one by one
+        /** @var Participant $participant */
+        foreach ($this->order->getParticipants() as $participant) {
+            // sends the data to the webservice
+            $response = $this->callWebservice('webparticipant', 'post', $participant->getData());
 
+            // TODO: update the participant, with the new instancekey (maconomy_id) in the database, using $response
+        }
+
+        $this->order->markAsSynced();
 
         $this->clearOrder();
     }
@@ -179,12 +190,13 @@ class Maconomy implements ClientAbstract, LoggerAwareInterface
      * Calls the webservice, using the given uri part, to append to the baseurl.
      * @param string $uri the last part of the url to call
      * @param string $method the method to use (get, post, put etc)
+     * @param array $options the data to send
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    private function callWebservice(string $uri, string $method = 'get')
+    private function callWebservice(string $uri, string $method = 'get', array $options = [])
     {
-        return json_decode((string)$this->getClient()->request($method, $uri)->getBody());
+        return json_decode((string)$this->getClient()->request($method, $uri, $options)->getBody());
     }
 
     /**
