@@ -110,6 +110,14 @@ class Maconomy implements ClientAbstract, LoggerAwareInterface
     }
 
     /**
+     * Removes the current order
+     */
+    private function clearOrder()
+    {
+        $this->order = null;
+    }
+
+    /**
      * Checks if the given response is valid
      * @return Response the response sent from the server
      * @throws NoOrderException
@@ -121,6 +129,9 @@ class Maconomy implements ClientAbstract, LoggerAwareInterface
         }
         // TODO: Implement orderCreate() method.
 
+
+
+        $this->clearOrder();
     }
 
     /**
@@ -137,6 +148,8 @@ class Maconomy implements ClientAbstract, LoggerAwareInterface
 
         // TODO: Implement orderUpdate() method.
 
+
+        $this->clearOrder();
     }
 
     /**
