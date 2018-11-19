@@ -48,7 +48,7 @@ class Order extends Model
 
     public function education()
     {
-        return $this->hasOne(Course::class, 'education_id');
+        return $this->hasOne(Course::class, 'id', 'education_id');
     }
 
     /**
