@@ -47,6 +47,11 @@ class Order extends Model
         return $this->hasOne(Company::class);
     }
 
+    public function education()
+    {
+        return $this->hasOne(Course::class, 'education_id');
+    }
+
     /**
      * @return string
      */
@@ -76,6 +81,11 @@ class Order extends Model
     public function getTotalPrice()
     {
         $totalPrice = 0;
+
+        // if there is an education on the course,
+        if ($this->education) {
+            return (int)$this->education->price;
+        }
 
         /** @var Course $course */
         foreach ($this->courses as $course) {

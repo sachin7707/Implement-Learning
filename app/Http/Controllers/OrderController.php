@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Course;
 use App\Http\Resources\Order as OrderResource;
 use App\Jobs\ImportCourses;
+use App\Jobs\SyncOrder;
 use App\Maconomy\Service\CourseService;
 use App\Maconomy\Service\OrderService;
 use App\Order;
@@ -61,9 +62,19 @@ class OrderController extends Controller
      */
     public function create(Request $request)
     {
+        $this->validate($request, [
+            'education_id' => 'optional|integer'
+        ]);
+
         // creates the new order object, and returns the data
         $order = new Order();
         $order->state = Order::STATE_NEW;
+
+        // adds the education if available
+        if ($request->input('education_id')) {
+            $order->education_id = $request->input('education_id');
+        }
+
         $order->save();
 
         return response()->json(new OrderResource($order));
@@ -83,11 +94,24 @@ class OrderController extends Controller
         // TODO: should we use the $validatedData instead?
         $this->validate($request, [
             'seats' => 'required|integer',
-            'courses' => 'required|array'
+            'courses' => 'required|array',
+            'education' => 'optional|string'
         ]);
 
         /** @var Order $order */
         $order = Order::findOrFail($id);
+
+        // resetting education id
+        $order->education_id = null;
+
+        // adds the education if available
+        if ($request->input('education')) {
+            $education = Course::where('maconomy_id', $request->input('education'))->first();
+
+            if ($education) {
+                $order->education_id = $education->id;
+            }
+        }
 
         // fetches the list of courses to use
         $courseKeys = $request->input('courses');
@@ -104,7 +128,7 @@ class OrderController extends Controller
         // seats are required, so do NOT use a default value
         if ($this->orderService->reserveSeats($order, $requiredSeats, $courses)) {
             // Sends an event to update the course, if needed
-            $this->updateCourse($order);
+            $this->updateCourses($order);
 
             return response()->json(new OrderResource($order));
         }
@@ -122,7 +146,7 @@ class OrderController extends Controller
     private function getNotEnoughSeatsError(int $requiredSeats, Collection $courses, Order $order = null): array
     {
         // Sends an event to update the course, if needed
-        $this->updateCourse($order);
+        $this->updateCourses($order);
 
         $coursesWithErrors = [];
 
@@ -153,7 +177,7 @@ class OrderController extends Controller
      * Updates the courses on the given order, if there are no available seats left
      * @param Order $order
      */
-    private function updateCourse(Order $order): void
+    private function updateCourses(Order $order): void
     {
         // TODO: this doesn't work, when $this->create is called, and the sum goes from 1 -> 0
         /** @var Course $course */
@@ -207,6 +231,12 @@ class OrderController extends Controller
 
         // closes the order
         $this->orderService->closeOrder($order, $participants, $company);
+
+        $order->refresh();
+
+        // syncing the order to maconomy
+        // TODO: reenable this, when maconomy works
+//        Queue::later(1, new SyncOrder($order));
 
         return response()->json(new OrderResource($order));
     }

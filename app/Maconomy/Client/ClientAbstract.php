@@ -17,7 +17,7 @@ interface ClientAbstract
      * Updates the given order
      * @return Response
      */
-    public function orderUpdate(Order $data): Response;
+    public function orderUpdate(): Response;
 
     /**
      * Deletes the order with the given id on the server
