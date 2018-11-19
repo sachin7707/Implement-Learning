@@ -63,17 +63,14 @@ class OrderController extends Controller
     public function create(Request $request)
     {
         $this->validate($request, [
-            'education_id' => 'optional|integer'
+            'education' => 'nullable|string'
         ]);
 
         // creates the new order object, and returns the data
         $order = new Order();
         $order->state = Order::STATE_NEW;
 
-        // adds the education if available
-        if ($request->input('education_id')) {
-            $order->education_id = $request->input('education_id');
-        }
+        $this->setEducationOnOrder($order, $request->input('education'));
 
         $order->save();
 
@@ -101,17 +98,7 @@ class OrderController extends Controller
         /** @var Order $order */
         $order = Order::findOrFail($id);
 
-        // resetting education id
-        $order->education_id = null;
-
-        // adds the education if available
-        if ($request->input('education')) {
-            $education = Course::where('maconomy_id', $request->input('education'))->first();
-
-            if ($education) {
-                $order->education_id = $education->id;
-            }
-        }
+        $this->setEducationOnOrder($order, $request->input('education'));
 
         // fetches the list of courses to use
         $courseKeys = $request->input('courses');
@@ -239,5 +226,24 @@ class OrderController extends Controller
 //        Queue::later(1, new SyncOrder($order));
 
         return response()->json(new OrderResource($order));
+    }
+
+    /**
+     * @param Order $order
+     * @param string $educationMaconomyId
+     */
+    private function setEducationOnOrder(Order $order, string $educationMaconomyId): void
+    {
+        // resetting education id
+        $order->education_id = null;
+
+        // adds the education if available
+        if (! empty($educationMaconomyId)) {
+            $education = Course::where('maconomy_id', $educationMaconomyId)->first();
+
+            if ($education) {
+                $order->education_id = $education->id;
+            }
+        }
     }
 }
