@@ -3,6 +3,7 @@
 namespace App\Maconomy\Client;
 
 use App\Maconomy\Client\AbstractFactory\ParserFactory;
+use App\Maconomy\Client\Exception\NoOrderException;
 use App\Maconomy\Collection\CourseCollection;
 use App\Maconomy\Collection\CourseTypeCollection;
 use GuzzleHttp\Client;
@@ -15,6 +16,8 @@ use Psr\Log\LoggerInterface;
  */
 class Maconomy implements ClientAbstract, LoggerAwareInterface
 {
+    /** @var \App\Order $order current order to sync with maconomy */
+    private $order;
     /** @var Client */
     private $client;
     /** @var string $baseUrl */
@@ -98,21 +101,40 @@ class Maconomy implements ClientAbstract, LoggerAwareInterface
     }
 
     /**
+     * Sets the order, we are syncing to maconomy
+     * @param \App\Order $order
+     */
+    public function setOrder(\App\Order $order)
+    {
+        $this->order = $order;
+    }
+
+    /**
      * Checks if the given response is valid
      * @return Response the response sent from the server
+     * @throws NoOrderException
      */
     public function orderCreate(): Response
     {
+        if (empty($this->order)) {
+            throw new NoOrderException('No order was set');
+        }
         // TODO: Implement orderCreate() method.
 
     }
 
     /**
      * Updates the given order
+     * @param \App\Order $order the order to update in maconomy
      * @return Response
+     * @throws NoOrderException
      */
-    public function orderUpdate(Order $data): Response
+    public function orderUpdate(): Response
     {
+        if (empty($this->order)) {
+            throw new NoOrderException('No order was set');
+        }
+
         // TODO: Implement orderUpdate() method.
 
     }
