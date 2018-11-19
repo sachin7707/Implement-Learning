@@ -34,7 +34,7 @@ class Order extends Model
 
     protected $guarded = [];
     protected $hidden = [
-        'course_id',
+        'education_id',
     ];
 
     public function courses()

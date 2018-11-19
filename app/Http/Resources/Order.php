@@ -24,6 +24,7 @@ class Order extends JsonResource
             [
                 'state_text' => $this->getStateAsText(),
                 'on_waitinglist_text' => $this->getOnWaitingListAsText(),
+                'education' => new CourseResource($this->education),
                 'courses' => CourseResource::collection($this->courses),
                 'company' => new CompanyResource($this->company),
                 'total_price' => $this->getTotalPrice(),

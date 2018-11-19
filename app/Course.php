@@ -48,7 +48,7 @@ use Symfony\Component\Translation\Exception\NotFoundResourceException;
 class Course extends Model
 {
     protected $guarded = [];
-    protected $hidden = ['created_at', 'updated_at', 'pivot'];
+    protected $hidden = ['created_at', 'updated_at', 'pivot', 'id'];
 
     public function orders()
     {
