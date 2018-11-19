@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Maconomy\Client\Maconomy;
+use App\Maconomy\Client\OrderAdapter;
 use App\Order;
 
 /**
@@ -11,6 +12,9 @@ use App\Order;
  */
 class SyncOrder extends Job
 {
+    /** @var Order $order the order to sync to the service */
+    private $order;
+
     /**
      * SyncOrder constructor.
      * @param Order $order the order to sync
@@ -26,7 +30,8 @@ class SyncOrder extends Job
      */
     public function handle(Maconomy $client)
     {
-        $client->setOrder($this->order);
+        // sets the order on the client, but wrapping it in the adapter first
+        $client->setOrder(new OrderAdapter($this->order));
 
         if ($this->order->state === Order::STATE_CONFIRMED) {
             $response = $client->orderUpdate();

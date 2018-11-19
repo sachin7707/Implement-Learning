@@ -16,7 +16,7 @@ use Psr\Log\LoggerInterface;
  */
 class Maconomy implements ClientAbstract, LoggerAwareInterface
 {
-    /** @var \App\Order $order current order to sync with maconomy */
+    /** @var OrderAdapter $order current order to sync with maconomy */
     private $order;
     /** @var Client */
     private $client;
@@ -102,9 +102,9 @@ class Maconomy implements ClientAbstract, LoggerAwareInterface
 
     /**
      * Sets the order, we are syncing to maconomy
-     * @param \App\Order $order
+     * @param OrderAdapter $order
      */
-    public function setOrder(\App\Order $order)
+    public function setOrder(OrderAdapter $order)
     {
         $this->order = $order;
     }
@@ -124,7 +124,7 @@ class Maconomy implements ClientAbstract, LoggerAwareInterface
      */
     public function orderCreate(): Response
     {
-        if (empty($this->order)) {
+        if ($this->order === null) {
             throw new NoOrderException('No order was set');
         }
         // TODO: Implement orderCreate() method.
@@ -142,7 +142,7 @@ class Maconomy implements ClientAbstract, LoggerAwareInterface
      */
     public function orderUpdate(): Response
     {
-        if (empty($this->order)) {
+        if ($this->order === null) {
             throw new NoOrderException('No order was set');
         }
 
