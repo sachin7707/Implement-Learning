@@ -81,6 +81,11 @@ class Order extends Model
     {
         $totalPrice = 0;
 
+        // if there is an education on the course,
+        if ($this->education) {
+            return (int)$this->education->price;
+        }
+
         /** @var Course $course */
         foreach ($this->courses as $course) {
             $totalPrice += (int)$course->price;

@@ -101,13 +101,15 @@ class OrderController extends Controller
         /** @var Order $order */
         $order = Order::findOrFail($id);
 
+        // resetting education id
+        $order->education_id = null;
+
         // adds the education if available
         if ($request->input('education')) {
             $education = Course::where('maconomy_id', $request->input('education'))->first();
 
             if ($education) {
                 $order->education_id = $education->id;
-                $order->save();
             }
         }
 
