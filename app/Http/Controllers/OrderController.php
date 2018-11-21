@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Course;
+use App\CourseType;
 use App\Http\Resources\Order as OrderResource;
 use App\Jobs\ImportCourses;
 use App\Jobs\SyncOrder;
@@ -239,7 +240,7 @@ class OrderController extends Controller
 
         // adds the education if available
         if (! empty($educationMaconomyId)) {
-            $education = Course::where('maconomy_id', $educationMaconomyId)->first();
+            $education = CourseType::where('number', $educationMaconomyId)->first();
 
             if ($education) {
                 $order->education_id = $education->id;

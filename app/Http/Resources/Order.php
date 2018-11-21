@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Course as CourseResource;
+use App\Http\Resources\CourseType as CourseTypeResource;
 use App\Http\Resources\Company as CompanyResource;
 
 /**
@@ -24,7 +25,7 @@ class Order extends JsonResource
             [
                 'state_text' => $this->getStateAsText(),
                 'on_waitinglist_text' => $this->getOnWaitingListAsText(),
-                'education' => new CourseResource($this->education),
+                'education' => new CourseTypeResource($this->education),
                 'courses' => CourseResource::collection($this->courses),
                 'company' => new CompanyResource($this->company),
                 'total_price' => $this->getTotalPrice(),
