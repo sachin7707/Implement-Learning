@@ -90,7 +90,6 @@ class OrderService
      */
     public function closeOrder(Order $order, array $participants, array $companyDetails): void
     {
-        // TODO: save participants locally
         $order->state = Order::STATE_CLOSED;
         $order->save();
 
@@ -110,12 +109,7 @@ class OrderService
         DB::table('participants')->where('company_id', '=', $company->id)->delete();
 
         foreach ($participants as $participant) {
-            $company->participants()->create([
-                'name' => $participant['fullname'],
-                'email' => $participant['email'],
-                'phone' => $participant['phone'],
-                'title' => $participant['title']
-            ]);
+            $company->participants()->create($participant);
         }
 
         // TODO: send the order data to maconomy... later?

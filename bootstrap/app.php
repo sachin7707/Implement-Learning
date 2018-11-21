@@ -62,9 +62,10 @@ $app->middleware([
     App\Http\Middleware\Cors::class
 ]);
 
-// $app->routeMiddleware([
-//     'auth' => App\Http\Middleware\Authenticate::class,
-// ]);
+// middleware for transforming data sent from the frontend
+$app->routeMiddleware([
+    'transform.order' => App\Http\Middleware\OrderTransformData::class,
+]);
 
 /*
 |--------------------------------------------------------------------------
