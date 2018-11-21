@@ -32,7 +32,7 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
     // fetches a given order
     $router->get('/orders/{id}', 'OrderController@show');
     // creates a new order
-    $router->post('/orders', ['middleware' => 'transform.order', 'uses' => 'OrderController@create']);
+    $router->post('/orders', ['uses' => 'OrderController@create']);
     // updates a given order
     $router->put('/orders/{id}', ['middleware' => 'transform.order', 'uses' => 'OrderController@update']);
     // updates a given order
