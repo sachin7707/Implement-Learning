@@ -70,7 +70,7 @@ class OrderController extends Controller
         $order = new Order();
         $order->state = Order::STATE_NEW;
 
-        $this->setEducationOnOrder($order, $request->input('education'));
+        $this->setEducationOnOrder($order, $request->input('education', ''));
 
         $order->save();
 
