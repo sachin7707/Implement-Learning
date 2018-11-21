@@ -48,7 +48,7 @@ class Order extends Model
 
     public function education()
     {
-        return $this->hasOne(Course::class, 'id', 'education_id');
+        return $this->hasOne(CourseType::class, 'id', 'education_id');
     }
 
     /**
@@ -83,14 +83,15 @@ class Order extends Model
 
         // if there is an education on the course,
         if ($this->education) {
-            return (int)$this->education->price;
+            $totalPrice = (int)$this->education->price;
+        } else {
+
+            /** @var Course $course */
+            foreach ($this->courses as $course) {
+                $totalPrice += (int)$course->price;
+            }
         }
 
-        /** @var Course $course */
-        foreach ($this->courses as $course) {
-            $totalPrice += (int)$course->price;
-        }
-
-        return $totalPrice;
+        return $totalPrice * $this->seats;
     }
 }
