@@ -98,7 +98,7 @@ class OrderController extends Controller
         /** @var Order $order */
         $order = Order::findOrFail($id);
 
-        $this->setEducationOnOrder($order, $request->input('education'));
+        $this->setEducationOnOrder($order, $request->input('education', ''));
 
         // fetches the list of courses to use
         $courseKeys = $request->input('courses');
