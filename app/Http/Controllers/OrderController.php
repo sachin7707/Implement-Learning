@@ -92,7 +92,7 @@ class OrderController extends Controller
         // TODO: should we use the $validatedData instead?
         $this->validate($request, [
             'seats' => 'required|integer',
-            'courses' => 'required|array',
+            'courses' => 'nullable|array',
             'education' => 'nullable|string'
         ]);
 
@@ -102,7 +102,7 @@ class OrderController extends Controller
         $this->setEducationOnOrder($order, $request->input('education', ''));
 
         // fetches the list of courses to use
-        $courseKeys = $request->input('courses');
+        $courseKeys = $request->input('courses', []);
         $courses = Course::whereIn('maconomy_id', $courseKeys)->get();
 
         foreach ($courses as $course) {
