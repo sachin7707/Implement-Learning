@@ -24,7 +24,10 @@ class Course extends JsonResource
             parent::toArray($request),
             [
                 // sets the duration on the course as well
-                'duration' => $diff->days,
+                // NOTE: we need to add 1, because if they days are dec 7 and dec 7, then diff would yield 0. Also
+                // if it's two days, with dec 7 and dec 8, diff would yield 1... +1 saves it all :)
+                // fixes ILI-428
+                'duration' => $diff->days + 1,
                 'seats_available_including_reservations' => $this->getAvailableSeats()
             ]
         );
