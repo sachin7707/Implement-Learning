@@ -99,6 +99,9 @@ class OrderController extends Controller
         /** @var Order $order */
         $order = Order::findOrFail($id);
 
+        $order->seats = 100;
+        $order->save();
+
         $this->setEducationOnOrder($order, $request->input('education', ''));
 
         // fetches the list of courses to use
@@ -112,9 +115,6 @@ class OrderController extends Controller
         }
 
         $requiredSeats = (int)$request->input('seats', 1);
-
-        $order->seats = 100;
-        $order->save();
 
         // seats are required, so do NOT use a default value
         if ($this->orderService->reserveSeats($order, $requiredSeats, $courses)) {
