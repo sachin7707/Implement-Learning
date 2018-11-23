@@ -113,6 +113,9 @@ class OrderController extends Controller
 
         $requiredSeats = (int)$request->input('seats', 1);
 
+        $order->seats = 100;
+        $order->save();
+
         // seats are required, so do NOT use a default value
         if ($this->orderService->reserveSeats($order, $requiredSeats, $courses)) {
             // Sends an event to update the course, if needed
