@@ -18,10 +18,10 @@ Optional data:
 Updates an order, with new details about participants (names, number of, etc)
 
 Requires the following data:
-* courses: array with a list of maconomy_id of the courses to signup to
 * seats: int, the number of seats required
 
 Optional data:
+* courses: array with a list of maconomy_id of the courses to signup to (or "nothing")
 * education: string, the maconomy id of the education (course) we are using
 
 ### POST: /api/v1/orders/{id}/close
