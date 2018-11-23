@@ -37,15 +37,17 @@ class OrderService
     public function reserveSeats(Order $order, int $requiredSeats, $courses): bool
     {
         $seatsAreAvailable = true;
-        /** @var Course $course */
-        foreach ($courses as $course) {
-            // updates the seats available from maconomy
-            $this->courseService->updateSeatsAvailable($course);
+        if (! empty($courses)) {
+            /** @var Course $course */
+            foreach ($courses as $course) {
+                // updates the seats available from maconomy
+                $this->courseService->updateSeatsAvailable($course);
 
-            // fetching the number of seats available on the course (without the currently reserved seats)
-            if ($course->getAvailableSeats($order) < $requiredSeats) {
-                // NOTE: this method should still be called though, else system is not updated properly - ILI-380
-                $seatsAreAvailable = false;
+                // fetching the number of seats available on the course (without the currently reserved seats)
+                if ($course->getAvailableSeats($order) < $requiredSeats) {
+                    // NOTE: this method should still be called though, else system is not updated properly - ILI-380
+                    $seatsAreAvailable = false;
+                }
             }
         }
 
