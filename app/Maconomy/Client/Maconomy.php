@@ -8,14 +8,12 @@ use App\Maconomy\Client\Order\Participant;
 use App\Maconomy\Collection\CourseCollection;
 use App\Maconomy\Collection\CourseTypeCollection;
 use GuzzleHttp\Client;
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerInterface;
 
 /**
  * @author jimmiw
  * @since 2018-09-25
  */
-class Maconomy implements ClientAbstract, LoggerAwareInterface
+class Maconomy implements ClientAbstract
 {
     /** @var OrderAdapter $order current order to sync with maconomy */
     private $order;
@@ -23,8 +21,6 @@ class Maconomy implements ClientAbstract, LoggerAwareInterface
     private $client;
     /** @var string $baseUrl */
     private $baseUrl;
-    /** @var LoggerInterface  */
-    private $logger;
 
     /**
      * Crm constructor.
@@ -49,16 +45,6 @@ class Maconomy implements ClientAbstract, LoggerAwareInterface
         $this->client = new Client(['base_uri' => $this->baseUrl]);
 
         return $this->client;
-    }
-
-    /**
-     * Sets a logger instance on the object.
-     * @param LoggerInterface $logger
-     * @return void
-     */
-    public function setLogger(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
     }
 
     /**
