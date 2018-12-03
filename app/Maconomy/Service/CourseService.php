@@ -4,7 +4,7 @@ namespace App\Maconomy\Service;
 
 use App\Course;
 use App\Maconomy\Client\Maconomy;
-use App\Order;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @author jimmiw
@@ -12,7 +12,7 @@ use App\Order;
  */
 class CourseService
 {
-    /** @var Maconomy  */
+    /** @var Maconomy */
     private $client;
 
     /**
@@ -56,7 +56,11 @@ class CourseService
         $seatsUsed = $course->participants_current;
 
         if ($shouldResync) {
-            $seatsUsed = $this->client->getEnrolledSeats($course->maconomy_id);
+            try {
+                $seatsUsed = $this->client->getEnrolledSeats($course->maconomy_id);
+            } catch (\GuzzleHttp\Exception\ServerException $e) {
+                Log::channel('sentry')->error($e->getMessage(), $e->getTrace());
+            }
         }
 
         return $course->participants_max - $seatsUsed;

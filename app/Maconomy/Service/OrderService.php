@@ -96,14 +96,14 @@ class OrderService
         $order->save();
 
         if ($order->company === null) {
+            // creates a new empty company attached to the order
             $order->company()->create();
         }
 
         // refetching the order, else the company will no work
         $order->refresh();
 
-        // saving the company on the order
-        /** @var Company $company */
+        /** @var Company $company saving the company on the order*/
         $order->company->update($companyDetails);
         $company = $order->company;
 
