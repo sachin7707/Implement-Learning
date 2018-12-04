@@ -93,7 +93,8 @@ class Order extends Model
             }
         }
 
-        return $totalPrice * $this->seats;
+        // now using 1 seat, if the number of selected seats are 0 (or less)
+        return $totalPrice * ($this->seats <= 0 ? 1 : $this->seats);
     }
 
     /**
