@@ -70,8 +70,6 @@ class OrderController extends Controller
         // creates the new order object, and returns the data
         $order = new Order();
         $order->state = Order::STATE_NEW;
-        // using a default deat value of 0
-        $order->seats = 0;
 
         $this->setEducationOnOrder($order, $request->input('education', ''));
 
