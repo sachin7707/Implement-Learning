@@ -142,9 +142,10 @@ class OrderController extends Controller
         $seatsAvailable = 0;
         /** @var Course $course */
         foreach ($courses as $course) {
-            if ($course->seats_available < $requiredSeats) {
+            $courseAvailableSeats = $course->getAvailableSeats($order);
+            if ($courseAvailableSeats < $requiredSeats) {
                 // used for setting a general number
-                $seatsAvailable = $course->getAvailableSeats($order);
+                $seatsAvailable = $courseAvailableSeats;
 
                 $coursesWithErrors[] = (object) [
                     'maconomy_id' => $course->maconomy_id,
