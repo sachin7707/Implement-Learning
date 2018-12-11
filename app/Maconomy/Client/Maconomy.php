@@ -3,24 +3,24 @@
 namespace App\Maconomy\Client;
 
 use App\Maconomy\Client\AbstractFactory\ParserFactory;
+use App\Maconomy\Client\Exception\NoOrderException;
+use App\Maconomy\Client\Order\Participant;
 use App\Maconomy\Collection\CourseCollection;
 use App\Maconomy\Collection\CourseTypeCollection;
 use GuzzleHttp\Client;
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerInterface;
 
 /**
  * @author jimmiw
  * @since 2018-09-25
  */
-class Maconomy implements ClientAbstract, LoggerAwareInterface
+class Maconomy implements ClientAbstract
 {
+    /** @var OrderAdapter $order current order to sync with maconomy */
+    private $order;
     /** @var Client */
     private $client;
     /** @var string $baseUrl */
     private $baseUrl;
-    /** @var LoggerInterface  */
-    private $logger;
 
     /**
      * Crm constructor.
@@ -45,16 +45,6 @@ class Maconomy implements ClientAbstract, LoggerAwareInterface
         $this->client = new Client(['base_uri' => $this->baseUrl]);
 
         return $this->client;
-    }
-
-    /**
-     * Sets a logger instance on the object.
-     * @param LoggerInterface $logger
-     * @return void
-     */
-    public function setLogger(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
     }
 
     /**
@@ -98,23 +88,65 @@ class Maconomy implements ClientAbstract, LoggerAwareInterface
     }
 
     /**
+     * Sets the order, we are syncing to maconomy
+     * @param OrderAdapter $order
+     */
+    public function setOrder(OrderAdapter $order)
+    {
+        $this->order = $order;
+    }
+
+    /**
+     * Removes the current order
+     */
+    private function clearOrder()
+    {
+        $this->order = null;
+    }
+
+    /**
      * Checks if the given response is valid
      * @return Response the response sent from the server
+     * @throws NoOrderException
      */
     public function orderCreate(): Response
     {
+        if ($this->order === null) {
+            throw new NoOrderException('No order was set');
+        }
+
         // TODO: Implement orderCreate() method.
 
+        // runs though the participants, sending them to the webservice one by one
+        /** @var Participant $participant */
+        foreach ($this->order->getParticipants() as $participant) {
+            // sends the data to the webservice
+            $response = $this->callWebservice('webparticipant', 'post', $participant->getData());
+
+            // TODO: update the participant, with the new instancekey (maconomy_id) in the database, using $response
+        }
+
+        $this->order->markAsSynced();
+
+        $this->clearOrder();
     }
 
     /**
      * Updates the given order
+     * @param \App\Order $order the order to update in maconomy
      * @return Response
+     * @throws NoOrderException
      */
-    public function orderUpdate(Order $data): Response
+    public function orderUpdate(): Response
     {
+        if ($this->order === null) {
+            throw new NoOrderException('No order was set');
+        }
+
         // TODO: Implement orderUpdate() method.
 
+
+        $this->clearOrder();
     }
 
     /**
@@ -144,12 +176,13 @@ class Maconomy implements ClientAbstract, LoggerAwareInterface
      * Calls the webservice, using the given uri part, to append to the baseurl.
      * @param string $uri the last part of the url to call
      * @param string $method the method to use (get, post, put etc)
+     * @param array $options the data to send
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    private function callWebservice(string $uri, string $method = 'get')
+    private function callWebservice(string $uri, string $method = 'get', array $options = [])
     {
-        return json_decode((string)$this->getClient()->request($method, $uri)->getBody());
+        return json_decode((string)$this->getClient()->request($method, $uri, $options)->getBody());
     }
 
     /**

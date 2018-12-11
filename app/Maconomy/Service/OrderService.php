@@ -8,7 +8,7 @@ use App\Mail\OrderBooker;
 use App\Mail\OrderParticipant;
 use App\Order;
 use App\Participant;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @author jimmiw
@@ -32,21 +32,35 @@ class OrderService
      * Reserves the given number of seats, on the given order.
      * @param Order $order
      * @param int $requiredSeats
+     * @param array $courses
      * @return bool false if the seats could not be reserved, else true
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function reserveSeats(Order $order, int $requiredSeats): bool
+    public function reserveSeats(Order $order, int $requiredSeats, $courses): bool
     {
-        $course = $order->course;
-        // updates the seats available from maconomy
-        $this->courseService->updateSeatsAvailable($course);
+        $seatsAreAvailable = true;
+        if (! empty($courses)) {
+            /** @var Course $course */
+            foreach ($courses as $course) {
+                // updates the seats available from maconomy
+                $this->courseService->updateSeatsAvailable($course);
 
-        // fetching the number of seats available on the course (without the currently reserved seats)
-        $availableSeats = $course->getAvailableSeats($order);
+                // fetching the number of seats available on the course (without the currently reserved seats)
+                if ($course->getAvailableSeats($order) < $requiredSeats) {
+                    // NOTE: this method should still be called though, else system is not updated properly - ILI-380
+                    $seatsAreAvailable = false;
+                }
+            }
+        }
 
         // if we can, reserve the seats!
-        if ($availableSeats >= $requiredSeats) {
+        // NOTE: if we get to this step, just reserve the seats? deadline checks have already been done - ILI-380
+        if ($seatsAreAvailable) {
             $order->seats = $requiredSeats;
+            // removing existing courses on the order
+            DB::table('course_order')->where('order_id', '=', $order->id)->delete();
+            // adding the courses to be used
+            $order->courses()->saveMany($courses);
             $order->save();
 
             return true;
@@ -62,6 +76,10 @@ class OrderService
      */
     public function isBeforeDeadline(Course $course): bool
     {
+        if ($course->deadline === null) {
+            return true;
+        }
+
         // fetching "now"
         $now = new \DateTime('now', new \DateTimeZone('GMT'));
 
@@ -85,29 +103,34 @@ class OrderService
     /**
      * Closes the given order, marking it as ready for sync with maconomy.
      * @param Order $order the order to close and save participants and company info on.
-     * @param array $participantsData the list of participants to add to the order
-     * @param array $companyData the company information
-     * @param array $billingData the billing information, if different from company
+     * @param array $participants the list of participants to add to the order
+     * @param array $companyDetails the company information
      */
-    public function closeOrder(Order $order, array $participantsData, array $companyData, array $billingData): void
+    public function closeOrder(Order $order, array $participants, array $companyDetails): void
     {
-        // TODO: save participants locally
-        // TODO: save company locally
-
-        // if the order has not been closed before the deadline, the seats are set to be on a waiting list - ILI-336
-        if (! $this->isBeforeDeadline($order->course)) {
-            $order->on_waitinglist = true;
-        }
-
-        // sets the order state
         $order->state = Order::STATE_CLOSED;
         $order->save();
 
-        $company = $this->saveCompanyData($order, $companyData, $billingData);
-        $this->saveParticipants($company, $participantsData);
+        if ($order->company === null) {
+            // creates a new empty company attached to the order
+            $order->company()->create();
+        }
 
-        // refreshing the order object
+        // refetching the order, else the company will no work
         $order->refresh();
+
+        /** @var Company $company saving the company on the order*/
+        $order->company->update($companyDetails);
+        $company = $order->company;
+
+        // removing "old" participants
+        DB::table('participants')->where('company_id', '=', $company->id)->delete();
+
+        foreach ($participants as $participant) {
+            $company->participants()->create($participant);
+        }
+
+        // TODO: send the order data to maconomy... later?
 
         // queues the mail to the booker
         $orderMail = Mail::to($order->company->email);
@@ -124,72 +147,6 @@ class OrderService
             // queues the mail to the booker
             Mail::to($participant->email)
                 ->queue(new OrderParticipant($order, $participant));
-        }
-    }
-
-    /**
-     * Saves the company data
-     * @param Order $order
-     * @param array $companyData
-     * @param array $billingData
-     * @return Company the created company
-     */
-    private function saveCompanyData(Order $order, array $companyData, array $billingData): Company
-    {
-        // deleting existing company (if any)
-        $order->company()->delete();
-
-        $company = new Company();
-        $company->fill($companyData);
-//        $company->name = $companyData['name'];
-//        $company->cvr = $companyData['cvr'];
-//        $company->attention = $companyData['attention'];
-//        $company->address = $companyData['address'];
-//        $company->postal = $companyData['postal'];
-//        $company->city = $companyData['city'];
-//        $company->country = $companyData['country'];
-//        $company->phone = $companyData['phone'];
-//        $company->email = $companyData['email'];
-//        $company->purchase_no = $companyData['purchase_no'];
-
-        // only save billing info, if it's not empty
-        if (! empty($billingData)) {
-            $company->billing_name = $billingData['name'] ?? '';
-            $company->billing_cvr = $billingData['cvr'] ?? '';
-            $company->billing_attention = $billingData['attention'] ?? '';
-            $company->billing_address = $billingData['address'] ?? '';
-            $company->billing_postal = $billingData['postal'] ?? '';
-            $company->billing_city = $billingData['city'] ?? '';
-            $company->billing_country = $billingData['country'] ?? '';
-            $company->billing_phone = $billingData['phone'] ?? '';
-            $company->billing_email = $billingData['email'] ?? '';
-        }
-
-        $company->order_id = $order->id;
-        $company->save();
-
-        return $company->refresh();
-    }
-
-    /**
-     * Saves the participants, using the participantsData array
-     * @param Company $company the company to add the participants to
-     * @param array $participantsData the data from the post
-     */
-    private function saveParticipants(Company $company, array $participantsData)
-    {
-        // removing existing participants
-        $company->participants()->delete();
-
-        foreach ($participantsData as $row) {
-            $participant = new Participant();
-            $participant->name = $row['fullname'];
-            $participant->email = $row['email'];
-            $participant->title = $row['title'];
-            $participant->phone = $row['phone'];
-            $participant->company_id = $company->id;
-
-            $participant->save();
         }
     }
 }
