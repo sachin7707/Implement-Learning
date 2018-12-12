@@ -53,7 +53,7 @@ class OrderService
 
         // if we can, reserve the seats!
         // NOTE: if we get to this step, just reserve the seats? deadline checks have already been done - ILI-380
-//        if ($seatsAreAvailable) {
+        if ($seatsAreAvailable) {
             $order->seats = $requiredSeats;
             // removing existing courses on the order
             DB::table('course_order')->where('order_id', '=', $order->id)->delete();
@@ -62,7 +62,7 @@ class OrderService
             $order->save();
 
             return true;
-//        }
+        }
 
         return false;
     }

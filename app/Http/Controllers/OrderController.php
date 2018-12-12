@@ -37,9 +37,18 @@ class OrderController extends Controller
     /**
      * Shows information about all orders
      */
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(OrderResource::collection(Order::orderByDesc('id')->get()));
+        $orders = Order::orderByDesc('id');
+
+        if ($request->has('state')) {
+            $orders->where('state', $request->get('state'));
+        }
+        if ($request->has('waitinglist')) {
+            $orders->where('on_waitinglist', $request->get('waitinglist'));
+        }
+
+        return response()->json(OrderResource::collection($orders->get()));
     }
 
     /**
@@ -142,9 +151,10 @@ class OrderController extends Controller
         $seatsAvailable = 0;
         /** @var Course $course */
         foreach ($courses as $course) {
-            if ($course->seats_available < $requiredSeats) {
+            $courseAvailableSeats = $course->getAvailableSeats($order);
+            if ($courseAvailableSeats < $requiredSeats) {
                 // used for setting a general number
-                $seatsAvailable = $course->getAvailableSeats($order);
+                $seatsAvailable = $courseAvailableSeats;
 
                 $coursesWithErrors[] = (object) [
                     'maconomy_id' => $course->maconomy_id,
