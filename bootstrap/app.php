@@ -97,6 +97,9 @@ if ($app->environment() === 'local') {
 
 $app->configure('mail');
 
+/* Alias? */
+$app->alias('mailer', \Illuminate\Contracts\Mail\Mailer::class);
+
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes

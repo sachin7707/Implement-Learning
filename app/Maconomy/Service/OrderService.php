@@ -7,8 +7,8 @@ use App\Course;
 use App\Mail\OrderBooker;
 use App\Mail\OrderParticipant;
 use App\Order;
-use App\Participant;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 /**
  * @author jimmiw
