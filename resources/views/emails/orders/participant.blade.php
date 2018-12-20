@@ -13,4 +13,4 @@
     @endsection
 @endsection
 
-<div>Calendar link: <a href="{{$calendarUrl}}">{{$calendarUrl}}</a></div>
+<!--<div>Calendar link: <a href="{{$calendarUrl}}">{{$calendarUrl}}</a></div>-->
