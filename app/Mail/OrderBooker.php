@@ -20,6 +20,7 @@ class OrderBooker extends Mailable
 
     /** @var Order $order the order to get access to in the views */
     public $order;
+    public $courses;
 
     /**
      * OrderBooker constructor.
@@ -28,6 +29,7 @@ class OrderBooker extends Mailable
     public function __construct(Order $order)
     {
         $this->order = $order;
+        $this->courses = $order->courses;
     }
 
     /**
