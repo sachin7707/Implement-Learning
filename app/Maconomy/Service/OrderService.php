@@ -4,9 +4,11 @@ namespace App\Maconomy\Service;
 
 use App\Company;
 use App\Course;
+use App\Mail\OrderBooker;
+use App\Mail\OrderParticipant;
 use App\Order;
-use App\Participant;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 /**
  * @author jimmiw
@@ -85,6 +87,20 @@ class OrderService
     }
 
     /**
+     * Checks if the given course is still signupable, by looking at the course start time
+     * @param Course $course the course to check
+     * @return bool
+     */
+    public function isBeforeStartDate(Course $course): bool
+    {
+        // fetching "now"
+        $now = new \DateTime('now', new \DateTimeZone('GMT'));
+
+        $courseStart = new \DateTime($course->start_time, new \DateTimeZone('GMT'));
+        return $courseStart > $now->format('Y-m-d H:i:s');
+    }
+
+    /**
      * Closes the given order, marking it as ready for sync with maconomy.
      * @param Order $order the order to close and save participants and company info on.
      * @param array $participants the list of participants to add to the order
@@ -115,5 +131,22 @@ class OrderService
         }
 
         // TODO: send the order data to maconomy... later?
+
+        // queues the mail to the booker
+        $orderMail = Mail::to($order->company->email);
+
+        if (! empty(env('MAIL_ORDER_BCC_EMAIL'))) {
+            // bcc'ing the mail to implement as well
+            $orderMail->bcc(env('MAIL_ORDER_BCC_EMAIL'));
+        }
+
+        $orderMail->queue(new OrderBooker($order));
+
+        // queues the mails to the participants
+        foreach ($order->company->participants as $participant) {
+            // queues the mail to the booker
+            Mail::to($participant->email)
+                ->queue(new OrderParticipant($order, $participant));
+        }
     }
 }

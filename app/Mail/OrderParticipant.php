@@ -18,6 +18,7 @@ class OrderParticipant extends Mailable
     use Queueable, SerializesModels;
 
     public $order;
+    public $courses;
     public $participant;
     public $calendarUrl;
 
@@ -28,10 +29,11 @@ class OrderParticipant extends Mailable
     public function __construct(Order $order, Participant $participant)
     {
         $this->order = $order;
+        $this->courses = $order->courses;
         $this->participant = $participant;
         // creating the calendar url for the participants
         // TODO: change this url in the future? since it goes directly to the api instead of WP site.
-        $this->calendarUrl = '/api/v1/course/'.$order->course->maconomy_id.'/cal';
+        $this->calendarUrl = '/api/v1/order/'. str_pad($order->id, 8, '0', STR_PAD_LEFT) .'/cal';
     }
 
     /**
