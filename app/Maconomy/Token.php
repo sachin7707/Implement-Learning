@@ -13,5 +13,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Token extends Model
 {
+    protected $guarded = [];
     protected $table = 'ws_tokens';
 }
