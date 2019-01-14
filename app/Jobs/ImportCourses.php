@@ -112,19 +112,29 @@ class ImportCourses extends Job
      * Syncs the courses
      * @param Maconomy $client
      * @throws GuzzleException
+     * @throws \Exception
      */
     private function syncCourses(Maconomy $client, CourseService $courseService): void
     {
         $courses = $this->getCourses($client);
 
+        $courseStartShouldBeAfter = new \DateTime();
+        // NOTE: we have a "hard cap" of 1 month for courses. This means that courses with a starttime older than
+        // 1 month ago should not be saved in the system
+        $courseStartShouldBeAfter->sub(new \DateInterval('P1M'));
+
         foreach ($courses as $course) {
             $courseType = $this->getCourseType($course->maconomyId);
+
+            // checks if the course starttime is more than 1 month old, if yes, skip the sync of the course.
+            if ($courseStartShouldBeAfter > $course->startTime) {
+                continue;
+            }
 
             // creating a deadline for course signup
             $signupDeadline = new \DateTime($course->startTime->format('r'));
             // default signup deadline is two weeks before the start date
             $signupDeadline->sub(new \DateInterval('P14D'));
-
 
             $data = [
                 'name' => $course->name,
