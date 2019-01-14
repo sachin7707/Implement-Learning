@@ -234,7 +234,7 @@ class OrderController extends Controller
 
         // syncing the order to maconomy
         // TODO: reenable this, when maconomy works
-//        Queue::later(1, new SyncOrder($order));
+        Queue::later(1, new SyncOrder($order));
 
         return response()->json(new OrderResource($order));
     }
