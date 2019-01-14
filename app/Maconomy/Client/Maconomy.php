@@ -109,6 +109,7 @@ class Maconomy implements ClientAbstract
      * Checks if the given response is valid
      * @return Response the response sent from the server
      * @throws NoOrderException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function orderCreate(): Response
     {
