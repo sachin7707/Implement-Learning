@@ -7,6 +7,7 @@ use App\Maconomy\Client\Exception\NoOrderException;
 use App\Maconomy\Client\Order\Participant;
 use App\Maconomy\Collection\CourseCollection;
 use App\Maconomy\Collection\CourseTypeCollection;
+use App\Maconomy\Token;
 use GuzzleHttp\Client;
 
 /**
@@ -56,7 +57,7 @@ class Maconomy implements ClientAbstract
     {
         $parser = $this->getParserFactory()->createCourseParser();
         return $parser->parseCollection(
-            $this->callWebservice("course")
+            $this->callWebservice("api/course")
         );
     }
 
@@ -70,7 +71,7 @@ class Maconomy implements ClientAbstract
     {
         $parser = $this->getParserFactory()->createCourseParser();
         return new CourseCollection([
-            $parser->parse($this->callWebservice("course/$id"))
+            $parser->parse($this->callWebservice("api/course/$id"))
         ]);
     }
 
@@ -83,7 +84,7 @@ class Maconomy implements ClientAbstract
     {
         $parser = $this->getParserFactory()->createCourseTypeParser();
         return $parser->parseCollection(
-            $this->callWebservice("maincourse")
+            $this->callWebservice("api/maincourse")
         );
     }
 
@@ -108,6 +109,7 @@ class Maconomy implements ClientAbstract
      * Checks if the given response is valid
      * @return Response the response sent from the server
      * @throws NoOrderException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function orderCreate(): Response
     {
@@ -121,7 +123,7 @@ class Maconomy implements ClientAbstract
         /** @var Participant $participant */
         foreach ($this->order->getParticipants() as $participant) {
             // sends the data to the webservice
-            $response = $this->callWebservice('webparticipant', 'post', $participant->getData());
+            $response = $this->callWebservice('api/webparticipant', 'post', $participant->getData());
 
             // TODO: update the participant, with the new instancekey (maconomy_id) in the database, using $response
         }
@@ -168,12 +170,13 @@ class Maconomy implements ClientAbstract
      */
     public function getEnrolledSeats(string $maconomyId): int
     {
-        $data = $this->callWebservice("course/$maconomyId");
+        $data = $this->callWebservice("api/course/$maconomyId");
         return (int)$data->enrolledField;
     }
 
     /**
      * Calls the webservice, using the given uri part, to append to the baseurl.
+     *
      * @param string $uri the last part of the url to call
      * @param string $method the method to use (get, post, put etc)
      * @param array $options the data to send
@@ -181,6 +184,27 @@ class Maconomy implements ClientAbstract
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     private function callWebservice(string $uri, string $method = 'get', array $options = [])
+    {
+        $token = $this->getToken();
+
+        // adding authentication headers
+        $options['headers'] = array_merge($options['headers'] ?? [], [
+            'Authorization' => 'Bearer ' . $token->access_token,
+        ]);
+
+        return $this->callWebserviceRaw($uri, $method, $options);
+    }
+
+    /**
+     * Calls the webservice without adding an auth token.
+     *
+     * @param string $uri
+     * @param string $method
+     * @param array $options
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    private function callWebserviceRaw(string $uri, string $method, array $options)
     {
         return json_decode((string)$this->getClient()->request($method, $uri, $options)->getBody());
     }
@@ -191,5 +215,71 @@ class Maconomy implements ClientAbstract
     private function getParserFactory(): ParserFactory
     {
         return new ParserFactory();
+    }
+
+    /**
+     * Fetches a valid token, that can be used when calling the webservice
+     *
+     * @return Token
+     * @throws \Exception
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    private function getToken(): Token
+    {
+        $now = new \DateTime('now', new \DateTimeZone('GMT'));
+        // fetches an existing token (if any)
+        $token = Token::where('expires', '>', $now->format('Y-m-d H:i:s'))
+            ->orderBy('id', 'DESC')
+            ->first();
+
+        if (! empty($token)) {
+            return $token;
+        }
+
+        // no token found, create a new token
+        return $this->generateToken();
+    }
+
+    /**
+     * Generates a new token and saves the data to the database.
+     *
+     * @return Token
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Exception
+     */
+    private function generateToken(): Token
+    {
+        // fetches a new token from the webservice.
+        $tokenData = $this->callWebserviceRaw('token', 'get', [
+            'form_params' => [
+                'grant_type' => 'password',
+                'userName' => env('MACONOMY_USERNAME'),
+                'password' => env('MACONOMY_PASSWORD')
+            ],
+            'headers' => [
+                'Content-Type' => 'application/x-www-form-urlencoded',
+            ]
+        ]);
+
+        // parsing dates from the webservice
+        $expires = new \DateTime($tokenData->{'.expires'});
+        // removing 5hours from the "max" alive time, just to avoid any expiring issues here :)
+        $expires->sub(new \DateInterval('PT5H'));
+        $issued = new \DateTime($tokenData->{'.issued'});
+
+        $token = new Token([
+            'access_token' => $tokenData->access_token,
+            'token_type' => $tokenData->token_type,
+            'expires_in' => (int)$tokenData->expires_in,
+            'username' => $tokenData->userName,
+            'issued' => $issued->format('Y-m-d H:i:s'),
+            'expires' => $expires->format('Y-m-d H:i:s'),
+        ]);
+
+        // saves and refreshes the newly created token
+        $token->save();
+        $token->refresh();
+
+        return $token;
     }
 }
