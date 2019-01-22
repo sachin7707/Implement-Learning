@@ -123,6 +123,9 @@ class ImportCourses extends Job
         // 1 month ago should not be saved in the system
         $courseStartShouldBeAfter->sub(new \DateInterval('P1M'));
 
+        // creating a "now" timestamp, to set when we are syncing a course
+        $now = new \DateTime();
+
         foreach ($courses as $course) {
             $courseType = $this->getCourseType($course->maconomyId);
 
@@ -148,7 +151,8 @@ class ImportCourses extends Job
                 'price' => $course->price,
                 'seats_available' => $course->seatsAvailable,
                 'coursetype_id' => $courseType->id ?? null,
-                'deadline' => $signupDeadline
+                'deadline' => $signupDeadline,
+                'last_sync_date' => $now,
             ];
 
             /** @var Course $dbCourse */
@@ -179,6 +183,11 @@ class ImportCourses extends Job
                 $dbCourse->save();
             }
         }
+
+        // deleting "old" courses
+        Course::where('last_sync_date', '<', $now)
+            ->orWhereNull('last_sync_date')
+            ->delete();
     }
 
     /**

@@ -4,8 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
-use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 /**
  * App\Course
@@ -47,8 +47,11 @@ use Symfony\Component\Translation\Exception\NotFoundResourceException;
  */
 class Course extends Model
 {
+    use SoftDeletes;
+
     protected $guarded = [];
     protected $hidden = ['created_at', 'updated_at', 'pivot', 'id'];
+    protected $dates = ['deleted_at', 'last_sync_date'];
 
     public function orders()
     {

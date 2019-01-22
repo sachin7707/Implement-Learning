@@ -36,6 +36,7 @@ class Order extends Model
     protected $hidden = [
         'education_id',
     ];
+    protected $dates = ['last_sync_date'];
 
     public function courses()
     {
