@@ -27,6 +27,9 @@ class SyncOrder extends Job
     /**
      * Handle the sync with the webservice (maconomy)
      * @param Maconomy $client
+     * @throws \App\Maconomy\Client\Exception\NoOrderException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \App\Maconomy\Client\Exception\Order\ParticipantException
      */
     public function handle(Maconomy $client)
     {

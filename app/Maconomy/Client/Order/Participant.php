@@ -43,7 +43,7 @@ class Participant
      * Fetches the participant's instance key (maconomy id)
      * @return string
      */
-    public function getInstanceKey(): string
+    public function getMaconomyId(): string
     {
         return (string)$this->data['instancekey'];
     }
@@ -52,9 +52,18 @@ class Participant
      * Sets the participant's instance key
      * @param string $key
      */
-    public function setInstanceKey(string $key): void
+    public function setMaconomyId(string $key): void
     {
         $this->data['instancekey'] = $key;
+    }
+
+    /**
+     * Checks if the participant has a maconomy id
+     * @return bool true if a maconomy id is present
+     */
+    public function hasMaconomyId(): bool
+    {
+        return !empty($this->data['instancekey']);
     }
 
     /**

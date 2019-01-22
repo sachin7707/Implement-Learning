@@ -4,11 +4,13 @@ namespace App\Maconomy\Client;
 
 use App\Maconomy\Client\AbstractFactory\ParserFactory;
 use App\Maconomy\Client\Exception\NoOrderException;
+use App\Maconomy\Client\Exception\Order\ParticipantException;
 use App\Maconomy\Client\Order\Participant;
 use App\Maconomy\Collection\CourseCollection;
 use App\Maconomy\Collection\CourseTypeCollection;
 use App\Maconomy\Token;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @author jimmiw
@@ -110,6 +112,7 @@ class Maconomy implements ClientAbstract
      * @return Response the response sent from the server
      * @throws NoOrderException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws ParticipantException
      */
     public function orderCreate(): Response
     {
@@ -117,20 +120,42 @@ class Maconomy implements ClientAbstract
             throw new NoOrderException('No order was set');
         }
 
-        // TODO: Implement orderCreate() method.
-
         // runs though the participants, sending them to the webservice one by one
-        /** @var Participant $participant */
-        foreach ($this->order->getParticipants() as $participant) {
-            // sends the data to the webservice
-            $response = $this->callWebservice('api/webparticipant', 'post', $participant->getData());
+        /** @var Participant $orderParticipant */
+        foreach ($this->order->getParticipants() as $orderParticipant) {
+            // sets the participant url
+            $url = 'api/webparticipant';
+            $method = 'post';
 
-            // TODO: update the participant, with the new instancekey (maconomy_id) in the database, using $response
+            // checking if the participant should be updated
+            if ($orderParticipant->hasMaconomyId()) {
+                $url .= '/' . $orderParticipant->getMaconomyId();
+                $method = 'put';
+            }
+
+            // sends the data to the webservice
+            $response = $this->callWebservice(
+                $url,
+                $method,
+                $orderParticipant->getData()
+            );
+
+            // if the response is an array, assume all is well, since we are not getting an error response
+            if (is_array($response)) {
+                // fetches the participant, so we can update the maconomy_id
+                $participant = \App\Participant::find($orderParticipant->getId());
+                $participant->maconomy_id = $response->maconomy_id;
+                $participant->save();
+            } elseif ($response->Message === 'An error has occurred.') {
+                throw new ParticipantException('Could not save participant', $orderParticipant->getData());
+            }
         }
 
         $this->order->markAsSynced();
 
         $this->clearOrder();
+
+        return new Order\Response('Order synced');
     }
 
     /**
@@ -206,7 +231,8 @@ class Maconomy implements ClientAbstract
      */
     private function callWebserviceRaw(string $uri, string $method, array $options)
     {
-        return json_decode((string)$this->getClient()->request($method, $uri, $options)->getBody());
+        $response = $this->getClient()->request($method, $uri, $options);
+        return json_decode((string)$response->getBody());
     }
 
     /**
