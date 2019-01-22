@@ -41,7 +41,7 @@ class OrderAdapter
         foreach ($this->participants as $participant) {
             if ($participant->getId() === $id && $participant->getCourseNumber() === $courseMaconomyId) {
                 // updating the participant's instance key
-                $participant->setInstanceKey($instanceKey);
+                $participant->setMaconomyId($instanceKey);
                 // stops the loop, since we found what we needed
                 break;
             }
@@ -64,32 +64,38 @@ class OrderAdapter
             foreach ($company->participants as $dbParticipant) {
                 $participants[] = new Participant([
                     // sending our internal id with as well, so we can update db after ws-sync
-                    'id' => (int)$dbParticipant->id,
-                    // TODO: handle multiple courses/instance keys!
-                    'instancekey' => $dbParticipant->maconomy_id,
-                    'coursenumber' => $course->maconomy_id,
-                    'contactpersonnumber' => '',
-                    'name1' => $dbParticipant->name,
-                    'name2' => $dbParticipant->title,
-                    'name3' => '',
-                    'name4' => '',
-                    'name5' => '',
-                    'zipcode' => '',
-                    'postaldistrict' => '',
-                    'email' => $dbParticipant->email,
-                    'phone' => $dbParticipant->phone,
-                    'compname1' => $company->name,
-                    'compname2' => $company->attention,
-                    'compname3' => $company->address,
-                    'compname4' => '',
-                    'compname5' => '',
-                    'compzipcode' => $company->postal,
-                    'comppostaldistrict' => $company->city,
-                    'compemail' => $company->email,
-                    'compphone' => $company->phone,
-                    'cvr' => $company->cvr,
-                    'contactcompanynumber' => '',
-                    'packageid' => $this->order->education->maconomy_id
+                    // NOTE: this field is crucial, since it decides if a participant is created or updated
+                    'externalidField' => (int)$dbParticipant->id,
+                    // instancekeyField is used, if you wish to change data about a participant (should not be needed?)
+                    'instancekeyField' => $dbParticipant->maconomy_id,
+                    'packageidField' => $this->order->education->maconomy_id ?? '',
+                    'coursenumberField' => $course->maconomy_id,
+                    // participant information
+                    "participantnameField" => "Jimmi Westerberg",
+                    "participantemailField" => "jw@konform.com",
+                    "participantphoneField" => "11223344",
+                    "participanttitleField" => "Udvikler",
+                    // company information
+                    "compnameField" => $company->name,
+                    "compcvrField" => $company->cvr,
+                    "compattField" => $company->attention,
+                    "compaddressField" => $company->address,
+                    "compzipcodeField" => $company->postal,
+                    "compcityField" => $company->city,
+                    "compcountryField" => $company->country,
+                    "compemailField" => $company->email,
+                    "compphoneField" => $company->phone,
+                    "compeanField" => "",
+                    "comppurchaseorderField" => "",
+                    // rest of the fields are used, if the billing address is not the same.
+                    "altcompnameField" => "",
+                    "altcompattField" => "",
+                    "altcompaddressField" => "",
+                    "altcompzipcodeField" => "",
+                    "altcompcityField" => "",
+                    "altcompcountryField" => "",
+                    "altcompemailField" => "",
+                    "altcompphoneField" => "",
                 ]);
             }
         }
@@ -108,10 +114,12 @@ class OrderAdapter
 
     /**
      * Marks the order as sync'ed in our local database
+     * @throws \Exception
      */
     public function markAsSynced()
     {
         $this->order->state = Order::STATE_CONFIRMED;
+        $this->order->last_sync_at = new \DateTime();
         $this->order->save();
     }
 }
