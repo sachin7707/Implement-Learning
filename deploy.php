@@ -25,6 +25,14 @@ host('next')
 // default stage host is selected as next
 set('default_stage', 'next');
 
+desc('Add symlink for public -> web, in the current release');
+task('deploy:link_web', function () {
+    // Symlink shared dir to release dir
+    run('{{bin/symlink}} {{release_path}}/public {{release_path}}/web');
+});
+
+before('deploy:symlink', 'deploy:link_web');
+
 task('deploy', [
     'deploy:prepare',
     'deploy:lock',
@@ -35,6 +43,7 @@ task('deploy', [
     'deploy:writable',
     'artisan:cache:clear',
     'artisan:optimize',
+    'artisan:migrate',
     'deploy:symlink',
     'deploy:unlock',
     'cleanup',
