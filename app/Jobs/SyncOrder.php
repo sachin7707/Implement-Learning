@@ -2,9 +2,11 @@
 
 namespace App\Jobs;
 
+use App\Maconomy\Client\Exception\Order\ParticipantException;
 use App\Maconomy\Client\Maconomy;
 use App\Maconomy\Client\OrderAdapter;
 use App\Order;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @author jimmiw
@@ -36,12 +38,14 @@ class SyncOrder extends Job
         // sets the order on the client, but wrapping it in the adapter first
         $client->setOrder(new OrderAdapter($this->order));
 
-        if ($this->order->state === Order::STATE_CONFIRMED) {
-            $response = $client->orderUpdate();
-        } else {
-            $response = $client->orderCreate();
+        try {
+            if ($this->order->state === Order::STATE_CONFIRMED) {
+                $response = $client->orderUpdate();
+            } else {
+                $response = $client->orderCreate();
+            }
+        } catch (ParticipantException $e) {
+            Log::error($e->getMessage() . print_r($e->getData()));
         }
-
-
     }
 }
