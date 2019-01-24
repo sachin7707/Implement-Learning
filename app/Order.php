@@ -58,9 +58,9 @@ class Order extends Model
      */
     public function getStateAsText(): string
     {
-        if ($this->state === self::STATE_CLOSED) {
+        if ((int)$this->state === self::STATE_CLOSED) {
             return 'closed, but not synced';
-        } elseif ($this->state === self::STATE_CONFIRMED) {
+        } elseif ((int)$this->state === self::STATE_CONFIRMED) {
             return 'confirmed and synced';
         }
 
