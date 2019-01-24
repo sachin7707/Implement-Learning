@@ -157,6 +157,7 @@ class ImportCourses extends Job
 
             /** @var Course $dbCourse */
             $dbCourse = Course::where('maconomy_id', $course->maconomyId)
+                ->withTrashed()
                 ->first();
 
             // update existing course
