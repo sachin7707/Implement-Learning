@@ -6,7 +6,6 @@ use App\Course;
 use App\CourseType;
 use App\Http\Resources\Order as OrderResource;
 use App\Jobs\ImportCourses;
-use App\Jobs\SyncOrder;
 use App\Maconomy\Service\CourseService;
 use App\Maconomy\Service\OrderService;
 use App\Order;
@@ -231,10 +230,6 @@ class OrderController extends Controller
         $this->orderService->closeOrder($order, $participants, $company);
 
         $order->refresh();
-
-        // syncing the order to maconomy
-        // TODO: reenable this, when maconomy works
-        Queue::later(1, new SyncOrder($order));
 
         return response()->json(new OrderResource($order));
     }
