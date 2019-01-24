@@ -33,11 +33,9 @@ class ClearReservations extends Job
             $order->seats = 0;
             $order->save();
 
-            Log::info('Order ' . $order->id . ' was updated');
-            foreach ($order->courses() as $course) {
-                Log::info('Sync course on wordpress event dispatch: ' . $course->maconomyId);
+            foreach ($order->courses as $course) {
                 // telling wordpress to update the given course, since we have changed the number of seats available
-                Event::dispatch(new CoursesSyncedEvent($course->maconomyId));
+                Event::dispatch(new CoursesSyncedEvent($course->maconomy_id));
             }
         }
     }
