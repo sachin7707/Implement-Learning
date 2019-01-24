@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Events\CoursesSyncedEvent;
 use App\Order;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Log;
 
 /**
  * A simple cleanup job, to unreserve seats on orders, that have not been active for more than 15 minutes.
@@ -32,7 +33,9 @@ class ClearReservations extends Job
             $order->seats = 0;
             $order->save();
 
+            Log::info('Order ' . $order->id . ' was updated');
             foreach ($order->courses() as $course) {
+                Log::info('Sync course on wordpress event dispatch: ' . $course->maconomyId);
                 // telling wordpress to update the given course, since we have changed the number of seats available
                 Event::dispatch(new CoursesSyncedEvent($course->maconomyId));
             }
