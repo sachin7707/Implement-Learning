@@ -104,6 +104,10 @@ class CourseController extends Controller
         if ($request->input('deadline', null) !== null) {
             $course->deadline = new \DateTime($request->input('deadline'), new \DateTimeZone('GMT'));
         }
+        // you can now update the course day's name as well ILI-500
+        if ($request->input('name', $course->name) !== null) {
+            $course->name = $request->input('name');
+        }
 
         $course->save();
 
