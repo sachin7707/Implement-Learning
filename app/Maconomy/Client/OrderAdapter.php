@@ -119,7 +119,7 @@ class OrderAdapter
     public function markAsSynced()
     {
         $this->order->state = Order::STATE_CONFIRMED;
-        $this->order->last_sync_at = new \DateTime();
+        $this->order->last_sync_date = new \DateTime();
         $this->order->save();
     }
 }
