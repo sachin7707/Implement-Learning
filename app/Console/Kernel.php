@@ -37,7 +37,7 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             $job = new ClearReservations();
             dispatch($job);
-        })->description('ClearReservations')->everyFiveMinutes();
+        })->description('ClearReservations')->cron('* * * * *');
         // broken in 5.7.1
         //$schedule->job(new ClearReservations())->everyFiveMinutes();
     }
