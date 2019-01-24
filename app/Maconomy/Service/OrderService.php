@@ -4,11 +4,13 @@ namespace App\Maconomy\Service;
 
 use App\Company;
 use App\Course;
+use App\Jobs\SyncOrder;
 use App\Mail\OrderBooker;
 use App\Mail\OrderParticipant;
 use App\Order;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Queue;
 
 /**
  * @author jimmiw
@@ -148,5 +150,8 @@ class OrderService
             Mail::to($participant->email)
                 ->queue(new OrderParticipant($order, $participant));
         }
+
+        // syncing the order to maconomy
+        Queue::later(1, new SyncOrder($order));
     }
 }

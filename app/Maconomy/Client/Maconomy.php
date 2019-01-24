@@ -10,6 +10,7 @@ use App\Maconomy\Collection\CourseCollection;
 use App\Maconomy\Collection\CourseTypeCollection;
 use App\Maconomy\Token;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -133,21 +134,23 @@ class Maconomy implements ClientAbstract
                 $method = 'put';
             }
 
-            // sends the data to the webservice
-            $response = $this->callWebservice(
-                $url,
-                $method,
-                $orderParticipant->getData()
-            );
+            try {
+                // sends the data to the webservice
+                $response = $this->callWebservice(
+                    $url,
+                    $method,
+                    $orderParticipant->getData()
+                );
 
-            // if the response is an array, assume all is well, since we are not getting an error response
-            if (is_array($response)) {
-                // fetches the participant, so we can update the maconomy_id
-                $participant = \App\Participant::find($orderParticipant->getId());
-                $participant->maconomy_id = $response->maconomy_id;
-                $participant->save();
-            } elseif ($response->Message === 'An error has occurred.') {
-                throw new ParticipantException('Could not save participant', $orderParticipant->getData());
+                // if the response is an array, assume all is well, since we are not getting an error response
+                if (is_array($response)) {
+                    // fetches the participant, so we can update the maconomy_id
+                    $participant = \App\Participant::find($orderParticipant->getId());
+                    $participant->maconomy_id = $response->maconomy_id;
+                    $participant->save();
+                }
+            } catch (RequestException $e) {
+                throw new ParticipantException('Could not save participant', $orderParticipant->getData(), 0, $e);
             }
         }
 
