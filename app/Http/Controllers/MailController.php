@@ -16,7 +16,7 @@ class MailController extends Controller
      */
     public function update(Request $request)
     {
-        $data = $request->input('mailtexts');
+        $data = $request->input();
         Log::info('MailController::update: ' . print_r($data,1));
     }
 }
