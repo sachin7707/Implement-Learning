@@ -37,6 +37,9 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
     $router->put('/orders/{id}', 'OrderController@update');
     // updates a given order
     $router->post('/orders/{id}/close', ['middleware' => 'transform.order', 'uses' => 'OrderController@closeOrder']);
+
+    // handle mail texts from wp
+    $router->put('/texts/mails', 'MailController@update');
 });
 
 
