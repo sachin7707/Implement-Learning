@@ -187,6 +187,7 @@ class ImportCourses extends Job
 
         // deleting "old" courses
         Course::where('last_sync_date', '<', $now)
+            ->orWhereNull('last_sync_date')
             ->delete();
     }
 
