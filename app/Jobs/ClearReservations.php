@@ -23,7 +23,7 @@ class ClearReservations extends Job
         $now->sub(new \DateInterval('PT'.$maxAge.'M'));
 
         // fetches the orders, that has not been updated in XX minutes, and removes the reserved seats.
-        $orders = Order::where('state', '!=', Order::STATE_CONFIRMED)
+        $orders = Order::where('state', '=', Order::STATE_NEW)
             ->where('updated_at', '<', $now->format('Y-m-d H:i:s'))
             ->where('seats', '>', 0)
             ->get();
