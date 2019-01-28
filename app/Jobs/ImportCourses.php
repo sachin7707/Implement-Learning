@@ -152,7 +152,7 @@ class ImportCourses extends Job
                 'seats_available' => $course->seatsAvailable,
                 'coursetype_id' => $courseType->id ?? null,
                 'deadline' => $signupDeadline,
-                'last_sync_date' => $now,
+                'last_sync_date' => $now->format('Y-m-d H:i:s'),
             ];
 
             /** @var Course $dbCourse */
