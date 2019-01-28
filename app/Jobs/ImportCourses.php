@@ -125,6 +125,7 @@ class ImportCourses extends Job
 
         // creating a "now" timestamp, to set when we are syncing a course
         $now = new \DateTime();
+        $now = $now->format('Y-m-d H:i:s');
 
         foreach ($courses as $course) {
             $courseType = $this->getCourseType($course->maconomyId);
@@ -152,7 +153,7 @@ class ImportCourses extends Job
                 'seats_available' => $course->seatsAvailable,
                 'coursetype_id' => $courseType->id ?? null,
                 'deadline' => $signupDeadline,
-                'last_sync_date' => $now->format('Y-m-d H:i:s'),
+                'last_sync_date' => $now,
             ];
 
             /** @var Course $dbCourse */
