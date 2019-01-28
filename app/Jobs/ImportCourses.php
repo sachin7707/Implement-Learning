@@ -186,10 +186,13 @@ class ImportCourses extends Job
             }
         }
 
-        // deleting "old" courses
-        Course::where('last_sync_date', '<', $now)
-            ->orWhereNull('last_sync_date')
-            ->delete();
+        // only delete courses, if we are not syncing a single course, since all other courses would be deleted :)
+        if (empty($this->maconomyId)) {
+            // deleting "old" courses
+            Course::where('last_sync_date', '<', $now)
+                ->orWhereNull('last_sync_date')
+                ->delete();
+        }
     }
 
     /**
