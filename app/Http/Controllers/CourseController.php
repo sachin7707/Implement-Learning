@@ -35,9 +35,16 @@ class CourseController extends Controller
      * Fetches the full list of courses
      * @return JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        return new JsonResponse(CourseResource::collection(Course::all()));
+        $collection = null;
+        if ($request->get('withtrashed', 0) === 0) {
+            $collection = Course::all();
+        } else {
+            $collection = Course::withTrashed()->get();
+        }
+
+        return new JsonResponse(CourseResource::collection($collection));
     }
 
     /**
@@ -47,6 +54,7 @@ class CourseController extends Controller
      */
     public function show(string $id)
     {
+        // NOTE: internals are changed, so we always get the course, even if it's deleted - ILI-521
         $course = Course::getByMaconomyIdOrFail($id);
 
         return new JsonResponse(new CourseResource($course));

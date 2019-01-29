@@ -105,7 +105,8 @@ class Course extends Model
      */
     public static function getByMaconomyId(string $maconomyId)
     {
-        return self::where('maconomy_id', $maconomyId)->first();
+        // NOTE: also returning trashed courses, if they are found - ILI-521
+        return self::where('maconomy_id', $maconomyId)->withTrashed()->first();
     }
 
     /**
