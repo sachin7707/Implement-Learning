@@ -38,7 +38,7 @@ class CourseController extends Controller
     public function index(Request $request)
     {
         $collection = null;
-        if ($request->get('withtrashed', 0) === 0) {
+        if ((int)$request->get('withtrashed', 0) === 0) {
             $collection = Course::all();
         } else {
             $collection = Course::withTrashed()->get();
