@@ -57,8 +57,11 @@ Requires the following data:
 ### GET: /api/v1/course
 Fetches the courses from our local database
 
+Add _?withtrashed=1_ to the URL, to get all courses, including deleted ones.
+
 ### GET: /api/v1/course/{id}
-Fetches a single course from our local database
+Fetches a single course from our local database.
+NOTE: This now also includes a course that has been deleted.
 
 ### GET: /api/v1/course/{id}/cal
 Fetches the calendar event for the given course. NOTE: The "id" is "maconomy_id"
