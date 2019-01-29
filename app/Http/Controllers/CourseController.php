@@ -98,23 +98,37 @@ class CourseController extends Controller
     {
         // validating that we have a course_id set
         $this->validate($request, [
-            'participants_max' => 'required',
+            'participants_max' => 'int',
             'deadline' => 'nullable|date',
         ]);
 
         /** @var Course $course */
         $course = Course::getByMaconomyIdOrFail($id);
 
-        // you are allowed to change the maximum number of participants
-        $course->participants_max = $request->input('participants_max');
+        $changed = false;
+        if ($request->input('participants_max', null) !== null) {
+            // you are allowed to change the maximum number of participants
+            $course->participants_max = $request->input('participants_max');
+            $changed = true;
+        }
 
         // if the deadline isset, save it to the database
         if ($request->input('deadline', null) !== null) {
             $course->deadline = new \DateTime($request->input('deadline'), new \DateTimeZone('GMT'));
+            $changed = true;
         }
         // you can now update the course day's name as well ILI-500
         if ($request->input('name') !== null) {
             $course->name = $request->input('name');
+            $changed = true;
+        }
+
+        // no changes? just return the current $course, before calling save
+        if ($changed === false) {
+            return new JsonResponse([
+                'message' => 'Course ' . $id . ' was not updated, no data was sent',
+                'data' => new CourseResource(Course::getByMaconomyId($id))
+            ]);
         }
 
         $course->save();
