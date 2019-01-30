@@ -152,6 +152,6 @@ class OrderService
         }
 
         // syncing the order to maconomy
-        //Queue::later(1, new SyncOrder($order));
+        Queue::later(1, new SyncOrder($order));
     }
 }
