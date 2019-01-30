@@ -4,7 +4,7 @@
         <div class="column" style="text-align: left;color: #2f353e;font-size: 15px;line-height: 23px;font-family: Calibri,Carlito,PT Sans,Trebuchet MS,sans-serif;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);">
 
             <div style="Margin-left: 20px;Margin-right: 20px;">
-                <div style="mso-line-height-rule: exactly;line-height: 40px;font-size: 1px;">&nbsp;asdasd</div>
+                <div style="mso-line-height-rule: exactly;line-height: 40px;font-size: 1px;">&nbsp;</div>
             </div>
 
         </div>

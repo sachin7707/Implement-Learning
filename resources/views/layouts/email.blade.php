@@ -480,11 +480,23 @@
                 @endcomponent
 
                 <div class="layout one-col fixed-width" style="Margin: 0 auto;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;">
+                    {{--<div class="layout__inner" style="border-collapse: collapse;display: table;width: 100%;background-color: #c4d0cc;">--}}
+                        {{--<div style="Margin-left: 46px;Margin-right: 46px;">--}}
+                            {{--<!--[if (mso)|(IE)]><table align="left" cellpadding="0" cellspacing="0" role="presentation"><tr class="layout-fixed-width" style="background-color: #c4d0cc;"><td style="width: 600px" class="w560"><![endif]-->--}}
+                            {{--<div class="column" style="text-align: left;color: #2f353e;font-size: 15px;line-height: 23px;font-family: Calibri,Carlito,PT Sans,Trebuchet MS,sans-serif;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);">--}}
+                                {{--<div style="font-size: 12px;font-style: normal;font-weight: normal;line-height: 19px;" align="left">--}}
+                                    {{--<img class="gnd-corner-image gnd-corner-image-center gnd-corner-image-top gnd-corner-image-bottom" style="border: 0;display: block;height: 26px;width: auto;max-width: 600px;" alt="" width="600" src="{{ env('WEBSITE_URL') }}{{ env('MAIL_LOGO') }}">--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                            {{--<!--[if (mso)|(IE)]></td></tr></table><![endif]-->--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+
                     <div class="layout__inner" style="border-collapse: collapse;display: table;width: 100%;background-color: #c4d0cc;">
                         <!--[if (mso)|(IE)]><table align="center" cellpadding="0" cellspacing="0" role="presentation"><tr class="layout-fixed-width" style="background-color: #c4d0cc;"><td style="width: 600px" class="w560"><![endif]-->
                         <div class="column" style="text-align: left;color: #2f353e;font-size: 15px;line-height: 23px;font-family: Calibri,Carlito,PT Sans,Trebuchet MS,sans-serif;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);">
 
-                            <div style="Margin-left: 20px;Margin-right: 20px;">
+                            <div style="Margin-left: 46px;Margin-right: 46px;">
                                 <div style="mso-line-height-rule: exactly;mso-text-raise: 4px;">
                                     <h1 class="size-48" style="Margin-top: 0;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #2f353e;font-size: 36px;line-height: 43px;font-family: Oswald,Avenir Next Condensed,Arial Narrow,MS UI Gothic,sans-serif;text-align: left;" lang="x-size-48"><strong><span style="color:#000000">@yield('title')</span></strong></h1>
                                 </div>
@@ -493,19 +505,18 @@
                         </div>
                         <!--[if (mso)|(IE)]></td></tr></table><![endif]-->
                     </div>
-                </div>
 
-                @component('emails.components.spacer', ['color' => '#c4d0cc'])
-                @endcomponent
+                    {{--@component('emails.components.spacer', ['color' => '#c4d0cc'])--}}
+                    {{--@endcomponent--}}
 
-                @hasSection('intro')
-                    <div class="layout one-col fixed-width" style="Margin: 0 auto;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;">
+                    @hasSection('intro')
                         <div class="layout__inner" style="border-collapse: collapse;display: table;width: 100%;background-color: #c4d0cc;">
                             <!--[if (mso)|(IE)]><table align="center" cellpadding="0" cellspacing="0" role="presentation"><tr class="layout-fixed-width" style="background-color: #c4d0cc;"><td style="width: 600px" class="w560"><![endif]-->
                             <div class="column" style="text-align: left;color: #2f353e;font-size: 15px;line-height: 23px;font-family: Calibri,Carlito,PT Sans,Trebuchet MS,sans-serif;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);">
 
-                                <div style="Margin-left: 20px;Margin-right: 20px;">
-                                    <div style="mso-line-height-rule: exactly;mso-text-raise: 4px;">
+                                <div style="Margin-left: 46px;Margin-right: 46px;">
+                                    <div style="mso-line-height-rule: exactly;mso-text-raise: 4px; width: 90%;">
+                                        <p></p>
                                         <p class="size-15" style="Margin-top: 0;Margin-bottom: 0;font-family: calibri,carlito,pt sans,trebuchet ms,sans-serif;font-size: 15px;line-height: 23px;" lang="x-size-15"><span class="font-calibri"><span style="color:#000000">@yield('intro')</span></span></p>
                                     </div>
                                 </div>
@@ -513,22 +524,20 @@
                             </div>
                             <!--[if (mso)|(IE)]></td></tr></table><![endif]-->
                         </div>
-                    </div>
-                @endif
+                    @endif
 
-                @hasSection('intro_block')
-                    <div class="layout one-col fixed-width" style="Margin: 0 auto;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;">
+                    @hasSection('intro_block')
                         <div class="layout__inner" style="border-collapse: collapse;display: table;width: 100%;background-color: #c4d0cc;">
                             <!--[if (mso)|(IE)]><table align="center" cellpadding="0" cellspacing="0" role="presentation"><tr class="layout-fixed-width" style="background-color: #c4d0cc;"><td style="width: 600px" class="w560"><![endif]-->
                             <div class="column" style="text-align: left;color: #2f353e;font-size: 15px;line-height: 23px;font-family: Calibri,Carlito,PT Sans,Trebuchet MS,sans-serif;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);">
 
-                                <div style="Margin-left: 20px;Margin-right: 20px;">
+                                <div style="Margin-left: 46px;Margin-right: 46px;">
                                     <div style="mso-line-height-rule: exactly;line-height: 20px;font-size: 1px;">&nbsp;</div>
                                 </div>
 
-                                <div style="Margin-left: 20px;Margin-right: 20px;">
+                                <div style="Margin-left: 46px;Margin-right: 46px;">
                                     <div style="mso-line-height-rule: exactly;mso-text-raise: 4px;">
-                                        <p class="size-18" style="Margin-top: 0;Margin-bottom: 0;font-size: 17px;line-height: 26px;" lang="x-size-18">
+                                        <p class="size-18" style="Margin-top: 0;Margin-bottom: 0;font-size: 17px;line-height: 26px; width: 90%;" lang="x-size-18">
                                             @yield('intro_block')
                                         </p>
                                     </div>
@@ -537,8 +546,8 @@
                             </div>
                             <!--[if (mso)|(IE)]></td></tr></table><![endif]-->
                         </div>
-                    </div>
-                @endif
+                    @endif
+                </div>
 
                 @component('emails.components.spacer', ['color' => '#c4d0cc'])
                 @endcomponent
@@ -547,11 +556,9 @@
                     <div class="layout__inner" style="border-collapse: collapse;display: table;width: 100%;background-color: #ffffff;">
                         <!--[if (mso)|(IE)]><table align="center" cellpadding="0" cellspacing="0" role="presentation"><tr class="layout-fixed-width" style="background-color: #ffffff;"><td style="width: 600px" class="w560"><![endif]-->
                         <div class="column" style="text-align: left;color: #2f353e;font-size: 15px;line-height: 23px;font-family: Calibri,Carlito,PT Sans,Trebuchet MS,sans-serif;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);">
-
                             <div style="font-size: 12px;font-style: normal;font-weight: normal;line-height: 19px;" align="center">
-                                <img class="gnd-corner-image gnd-corner-image-center gnd-corner-image-top gnd-corner-image-bottom" style="border: 0;display: block;height: auto;width: 100%;max-width: 600px;" alt="" width="600" src="http://i1.createsend1.com/ei/d/D4/478/038/031403/csfinal/39338d_rectangle-1-copy-24-38ce5a2c7004647f.png">
+                                <img class="gnd-corner-image gnd-corner-image-center gnd-corner-image-top gnd-corner-image-bottom" style="border: 0;display: block;height: auto;width: 100%;max-width: 600px;" alt="" width="600" src="{{ env('WEBSITE_URL') }}{{ env('MAIL_HEADER_IMAGE') }}">
                             </div>
-
                         </div>
                         <!--[if (mso)|(IE)]></td></tr></table><![endif]-->
                     </div>
@@ -567,13 +574,13 @@
                                 <!--[if (mso)|(IE)]><table align="center" cellpadding="0" cellspacing="0" role="presentation"><tr class="layout-fixed-width" style="background-color: #ffffff;"><td style="width: 600px" class="w560"><![endif]-->
                                 <div class="column" style="text-align: left;color: #2f353e;font-size: 15px;line-height: 23px;font-family: Calibri,Carlito,PT Sans,Trebuchet MS,sans-serif;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);">
 
-                                    <div style="Margin-left: 20px;Margin-right: 20px;">
+                                    <div style="Margin-left: 46px;Margin-right: 46px;">
                                         <div style="mso-line-height-rule: exactly;mso-text-raise: 4px;">
                                             <h2 class="size-18" style="Margin-top: 0;Margin-bottom: 16px;font-style: normal;font-weight: normal;color: #2f353e;font-size: 17px;line-height: 26px;" lang="x-size-18"><span style="color:#000000">{{ $course->name }}</span></h2>
                                         </div>
                                     </div>
 
-                                    <div style="Margin-left: 20px;Margin-right: 20px;">
+                                    <div style="Margin-left: 46px;Margin-right: 46px;">
                                         <div style="mso-line-height-rule: exactly;line-height: 1px;font-size: 1px;">&nbsp;</div>
                                     </div>
 
@@ -588,16 +595,30 @@
                                     <!--[if (mso)|(IE)]><table align="center" cellpadding="0" cellspacing="0" role="presentation"><tr class="layout-fixed-width" style="background-color: #ffffff;"><td style="width: 600px" class="w560"><![endif]-->
                                     <div class="column" style="text-align: left;color: #2f353e;font-size: 15px;line-height: 23px;font-family: Calibri,Carlito,PT Sans,Trebuchet MS,sans-serif;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);">
 
-                                        <div style="Margin-left: 20px;Margin-right: 20px;">
+                                        <div style="Margin-left: 46px;Margin-right: 46px;">
                                             <div style="mso-line-height-rule: exactly;mso-text-raise: 4px;">
-                                                @if (! empty($location))
-                                                    <p class="size-15" style="Margin-top: 0;Margin-bottom: 0;font-size: 15px;line-height: 23px;" lang="x-size-15"><span style="color:#8e8e8e">Lokation:&nbsp;</span><span style="color:#000000">{{$location}}</span></p>
-                                                @endif
-                                                <p class="size-15" style="Margin-top: 20px;Margin-bottom: 0;font-size: 15px;line-height: 23px;" lang="x-size-15">
-                                                    <span style="color:#8e8e8e">Dag 1:</span>&nbsp;<span style="color:#000000">Fredag d. 30. Juni 2018</span><br>
-                                                    <span style="color:#8e8e8e">Dag 2</span>:&nbsp;<span style="color:#000000">Fredag d. 30. Juni 2018</span><br>
-                                                    <span style="color:#8e8e8e">Dag 3:</span>&nbsp;<span style="color:#000000">Fredag d. 30. Juni 2018</span>
-                                                </p>
+                                                <table style="width: 100%; margin-bottom: 10px;">
+                                                    @if (! empty($location))
+                                                        <tr class="size-15" style="Margin-top: 0;Margin-bottom: 10px;font-size: 15px;line-height: 23px;" lang="x-size-15">
+                                                            <td style="color:#8e8e8e; width: 20% ">Lokation:&nbsp;</td>
+                                                            <td style="color:#000000; Margin-bottom: 10px;">{{$location}}</td>
+                                                        </tr>
+                                                    @endif
+                                                </table>
+                                                <table style="width: 100%">
+                                                    <tr class="size-15" style="Margin-top: 20px;Margin-bottom: 0;font-size: 15px;line-height: 23px;" lang="x-size-15">
+                                                        <td style="color:#8e8e8e; width: 20%">Dag 1:</td>
+                                                        <td style="color:#000000">Fredag d. 30. Juni 2018</td>
+                                                    </tr>
+                                                    <tr class="size-15" style="Margin-top: 20px;Margin-bottom: 0;font-size: 15px;line-height: 23px;" lang="x-size-15">
+                                                        <td style="color:#8e8e8e; width: 20%">Dag 2:</td>
+                                                        <td style="color:#000000">Fredag d. 30. Juni 2018</td>
+                                                    </tr>
+                                                    <tr class="size-15" style="Margin-top: 20px;Margin-bottom: 0;font-size: 15px;line-height: 23px;" lang="x-size-15">
+                                                        <td style="color:#8e8e8e; width: 20%">Dag 3:</td>
+                                                        <td style="color:#000000">Fredag d. 30. Juni 2018</td>
+                                                    </tr>
+                                                </table>
                                             </div>
                                         </div>
 
@@ -618,7 +639,7 @@
                                     <!--[if (mso)|(IE)]><table align="center" cellpadding="0" cellspacing="0" role="presentation"><tr class="layout-fixed-width" style="background-color: #ffffff;"><td style="width: 600px" class="w560"><![endif]-->
                                     <div class="column" style="text-align: left;color: #2f353e;font-size: 15px;line-height: 23px;font-family: Calibri,Carlito,PT Sans,Trebuchet MS,sans-serif;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);">
 
-                                        <div style="Margin-left: 20px;Margin-right: 20px;">
+                                        <div style="Margin-left: 46px;Margin-right: 46px;">
                                             <div style="mso-line-height-rule: exactly;mso-text-raise: 4px;">
                                                 <p class="size-15" style="Margin-top: 0;Margin-bottom: 0;font-size: 15px;line-height: 23px;" lang="x-size-15"><span style="color:#000000">F&#248;r kurset skal du:</span></p>
                                             </div>
@@ -634,7 +655,7 @@
                                     <!--[if (mso)|(IE)]><table align="center" cellpadding="0" cellspacing="0" role="presentation"><tr class="layout-fixed-width" style="background-color: #ffffff;"><td style="width: 600px" class="w560"><![endif]-->
                                     <div class="column" style="text-align: left;color: #2f353e;font-size: 15px;line-height: 23px;font-family: Calibri,Carlito,PT Sans,Trebuchet MS,sans-serif;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);">
 
-                                        <div style="Margin-left: 20px;Margin-right: 20px;">
+                                        <div style="Margin-left: 46px;Margin-right: 46px;">
                                             <div style="mso-line-height-rule: exactly;line-height: 20px;font-size: 1px;">&nbsp;</div>
                                         </div>
 
@@ -648,7 +669,7 @@
                                     <!--[if (mso)|(IE)]><table align="center" cellpadding="0" cellspacing="0" role="presentation"><tr class="layout-fixed-width" style="background-color: #ffffff;"><td style="width: 600px" class="w560"><![endif]-->
                                     <div class="column" style="text-align: left;color: #2f353e;font-size: 15px;line-height: 23px;font-family: Calibri,Carlito,PT Sans,Trebuchet MS,sans-serif;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);">
 
-                                        <div style="Margin-left: 20px;Margin-right: 20px;">
+                                        <div style="Margin-left: 46px;Margin-right: 46px;">
                                             <div style="mso-line-height-rule: exactly;mso-text-raise: 4px;">
                                                 <p class="size-15" style="Margin-top: 0;Margin-bottom: 0;font-size: 15px;line-height: 23px;" lang="x-size-15"><span style="color:#000000">@yield('before_course')</span></p>
                                             </div>
@@ -664,7 +685,7 @@
                                     <!--[if (mso)|(IE)]><table align="center" cellpadding="0" cellspacing="0" role="presentation"><tr class="layout-fixed-width" style="background-color: #ffffff;"><td style="width: 600px" class="w560"><![endif]-->
                                     <div class="column" style="text-align: left;color: #2f353e;font-size: 15px;line-height: 23px;font-family: Calibri,Carlito,PT Sans,Trebuchet MS,sans-serif;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);">
 
-                                        <div style="Margin-left: 20px;Margin-right: 20px;">
+                                        <div style="Margin-left: 46px;Margin-right: 46px;">
                                             <div style="mso-line-height-rule: exactly;line-height: 40px;font-size: 1px;">&nbsp;</div>
                                         </div>
 
@@ -680,9 +701,9 @@
                                 <!--[if (mso)|(IE)]><table align="center" cellpadding="0" cellspacing="0" role="presentation"><tr class="layout-fixed-width" style="background-color: #ffffff;"><td style="width: 600px" class="w560"><![endif]-->
                                 <div class="column" style="text-align: left;color: #2f353e;font-size: 15px;line-height: 23px;font-family: Calibri,Carlito,PT Sans,Trebuchet MS,sans-serif;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);">
 
-                                    <div style="Margin-left: 20px;Margin-right: 20px;">
+                                    <div style="Margin-left: 46px;Margin-right: 46px;">
                                         <div style="mso-line-height-rule: exactly;mso-text-raise: 4px;">
-                                            <p class="size-18" style="Margin-top: 0;Margin-bottom: 0;font-size: 17px;line-height: 26px;" lang="x-size-18"><span style="color:#000000"><a style="text-decoration: underline;transition: opacity 0.1s ease-in;color: #000;" href="http://cm.konform.com/t/d-l-njtully-l-r/">G&#229; til side om kurset</a>&nbsp;</span></p>
+                                            <p class="size-18" style="Margin-top: 0;Margin-bottom: 0;font-size: 17px;line-height: 26px;" lang="x-size-18"><span style="color:#000000"><a style="text-decoration: underline;transition: opacity 0.1s ease-in;color: #000;" href="http://cm.konform.com/t/d-l-njtully-l-r/">G&#229; til side om kurset <img style="Margin-left: 20px;border: 0;display: inline-block;height: 17px;width: auto;" alt="" width="auto" src="{{ env('WEBSITE_URL') }}{{ env('MAIL_ARROW_IMAGE') }}"></a>&nbsp;</span></p>
                                         </div>
                                     </div>
 
@@ -696,7 +717,7 @@
                                 <!--[if (mso)|(IE)]><table align="center" cellpadding="0" cellspacing="0" role="presentation"><tr class="layout-fixed-width" style="background-color: #ffffff;"><td style="width: 600px" class="w560"><![endif]-->
                                 <div class="column" style="text-align: left;color: #2f353e;font-size: 15px;line-height: 23px;font-family: Calibri,Carlito,PT Sans,Trebuchet MS,sans-serif;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);">
 
-                                    <div style="Margin-left: 20px;Margin-right: 20px;">
+                                    <div style="Margin-left: 46px;Margin-right: 46px;">
                                         <div style="mso-line-height-rule: exactly;line-height: 40px;font-size: 1px;">&nbsp;</div>
                                     </div>
 
@@ -714,7 +735,7 @@
                                 <!--[if (mso)|(IE)]><table align="center" cellpadding="0" cellspacing="0" role="presentation"><tr class="layout-fixed-width" style="background-color: #ffffff;"><td style="width: 600px" class="w560"><![endif]-->
                                 <div class="column" style="text-align: left;color: #2f353e;font-size: 15px;line-height: 23px;font-family: Calibri,Carlito,PT Sans,Trebuchet MS,sans-serif;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);">
 
-                                    <div style="Margin-left: 20px;Margin-right: 20px;">
+                                    <div style="Margin-left: 46px;Margin-right: 46px;">
                                         <div style="mso-line-height-rule: exactly;line-height: 40px;font-size: 1px;">&nbsp;</div>
                                     </div>
 
@@ -734,7 +755,7 @@
                             <!--[if (mso)|(IE)]><table align="center" cellpadding="0" cellspacing="0" role="presentation"><tr class="layout-fixed-width" style="background-color: #ffffff;"><td style="width: 600px" class="w560"><![endif]-->
                             <div class="column" style="text-align: left;color: #2f353e;font-size: 15px;line-height: 23px;font-family: Calibri,Carlito,PT Sans,Trebuchet MS,sans-serif;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);">
 
-                                <div style="Margin-left: 20px;Margin-right: 20px;">
+                                <div style="Margin-left: 46px;Margin-right: 46px;">
                                     <div style="mso-line-height-rule: exactly;mso-text-raise: 4px;">
                                         <h2 class="size-18" style="Margin-top: 0;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #2f353e;font-size: 17px;line-height: 26px;" lang="x-size-18">Tilmeldte deltagere</h2>
                                     </div>
@@ -745,24 +766,30 @@
                         </div>
                     </div>
 
-                    @component('emails.components.spacer', ['color' => '#ffffff'])
-                    @endcomponent
-
                     @if (! empty($participants))
                         <div class="layout one-col fixed-width" style="Margin: 0 auto;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;">
                             <div class="layout__inner" style="border-collapse: collapse;display: table;width: 100%;background-color: #ffffff;">
                                 <!--[if (mso)|(IE)]><table align="center" cellpadding="0" cellspacing="0" role="presentation"><tr class="layout-fixed-width" style="background-color: #ffffff;"><td style="width: 600px" class="w560"><![endif]-->
                                 <div class="column" style="text-align: left;color: #2f353e;font-size: 15px;line-height: 23px;font-family: Calibri,Carlito,PT Sans,Trebuchet MS,sans-serif;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);">
 
-                                    <div style="Margin-left: 20px;Margin-right: 20px;">
+                                    <div style="Margin-left: 46px;Margin-right: 46px;">
                                         <div style="mso-line-height-rule: exactly;mso-text-raise: 4px;">
+                                            <p></p>
                                             @foreach ($participants as $participant)
-                                            <p class="size-15" style="Margin-top: 0;Margin-bottom: 0;font-size: 15px;line-height: 23px;" lang="x-size-15">
-                                                <span style="color:#8e8e8e">Deltager {{ $loop->iteration }}:</span>{{ $participant->name }} {{ $participant->title }}<br>
-                                                tlf. {{ $participant->phone }}
-                                                <a style="text-decoration: underline;transition: opacity 0.1s ease-in;color: #000;" href="mailto: {{ $participant->email }}">{{ $participant->email }}</a>
-                                            </p>
+                                                <table style="width: 100%; margin-bottom: 10px;">
+                                                    <tr class="size-15" style="Margin-top: 20px;Margin-bottom: 0;font-size: 15px;line-height: 23px;" lang="x-size-15">
+                                                        <td style="color:#8e8e8e; width: 25%;">Deltager {{ $loop->iteration }}:</td>
+                                                        <td style="color:#000000">{{ $participant->name }}</td>
+                                                        <td style="color:#000000">{{ $participant->title }}</td>
+                                                    </tr>
+                                                    <tr class="size-15" style="Margin-top: 20px;Margin-bottom: 0;font-size: 15px;line-height: 23px;" lang="x-size-15">
+                                                        <td style="color:#8e8e8e; width: 25%"></td>
+                                                        <td style="color:#000000">tlf. {{ $participant->phone }}</td>
+                                                        <td style="color:#000000"><a style="text-decoration: underline;transition: opacity 0.1s ease-in;color: #000;" href="mailto: {{ $participant->email }}">{{ $participant->email }}</a></td>
+                                                    </tr>
+                                                </table>
                                             @endforeach
+
                                         </div>
                                     </div>
 
@@ -787,7 +814,7 @@
                                 <!--[if (mso)|(IE)]><table align="center" cellpadding="0" cellspacing="0" role="presentation"><tr class="layout-fixed-width" style="background-color: #ffffff;"><td style="width: 600px" class="w560"><![endif]-->
                                 <div class="column" style="text-align: left;color: #2f353e;font-size: 15px;line-height: 23px;font-family: Calibri,Carlito,PT Sans,Trebuchet MS,sans-serif;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);">
 
-                                    <div style="Margin-left: 20px;Margin-right: 20px;">
+                                    <div style="Margin-left: 46px;Margin-right: 46px;">
                                         <div style="mso-line-height-rule: exactly;mso-text-raise: 4px;">
                                             <h2 class="size-18" style="Margin-top: 0;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #2f353e;font-size: 17px;line-height: 26px;" lang="x-size-18"><span style="color:#000000">{{ $course->name }}</span></h2>
                                         </div>
@@ -798,19 +825,36 @@
                             </div>
                         </div>
 
-                        @component('emails.components.spacer', ['color' => '#ffffff'])
-                        @endcomponent
-
                         <div class="layout one-col fixed-width" style="Margin: 0 auto;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;">
                             <div class="layout__inner" style="border-collapse: collapse;display: table;width: 100%;background-color: #ffffff;">
                                 <!--[if (mso)|(IE)]><table align="center" cellpadding="0" cellspacing="0" role="presentation"><tr class="layout-fixed-width" style="background-color: #ffffff;"><td style="width: 600px" class="w560"><![endif]-->
                                 <div class="column" style="text-align: left;color: #2f353e;font-size: 15px;line-height: 23px;font-family: Calibri,Carlito,PT Sans,Trebuchet MS,sans-serif;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);">
 
-                                    <div style="Margin-left: 20px;Margin-right: 20px;">
+                                    <div style="Margin-left: 46px;Margin-right: 46px;">
                                         <div style="mso-line-height-rule: exactly;mso-text-raise: 4px;">
-                                            <p class="size-15" style="Margin-top: 0;Margin-bottom: 0;font-size: 15px;line-height: 23px;" lang="x-size-15"><span style="color:#8e8e8e">Lokation:&nbsp;</span><span style="color:#000000">Strandvejen 54, 2900 Hellerup</span></p><p class="size-15" style="Margin-top: 20px;Margin-bottom: 0;font-size: 15px;line-height: 23px;" lang="x-size-15"><span style="color:#8e8e8e">Dag 1:</span>&nbsp;<span style="color:#000000">Fredag d. 30. Juni 2018</span><br>
-                                                <span style="color:#8e8e8e">Dag 2:&nbsp;</span><span style="color:#000000">Fredag d. 30. Juni 2018</span><br>
-                                                <span style="color:#8e8e8e">Dag 3:</span>&nbsp;<span style="color:#000000">Fredag d. 30. Juni 2018</span></p>
+                                            <p></p>
+                                            <table style="width: 100%; margin-bottom: 10px;">
+                                                @if (! empty($location))
+                                                    <tr class="size-15" style="Margin-top: 0;Margin-bottom: 10px;font-size: 15px;line-height: 23px;" lang="x-size-15">
+                                                        <td style="color:#8e8e8e; width: 20% ">Lokation:&nbsp;</td>
+                                                        <td style="color:#000000; Margin-bottom: 10px;">{{$location}}</td>
+                                                    </tr>
+                                                @endif
+                                            </table>
+                                            <table style="width: 100%">
+                                                <tr class="size-15" style="Margin-top: 20px;Margin-bottom: 0;font-size: 15px;line-height: 23px;" lang="x-size-15">
+                                                    <td style="color:#8e8e8e; width: 20%">Dag 1:</td>
+                                                    <td style="color:#000000">Fredag d. 30. Juni 2018</td>
+                                                </tr>
+                                                <tr class="size-15" style="Margin-top: 20px;Margin-bottom: 0;font-size: 15px;line-height: 23px;" lang="x-size-15">
+                                                    <td style="color:#8e8e8e; width: 20%">Dag 2:</td>
+                                                    <td style="color:#000000">Fredag d. 30. Juni 2018</td>
+                                                </tr>
+                                                <tr class="size-15" style="Margin-top: 20px;Margin-bottom: 0;font-size: 15px;line-height: 23px;" lang="x-size-15">
+                                                    <td style="color:#8e8e8e; width: 20%">Dag 3:</td>
+                                                    <td style="color:#000000">Fredag d. 30. Juni 2018</td>
+                                                </tr>
+                                            </table>
                                         </div>
                                     </div>
 
@@ -833,9 +877,9 @@
                             <!--[if (mso)|(IE)]><table align="center" cellpadding="0" cellspacing="0" role="presentation"><tr class="layout-fixed-width" style="background-color: #ffffff;"><td style="width: 600px" class="w560"><![endif]-->
                             <div class="column" style="text-align: left;color: #2f353e;font-size: 15px;line-height: 23px;font-family: Calibri,Carlito,PT Sans,Trebuchet MS,sans-serif;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);">
 
-                                <div style="Margin-left: 20px;Margin-right: 20px;">
+                                <div style="Margin-left: 46px;Margin-right: 46px;">
                                     <div style="mso-line-height-rule: exactly;mso-text-raise: 4px;">
-                                        <p class="size-22" style="Margin-top: 0;Margin-bottom: 0;font-size: 18px;line-height: 26px;" lang="x-size-22"><span style="color:#8e8e8e">Samlet pris:</span>&nbsp;DKK {{ $order->getTotalPrice() }},- eks. moms</p>
+                                        <p class="size-22" style="Margin-top: 0;Margin-bottom: 0;font-size: 18px;line-height: 26px;" lang="x-size-22"><span style="color:#8e8e8e; margin-right: 20px;">Samlet pris:</span> <span style="">DKK {{ $order->getTotalPrice() }},- eks. moms</span></p>
                                     </div>
                                 </div>
 
