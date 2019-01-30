@@ -11,6 +11,10 @@
         Id volutpat lacus laoreet non. Placerat orci nulla pellentesque dignissim enim sit amet venenatis.
         Dictumst vestibulum rhoncus est pel.
     @endsection
+
+    @section('location_and_dates')
+        asd
+    @endsection
 @endsection
 
 <!--<div>Calendar link: <a href="{{$calendarUrl}}">{{$calendarUrl}}</a></div>-->

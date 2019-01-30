@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 /**
  * App\Course
@@ -17,8 +18,8 @@ use Illuminate\Support\Facades\DB;
  * @property int $id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string $start_time
- * @property string $end_time
+ * @property \DateTime $start_time
+ * @property \DateTime $end_time
  * @property float $price
  * @property string $maconomy_id
  * @property int $seats_available
@@ -51,7 +52,7 @@ class Course extends Model
 
     protected $guarded = [];
     protected $hidden = ['created_at', 'updated_at', 'pivot', 'id'];
-    protected $dates = ['deleted_at', 'last_sync_date'];
+    protected $dates = ['deleted_at', 'last_sync_date', 'start_time', 'end_time'];
 
     public function orders()
     {
@@ -60,7 +61,7 @@ class Course extends Model
 
     public function coursetype()
     {
-        return $this->belongsTo(CourseType::class);
+        return $this->belongsTo(CourseType::class); //, 'coursetype_id', 'id', 'course_types');
     }
 
     /**
@@ -139,5 +140,25 @@ class Course extends Model
 
         // no course type found, just use the course's name instead.
         return $this->name;
+    }
+
+    /**
+     * Fetches the dates a course is running on
+     * @return array
+     * @throws \Exception
+     */
+    public function getCourseDates()
+    {
+        // fetching the duration from the course type
+        $duration = (int)$this->coursetype->duration;
+
+        $startTime = $this->start_time;
+        $dates = [];
+        foreach (range(0, $duration-1) as $days) {
+            $startTime->add(new \DateInterval('P1D'));
+            $dates[] = new \DateTime($startTime->format('c'));
+        }
+
+        return $dates;
     }
 }
