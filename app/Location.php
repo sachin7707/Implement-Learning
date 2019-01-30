@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
  * @author jimmiw
@@ -16,5 +17,33 @@ class Location extends Model
     public function courses()
     {
         return $this->hasMany(Course::class);
+    }
+
+    /**
+     * Fetches the location, that has the given maconomy id
+     * @param string $externalId
+     * @return Location|null the location found
+     */
+    public static function getByExternalId(string $externalId)
+    {
+        // NOTE: also returning trashed locations, if they are found - ILI-521
+        return self::where('externalId', $externalId)->first();
+    }
+
+    /**
+     * Same as getByExternalId, but this throws an error if the item is not found.
+     * @param string $externalId
+     * @return Location|null
+     * @throws ModelNotFoundException
+     */
+    public static function getByExternalIdOrFail(string $externalId)
+    {
+        $location = self::getByExternalId($externalId);
+
+        if ($location === null) {
+            throw new ModelNotFoundException(self::class . ' not found with id ' . $externalId);
+        }
+
+        return $location;
     }
 }

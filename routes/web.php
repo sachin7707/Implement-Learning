@@ -41,6 +41,9 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
 
     // handle mail texts from wp
     $router->put('/texts/mails', 'MailController@update');
+
+    $router->get('/location', 'LocationController@index');
+    $router->put('/location/{id}', 'LocationController@update');
 });
 
 

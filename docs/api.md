@@ -74,3 +74,15 @@ Changes the data on the selected coursetype
 
 Requires the following data:
 * name: string, changes the title on the backend server
+
+
+### GET: /api/v1/location
+Fetches the locations from our local database
+
+### PUT: /api/v1/location/{id}
+Updates or Creates the data on the selected location.
+
+The reason we have one action for both update or create is that WP does not know if it's one or the other...
+
+Requires the following data:
+* name: string, changes the location name
