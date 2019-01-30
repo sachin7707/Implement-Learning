@@ -125,8 +125,8 @@ class CourseController extends Controller
         }
 
         // checking if there is a venue attached to the course - ILI-525
-        if ($request->input('venue', null) !== null) {
-            $location = Location::where('externalId', $request->input('venue'))
+        if ($request->input('externalId', null) !== null) {
+            $location = Location::where('externalId', $request->input('externalId'))
                 ->first();
 
             // only setting the location, if we have it
