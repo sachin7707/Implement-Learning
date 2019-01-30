@@ -64,6 +64,11 @@ class Course extends Model
         return $this->belongsTo(CourseType::class); //, 'coursetype_id', 'id', 'course_types');
     }
 
+    public function location()
+    {
+        return $this->belongsTo(Location::class);
+    }
+
     /**
      * Fetches the number of available seats, on a course, on the given order.
      * @param Course $course the course to check

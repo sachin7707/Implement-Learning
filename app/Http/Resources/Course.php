@@ -28,7 +28,8 @@ class Course extends JsonResource
                 // if it's two days, with dec 7 and dec 8, diff would yield 1... +1 saves it all :)
                 // fixes ILI-428
                 'duration' => $diff->days + 1,
-                'seats_available_including_reservations' => $this->getAvailableSeats()
+                'seats_available_including_reservations' => $this->getAvailableSeats(),
+                'location' => $this->location
             ]
         );
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Course;
 use App\Http\Resources\Course as CourseResource;
 use App\Jobs\ImportCourses;
+use App\Location;
 use App\Maconomy\Client\Maconomy;
 use Eluceo\iCal\Component\Calendar;
 use Eluceo\iCal\Component\Event;
@@ -120,6 +121,21 @@ class CourseController extends Controller
         // you can now update the course day's name as well ILI-500
         if ($request->input('name') !== null) {
             $course->name = $request->input('name');
+            $changed = true;
+        }
+
+        // checking if there is a venue attached to the course - ILI-525
+        if ($request->input('venue', null) !== null) {
+            $location = Location::where('externalId', $request->input('venue'))
+                ->first();
+
+            // only setting the location, if we have it
+            if ($location) {
+                $course->location_id = $location->id;
+            } else {
+                // it can also be removed again
+                $course->location_id = null;
+            }
             $changed = true;
         }
 
