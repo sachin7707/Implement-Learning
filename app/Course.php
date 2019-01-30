@@ -125,4 +125,19 @@ class Course extends Model
 
         return $course;
     }
+
+    /**
+     * Fetches the title of the course, by first checking the course type, else falling back to own name.
+     * @return string
+     */
+    public function getTitle()
+    {
+        // checking if the course type exists, and uses that name
+        if ($this->coursetype) {
+            return $this->coursetype->name;
+        }
+
+        // no course type found, just use the course's name instead.
+        return $this->name;
+    }
 }
