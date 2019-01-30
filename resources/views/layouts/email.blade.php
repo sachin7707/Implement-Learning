@@ -606,18 +606,12 @@
                                                     @endif
                                                 </table>
                                                 <table style="width: 100%">
-                                                    <tr class="size-15" style="Margin-top: 20px;Margin-bottom: 0;font-size: 15px;line-height: 23px;" lang="x-size-15">
-                                                        <td style="color:#8e8e8e; width: 20%">Dag 1:</td>
-                                                        <td style="color:#000000">Fredag d. 30. Juni 2018</td>
-                                                    </tr>
-                                                    <tr class="size-15" style="Margin-top: 20px;Margin-bottom: 0;font-size: 15px;line-height: 23px;" lang="x-size-15">
-                                                        <td style="color:#8e8e8e; width: 20%">Dag 2:</td>
-                                                        <td style="color:#000000">Fredag d. 30. Juni 2018</td>
-                                                    </tr>
-                                                    <tr class="size-15" style="Margin-top: 20px;Margin-bottom: 0;font-size: 15px;line-height: 23px;" lang="x-size-15">
-                                                        <td style="color:#8e8e8e; width: 20%">Dag 3:</td>
-                                                        <td style="color:#000000">Fredag d. 30. Juni 2018</td>
-                                                    </tr>
+                                                    @foreach ($course->getCourseDates() as $index => $date)
+                                                        <tr class="size-15" style="Margin-top: 20px;Margin-bottom: 0;font-size: 15px;line-height: 23px;" lang="x-size-15">
+                                                            <td style="color:#8e8e8e; width: 20%">Dag {{ $index + 1 }}:</td>
+                                                            <td style="color:#000000">{{ $date->format('l') }} d. {{ $date->format('j') }}. {{ $date->format('F Y') }}</td>
+                                                        </tr>
+                                                    @endforeach
                                                 </table>
                                             </div>
                                         </div>
@@ -842,18 +836,12 @@
                                                 @endif
                                             </table>
                                             <table style="width: 100%">
-                                                <tr class="size-15" style="Margin-top: 20px;Margin-bottom: 0;font-size: 15px;line-height: 23px;" lang="x-size-15">
-                                                    <td style="color:#8e8e8e; width: 20%">Dag 1:</td>
-                                                    <td style="color:#000000">Fredag d. 30. Juni 2018</td>
-                                                </tr>
-                                                <tr class="size-15" style="Margin-top: 20px;Margin-bottom: 0;font-size: 15px;line-height: 23px;" lang="x-size-15">
-                                                    <td style="color:#8e8e8e; width: 20%">Dag 2:</td>
-                                                    <td style="color:#000000">Fredag d. 30. Juni 2018</td>
-                                                </tr>
-                                                <tr class="size-15" style="Margin-top: 20px;Margin-bottom: 0;font-size: 15px;line-height: 23px;" lang="x-size-15">
-                                                    <td style="color:#8e8e8e; width: 20%">Dag 3:</td>
-                                                    <td style="color:#000000">Fredag d. 30. Juni 2018</td>
-                                                </tr>
+                                                @foreach ($course->getCourseDates() as $index => $date)
+                                                    <tr class="size-15" style="Margin-top: 20px;Margin-bottom: 0;font-size: 15px;line-height: 23px;" lang="x-size-15">
+                                                        <td style="color:#8e8e8e; width: 20%">Dag {{ $index + 1 }}:</td>
+                                                        <td style="color:#000000">{{ $date->format('l') }} d. {{ $date->format('j') }}. {{ $date->format('F Y') }}</td>
+                                                    </tr>
+                                                @endforeach
                                             </table>
                                         </div>
                                     </div>
