@@ -68,3 +68,9 @@ Fetches the calendar event for the given course. NOTE: The "id" is "maconomy_id"
 
 ### GET: /api/v1/coursetype
 Fetches the course types from our local database
+
+### PUT: /api/v1/coursetype/{id}
+Changes the data on the selected coursetype
+
+Requires the following data:
+* name: string, changes the title on the backend server
