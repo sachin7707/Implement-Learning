@@ -95,10 +95,15 @@ if ($app->environment() === 'local') {
  * Configurations?
  */
 
+// adding mail info from config/mail.php
 $app->configure('mail');
+// adding services info from config/services.php
+$app->configure('services');
 
 /* Alias? */
-$app->alias('mailer', \Illuminate\Contracts\Mail\Mailer::class);
+$app->alias('mailer', Illuminate\Mail\Mailer::class);
+$app->alias('mailer', Illuminate\Contracts\Mail\Mailer::class);
+$app->alias('mailer', Illuminate\Contracts\Mail\MailQueue::class);
 
 /*
 |--------------------------------------------------------------------------
