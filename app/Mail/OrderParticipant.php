@@ -38,7 +38,7 @@ class OrderParticipant extends Mailable
 
         // TODO: should change language! just using DA atm
         // setting general mail texts
-        $this->beforeCourse = MailText::getByTypeAndLanguage(MailText::TYPE_DEFAULT_PARTICIPANT, 'da');
+        $this->intro = MailText::getByTypeAndLanguage(MailText::TYPE_DEFAULT_PARTICIPANT, 'da');
         $this->footer = MailText::getByTypeAndLanguage(MailText::TYPE_MAIL_FOOTER, 'da');
     }
 
