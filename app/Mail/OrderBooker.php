@@ -35,7 +35,7 @@ class OrderBooker extends Mailable
         $this->order = $order;
         $this->courses = $order->courses;
 
-        $this->$footer = MailText::getByTypeAndLanguage(MailText::TYPE_MAIL_FOOTER, 'da');
+        $this->footer = MailText::getByTypeAndLanguage(MailText::TYPE_MAIL_FOOTER, 'da');
     }
 
     /**
