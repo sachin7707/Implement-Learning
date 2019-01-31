@@ -17,13 +17,12 @@ class MailController extends Controller
      */
     public function update(Request $request)
     {
-        Log::info('MailController::update(): ' . print_r($request->input(),1));
         $this->validate($request, [
-            'texts' => 'required|array',
+            'texts' => 'required',
             'lang' => 'required|string'
         ]);
-        $texts = $request->input('texts');
-        $language = $request->input('lang');
+        $texts = json_decode($request->input('texts'), true);
+        $language = $request->input('language');
 
         foreach ($texts as $type => $text) {
             // if the type is not valid, just skip it
