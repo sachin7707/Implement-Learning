@@ -828,10 +828,10 @@
                                         <div style="mso-line-height-rule: exactly;mso-text-raise: 4px;">
                                             <p></p>
                                             <table style="width: 100%; margin-bottom: 10px;">
-                                                @if (! empty($location))
+                                                @if (! empty($course->location))
                                                     <tr class="size-15" style="Margin-top: 0;Margin-bottom: 10px;font-size: 15px;line-height: 23px;" lang="x-size-15">
                                                         <td style="color:#8e8e8e; width: 20% ">Lokation:&nbsp;</td>
-                                                        <td style="color:#000000; Margin-bottom: 10px;">{{$location}}</td>
+                                                        <td style="color:#000000; Margin-bottom: 10px;">{{ $course->location->name }}</td>
                                                     </tr>
                                                 @endif
                                             </table>
