@@ -44,7 +44,7 @@ class OrderService
         $coursesWithSeatsUnavailable = 0;
 
         // if the course is set as a waitinglist order, just skip seat checks
-        if ($order->on_waitinglist === 0) {
+        if ((int)$order->on_waitinglist === 0) {
             if (!empty($courses)) {
                 /** @var Course $course */
                 foreach ($courses as $course) {
