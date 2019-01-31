@@ -17,6 +17,7 @@ class MailController extends Controller
      */
     public function update(Request $request)
     {
+        Log::info('MailController::update(): ' . print_r($request->input(),1));
         $this->validate($request, [
             'texts' => 'required|array',
             'lang' => 'required|string'
