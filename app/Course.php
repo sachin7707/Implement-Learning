@@ -180,8 +180,7 @@ class Course extends Model
         $formattedDates = [];
 
         $dates = $this->getCourseDates();
-        Carbon::setLocale('da');
-        setlocale(LC_TIME, 'Danish');
+        setlocale(LC_TIME, 'da_DK');
 
         /** @var Carbon $date */
         foreach ($dates as $date) {
