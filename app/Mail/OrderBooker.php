@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\MailText;
 use App\Order;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;

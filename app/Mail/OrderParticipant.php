@@ -2,7 +2,6 @@
 
 namespace App\Mail;
 
-use App\Maconomy\Service\CourseService;
 use App\MailText;
 use App\Order;
 use App\Participant;
