@@ -45,7 +45,8 @@ class CourseTypeController extends Controller
     {
         // validating that we have a course_id set
         $this->validate($request, [
-            'name' => 'string|required'
+            'name' => 'string|required',
+            'link' => 'string'
         ]);
 
         $courseType = CourseType::getByMaconomyIdOrFail($id);
@@ -55,6 +56,11 @@ class CourseTypeController extends Controller
         // you can now update the course day's name as well ILI-500
         if ($request->input('name') !== null) {
             $courseType->name = $request->input('name');
+            $changed = true;
+        }
+        // you can now update the course day's link - ILI-561
+        if ($request->input('link') !== null) {
+            $courseType->link = $request->input('link');
             $changed = true;
         }
 

@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 class CourseType extends Model
 {
     protected $guarded = [];
-    protected $hidden = ['created_at', 'updated_at'];
+    protected $hidden = ['id', 'created_at', 'updated_at'];
 
     public function courses()
     {
