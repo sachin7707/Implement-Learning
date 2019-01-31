@@ -26,7 +26,7 @@ class Order extends JsonResource
                 'state_text' => $this->getStateAsText(),
                 'on_waitinglist_text' => $this->getOnWaitingListAsText(),
                 'education' => new CourseTypeResource($this->education),
-                'courses' => CourseResource::collection($this->courses),
+                'courses' => CourseResource::collection($this->courses()->orderBy('course_order.id')->get()),
                 'company' => new CompanyResource($this->company),
                 'total_price' => $this->getTotalPrice(),
                 'total_price_text' => 'DKK ' . $this->getTotalPrice() . ',- ekskl. moms',
