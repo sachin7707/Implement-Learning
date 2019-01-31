@@ -14,14 +14,15 @@ class MailController extends Controller
 {
     /**
      * Receives the mail texts from wordpress and add them to the database
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request)
     {
-        $this->validate($request, [
-            'texts' => 'required',
-            'lang' => 'required|string'
-        ]);
-        $texts = json_decode($request->input('texts'), true);
+//        $this->validate($request, [
+//            'texts' => 'required',
+//            'lang' => 'required|string'
+//        ]);
+        $texts = $request->input('texts');
         $language = $request->input('language');
 
         foreach ($texts as $type => $text) {
@@ -35,16 +36,16 @@ class MailController extends Controller
 
             if ($mailText) {
                 $mailText->text = $text;
-                $mailText->save();
             } else {
                 // new MailText, create a new instance on the given language
-                $mailText = new MailText();
-                $mailText->save([
+                $mailText = new MailText([
                     'type' => $type,
                     'text' => $text,
                     'language' => $language
                 ]);
             }
+
+            $mailText->save();
         }
     }
 }

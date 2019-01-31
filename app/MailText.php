@@ -15,6 +15,8 @@ class MailText extends Model
     const TYPE_REMINDER = 'remindermail';
     const TYPE_MAIL_FOOTER = 'mailfooter';
 
+    protected $guarded = [];
+
     /**
      * Fetches the mail text, using the given $type
      * @param string $type the mail type, see TYPE_X constants
