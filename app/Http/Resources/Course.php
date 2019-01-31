@@ -29,7 +29,8 @@ class Course extends JsonResource
                 // fixes ILI-428
                 'duration' => $diff->days + 1,
                 'seats_available_including_reservations' => $this->getAvailableSeats(),
-                'location' => $this->location
+                'location' => $this->location,
+                'dates' => $this->getCourseDatesFormatted()
             ]
         );
     }

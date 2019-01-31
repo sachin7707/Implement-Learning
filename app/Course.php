@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -159,12 +160,33 @@ class Course extends Model
 
         $startTime = $this->start_time;
         $dates = [];
+
         foreach (range(0, $duration-1) as $days) {
             $startTime->add(new \DateInterval('P1D'));
-            $dates[] = new \DateTime($startTime->format('c'));
+            $dates[] = new Carbon($startTime->format('c'));
         }
 
         return $dates;
+    }
+
+    /**
+     * Fetches the course dates formatted as nice strings
+     * @return array
+     * @throws \Exception
+     */
+    public function getCourseDatesFormatted()
+    {
+        $formattedDates = [];
+
+        $dates = $this->getCourseDates();
+        Carbon::setLocale('da');
+
+        /** @var Carbon $date */
+        foreach ($dates as $date) {
+            $formattedDates[] = $date->formatLocalized('%A d. %e. %B %G');
+        }
+
+        return $formattedDates;
     }
 
     /**
