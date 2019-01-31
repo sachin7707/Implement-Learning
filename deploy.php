@@ -39,8 +39,7 @@ task('reload:supervisord', function () {
     run('sudo systemctl restart supervisord', ['tty' => true]);
 });
 
-after('success', 'reload:supervisord');
-after('rollback', 'reload:supervisord');
+after('deploy:unlock', 'reload:supervisord');
 
 task('deploy', [
     'deploy:prepare',
