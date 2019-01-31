@@ -22,6 +22,10 @@ class OrderParticipant extends Mailable
     public $participant;
     public $calendarUrl;
 
+    // mail texts
+    public $intro;
+    public $footer;
+
     /**
      * OrderParticipant constructor.
      * @param Order $order
