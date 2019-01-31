@@ -184,7 +184,7 @@ class Course extends Model
 
         /** @var Carbon $date */
         foreach ($dates as $date) {
-            $formattedDates[] = $date->formatLocalized('%A d. %e. %B %G');
+            $formattedDates[] = utf8_encode($date->formatLocalized('%A d. %e. %B %G'));
         }
 
         return $formattedDates;
