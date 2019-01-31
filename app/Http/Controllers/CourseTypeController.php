@@ -6,6 +6,7 @@ use App\CourseType;
 use App\Http\Resources\CourseType as CourseTypeResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @author jimmiw
@@ -53,6 +54,8 @@ class CourseTypeController extends Controller
 
         $courseType->link = $request->input('link');
         $courseType->name = $request->input('name');
+
+        // TODO: handle $request->input('texts')['before_course'] text+language
 
         $courseType->save();
 
