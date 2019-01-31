@@ -1,7 +1,7 @@
 @extends('layouts.email', [
     'courses' => $courses,
     'participants' => $order->company->participants,
-    'footer' => $footer,
+    'footer' => json_decode($footer->text),
 ])
 @section('title', 'KVITTERING')
 

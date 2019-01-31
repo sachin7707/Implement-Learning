@@ -1,6 +1,6 @@
-@extends('layouts.email', ['courses' => $courses, 'footer' => $footer])
+@extends('layouts.email', ['courses' => $courses, 'footer' => json_decode($footer->text)])
 @section('title', 'DELTAGER EMAIL')
-@section('intro', str_replace('$name', $participant->name, $intro))
+@section('intro', str_replace('$name', $participant->name, $intro->text))
 
 @section('participant')
     we just need some data here... this is not displayed anywhere though :)
