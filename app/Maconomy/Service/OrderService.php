@@ -41,6 +41,8 @@ class OrderService
     public function reserveSeats(Order $order, int $requiredSeats, $courses): bool
     {
         $seatsAreAvailable = true;
+        $coursesWithSeatsUnavailable = 0;
+
         if (! empty($courses)) {
             /** @var Course $course */
             foreach ($courses as $course) {
@@ -51,8 +53,16 @@ class OrderService
                 if ($course->getAvailableSeats($order) < $requiredSeats) {
                     // NOTE: this method should still be called though, else system is not updated properly - ILI-380
                     $seatsAreAvailable = false;
+                    $coursesWithSeatsUnavailable++;
                 }
             }
+        }
+
+        // all courses have no seats available, set the order as a waitinglist order
+        if ($seatsAreAvailable === false && $coursesWithSeatsUnavailable === count($courses)) {
+            $order->on_waitinglist = 1;
+            // updating seats available, so we can save the data on the order and continue
+            $seatsAreAvailable = true;
         }
 
         // if we can, reserve the seats!
