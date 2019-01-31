@@ -880,7 +880,7 @@
                     @endcomponent
                 @endif
 
-                @component('emails.questions')
+                @component('emails.questions', ['footer' => $footer])
                 @endcomponent
 
                 <div style="mso-line-height-rule: exactly;line-height: 40px;font-size: 40px;">&nbsp;</div>
