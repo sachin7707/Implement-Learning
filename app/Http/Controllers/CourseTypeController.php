@@ -51,26 +51,8 @@ class CourseTypeController extends Controller
 
         $courseType = CourseType::getByMaconomyIdOrFail($id);
 
-        $changed = false;
-
-        // you can now update the course day's name as well ILI-500
-        if ($request->input('name') !== null) {
-            $courseType->name = $request->input('name');
-            $changed = true;
-        }
-        // you can now update the course day's link - ILI-561
-        if ($request->input('link') !== null) {
-            $courseType->link = $request->input('link');
-            $changed = true;
-        }
-
-        // no changes? just return the current $course, before calling save
-        if ($changed === false) {
-            return new JsonResponse([
-                'message' => 'CourseType ' . $id . ' was not updated, no data was sent',
-                'data' => new CourseTypeResource(CourseType::getByMaconomyId($id))
-            ]);
-        }
+        $courseType->link = $request->input('link');
+        $courseType->name = $request->input('name');
 
         $courseType->save();
 
