@@ -43,26 +43,32 @@ class OrderService
         $seatsAreAvailable = true;
         $coursesWithSeatsUnavailable = 0;
 
-        if (! empty($courses)) {
-            /** @var Course $course */
-            foreach ($courses as $course) {
-                // updates the seats available from maconomy
-                $this->courseService->updateSeatsAvailable($course);
+        // if the course is set as a waitinglist order, just skip seat checks
+        if ($order->on_waitinglist === 0) {
+            if (!empty($courses)) {
+                /** @var Course $course */
+                foreach ($courses as $course) {
+                    // updates the seats available from maconomy
+                    $this->courseService->updateSeatsAvailable($course);
 
-                // fetching the number of seats available on the course (without the currently reserved seats)
-                if ($course->getAvailableSeats($order) < $requiredSeats) {
-                    // NOTE: this method should still be called though, else system is not updated properly - ILI-380
-                    $seatsAreAvailable = false;
-                    $coursesWithSeatsUnavailable++;
+                    // fetching the number of seats available on the course (without the currently reserved seats)
+                    if ($course->getAvailableSeats($order) < $requiredSeats) {
+                        // NOTE: this method should still be called though, else system is not updated properly - ILI-380
+                        $seatsAreAvailable = false;
+                        $coursesWithSeatsUnavailable++;
+                    }
                 }
             }
-        }
 
-        // all courses have no seats available, set the order as a waitinglist order
-        if ($seatsAreAvailable === false && $coursesWithSeatsUnavailable === count($courses)) {
-            $order->on_waitinglist = 1;
-            // updating seats available, so we can save the data on the order and continue
-            $seatsAreAvailable = true;
+            // all courses have no seats available, set the order as a waitinglist order
+            if ($seatsAreAvailable === false && $coursesWithSeatsUnavailable === count($courses)) {
+                // the status can only be set, if there are no existing courses on the order.
+                if (count($order->courses) === 0) {
+                    $order->on_waitinglist = 1;
+                    // updating seats available, so we can save the data on the order and continue
+                    $seatsAreAvailable = true;
+                }
+            }
         }
 
         // if we can, reserve the seats!
