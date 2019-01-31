@@ -836,10 +836,10 @@
                                                 @endif
                                             </table>
                                             <table style="width: 100%">
-                                                @foreach ($course->getCourseDates() as $index => $date)
+                                                @foreach ($course->getCourseDatesFormatted() as $index => $date)
                                                     <tr class="size-15" style="Margin-top: 20px;Margin-bottom: 0;font-size: 15px;line-height: 23px;" lang="x-size-15">
                                                         <td style="color:#8e8e8e; width: 20%">Dag {{ $index + 1 }}:</td>
-                                                        <td style="color:#000000">{{ $date->format('l') }} d. {{ $date->format('j') }}. {{ $date->format('F Y') }}</td>
+                                                        <td style="color:#000000">{{ $date }}</td>
                                                     </tr>
                                                 @endforeach
                                             </table>

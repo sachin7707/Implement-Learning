@@ -160,8 +160,9 @@ class Course extends Model
 
         $startTime = $this->start_time;
         $dates = [];
+        $dates[] = new Carbon($startTime->format('c'));
 
-        foreach (range(0, $duration-1) as $days) {
+        foreach (range(1, $duration-1) as $days) {
             $startTime->add(new \DateInterval('P1D'));
             $dates[] = new Carbon($startTime->format('c'));
         }
@@ -180,6 +181,7 @@ class Course extends Model
 
         $dates = $this->getCourseDates();
         Carbon::setLocale('da');
+        setlocale(LC_TIME, 'Danish');
 
         /** @var Carbon $date */
         foreach ($dates as $date) {
