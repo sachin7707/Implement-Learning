@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Maconomy\Service\CourseService;
+use App\MailText;
 use App\Order;
 use App\Participant;
 use Illuminate\Bus\Queueable;
@@ -34,6 +35,11 @@ class OrderParticipant extends Mailable
         // creating the calendar url for the participants
         // TODO: change this url in the future? since it goes directly to the api instead of WP site.
         $this->calendarUrl = '/api/v1/order/'. str_pad($order->id, 8, '0', STR_PAD_LEFT) .'/cal';
+
+        // TODO: should change language! just using DA atm
+        // setting general mail texts
+        $this->beforeCourse = MailText::getByTypeAndLanguage(MailText::TYPE_DEFAULT_PARTICIPANT, 'da');
+        $this->footer = MailText::getByTypeAndLanguage(MailText::TYPE_MAIL_FOOTER, 'da');
     }
 
     /**

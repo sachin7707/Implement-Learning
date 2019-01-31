@@ -10,7 +10,7 @@
 
             <div style="Margin-left: 46px;Margin-right: 46px;">
                 <div style="mso-line-height-rule: exactly;mso-text-raise: 4px;">
-                    <p class="size-16" style="Margin-top: 0;Margin-bottom: 0;font-size: 16px;line-height: 24px;" lang="x-size-16">Nogen sp&#248;rgsm&#229;l?</p>
+                    <p class="size-16" style="Margin-top: 0;Margin-bottom: 0;font-size: 16px;line-height: 24px;" lang="x-size-16">{{ $footer->label }}</p>
                 </div>
             </div>
 
@@ -26,7 +26,7 @@
 
             <div style="Margin-left: 46px;Margin-right: 46px;">
                 <div style="mso-line-height-rule: exactly;mso-text-raise: 4px;">
-                    <p class="size-30" style="Margin-top: 0;Margin-bottom: 0;font-size: 26px;line-height: 34px;" lang="x-size-30">Ring til os p&#229; 41 38 00 40 &nbsp;</p>
+                    <p class="size-30" style="Margin-top: 0;Margin-bottom: 0;font-size: 26px;line-height: 34px;" lang="x-size-30">{{ $footer->header }}</p>
                 </div>
             </div>
 
@@ -43,8 +43,8 @@
             <div style="Margin-left: 46px;Margin-right: 46px;">
                 <div style="mso-line-height-rule: exactly;mso-text-raise: 4px;">
                     <p></p>
-                    <p class="size-16" style="Margin-top: 0;Margin-bottom: 0;font-size: 16px;line-height: 24px;" lang="x-size-16">Implement Learning Institute<br>
-                        Strandvejen 54, 2900 Hellerup, Denmark</p>
+                    <p class="size-16" style="Margin-top: 0;Margin-bottom: 0;font-size: 16px;line-height: 24px;" lang="x-size-16">{{ $footer->company }}<br>
+                        {{ $footer->address }}</p>
                 </div>
             </div>
 
