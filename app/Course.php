@@ -166,4 +166,13 @@ class Course extends Model
 
         return $dates;
     }
+
+    /**
+     * Fetches the link to the course
+     * @return string
+     */
+    public function getLink()
+    {
+        return $this->coursetype->link ?? '';
+    }
 }
