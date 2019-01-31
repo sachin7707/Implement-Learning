@@ -40,7 +40,7 @@ class Order extends Model
 
     public function courses()
     {
-        return $this->belongsToMany(Course::class);
+        return $this->belongsToMany(Course::class)->orderBy('course_order.id');
     }
 
     public function company()
