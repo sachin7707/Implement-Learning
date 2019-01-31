@@ -198,4 +198,13 @@ class Course extends Model
     {
         return $this->coursetype->link ?? '';
     }
+
+    /**
+     * Fetches the language used on the course
+     * @return string
+     */
+    public function getLanguage()
+    {
+        return empty($this->language) ? 'Dansk' : $this->language;
+    }
 }
