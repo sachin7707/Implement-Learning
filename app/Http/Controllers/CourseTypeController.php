@@ -23,6 +23,18 @@ class CourseTypeController extends Controller
     }
 
     /**
+     * Shows a single course type
+     * @param $id
+     * @return JsonResponse
+     */
+    public function show($id)
+    {
+        $courseType = CourseType::getByMaconomyIdOrFail($id);
+
+        return new JsonResponse(new CourseTypeResource($courseType));
+    }
+
+    /**
      * You can save a few data fields on the course type as well
      * @param Request $request
      * @param $id

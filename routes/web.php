@@ -27,6 +27,7 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
 
     $router->get('/coursetype', 'CourseTypeController@index');
     $router->put('/coursetype/{id}', 'CourseTypeController@update');
+    $router->get('/coursetype/{id}', 'CourseTypeController@show');
 
     // handles orders
     $router->get('/orders', 'OrderController@index');
