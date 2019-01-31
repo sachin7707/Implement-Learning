@@ -33,6 +33,15 @@ task('deploy:link_web', function () {
 
 before('deploy:symlink', 'deploy:link_web');
 
+desc('Restart supervisord, to reload the queues');
+task('deploy:link_web', function () {
+    // Symlink shared dir to release dir
+    run('sudo systemctl restart supervisord');
+});
+
+after('success', 'reload:supervisord');
+after('rollback', 'reload:supervisord');
+
 task('deploy', [
     'deploy:prepare',
     'deploy:lock',
