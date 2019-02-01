@@ -869,7 +869,7 @@
 
                                 <div style="Margin-left: 46px;Margin-right: 46px;">
                                     <div style="mso-line-height-rule: exactly;mso-text-raise: 4px;">
-                                        <p class="size-22" style="Margin-top: 0;Margin-bottom: 0;font-size: 18px;line-height: 26px;" lang="x-size-22"><span style="color:#8e8e8e; margin-right: 20px;">Samlet pris:</span> <span style="">DKK {{ $order->getTotalPrice() }},- eks. moms</span></p>
+                                        <p class="size-22" style="Margin-top: 0;Margin-bottom: 0;font-size: 18px;line-height: 26px;" lang="x-size-22"><span style="color:#8e8e8e; margin-right: 20px;">Samlet pris:</span> <span style="">DKK {{ number_format($order->getTotalPrice(), 0, ',', '.') }},- eks. moms</span></p>
                                     </div>
                                 </div>
 
