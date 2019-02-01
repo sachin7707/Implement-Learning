@@ -134,6 +134,8 @@ class Maconomy implements ClientAbstract
                 $method = 'put';
             }
 
+            $response = '';
+
             try {
                 // sends the data to the webservice
                 $response = $this->callWebservice(
