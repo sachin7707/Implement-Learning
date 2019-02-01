@@ -28,15 +28,24 @@ class LocationController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => 'required|string'
+            'name' => 'required|string',
+            'address' => 'string',
+            'postal' => 'string',
+            'city' => 'string',
+            'country' => 'string',
         ]);
 
         /** @var Location $location */
         $location = Location::getByExternalId($id);
 
         if ($location) {
-            $location->name = $request->input('name');
-            $location->save();
+            $location->save([
+                'name' => $request->input('name'),
+                'address' => $request->input('address'),
+                'postal' => $request->input('postal'),
+                'city' => $request->input('city'),
+                'country' => $request->input('country'),
+            ]);
 
             return new JsonResponse([
                 'message' => 'Location ' . $id . ' has been updated',
@@ -47,6 +56,10 @@ class LocationController extends Controller
         // it's a new location, create it
         $location = new Location([
             'name' => $request->input('name'),
+            'address' => $request->input('address'),
+            'postal' => $request->input('postal'),
+            'city' => $request->input('city'),
+            'country' => $request->input('country'),
             'externalId' => $id
         ]);
         $location->save();

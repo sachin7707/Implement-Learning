@@ -46,4 +46,19 @@ class Location extends Model
 
         return $location;
     }
+
+    /**
+     * Fetches the string to use, when displaying a location in mails
+     * @return string
+     */
+    public function getDisplayString()
+    {
+        $address = $this->address . ', ' . $this->postal . ' ' . $this->city;
+
+        if ($this->country) {
+            $address .= ', ' . $this->country;
+        }
+
+        return $address;
+    }
 }
