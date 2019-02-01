@@ -44,6 +44,7 @@ class LocationController extends Controller
             $location->postal = $request->input('postal');
             $location->city = $request->input('city');
             $location->country = $request->input('country');
+            $location->placename = $request->input('placename');
             $location->save();
 
             return new JsonResponse([
@@ -59,6 +60,7 @@ class LocationController extends Controller
             'postal' => $request->input('postal'),
             'city' => $request->input('city'),
             'country' => $request->input('country'),
+            'placename' => $request->input('placename'),
             'externalId' => $id
         ]);
         $location->save();
