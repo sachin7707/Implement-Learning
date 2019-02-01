@@ -69,7 +69,7 @@ class OrderParticipant extends Mailable
     {
         $courseName = '';
         if ($this->order->education) {
-            $courseName = $this->order->education()->name;
+            $courseName = $this->order->education->name;
         } else {
             // not part of an education, just use the first course on the order.
             $course = $this->order->courses()->first();
