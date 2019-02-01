@@ -26,8 +26,6 @@ class OrderParticipant extends Mailable
     public $intro;
     public $footer;
 
-    public $title;
-
     /**
      * OrderParticipant constructor.
      * @param Order $order
@@ -45,8 +43,6 @@ class OrderParticipant extends Mailable
         // setting general mail texts
         $this->intro = MailText::getByTypeAndLanguage(MailText::TYPE_DEFAULT_PARTICIPANT, 'da');
         $this->footer = MailText::getByTypeAndLanguage(MailText::TYPE_MAIL_FOOTER, 'da');
-
-        $this->title = $this->getTitle();
     }
 
     /**
@@ -60,7 +56,8 @@ class OrderParticipant extends Mailable
         // $this->order->isOnWaitingList();
 
         return $this->view('emails.orders.participant')
-            ->text('emails.orders.participant_plain');
+            ->text('emails.orders.participant_plain')
+            ->subject($this->getTitle());
     }
 
     /**
