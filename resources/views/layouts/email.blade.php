@@ -626,8 +626,9 @@
                         @endif
 
 
-                        <!-- shows a text, about what to do, before attending the course -->
-                        @hasSection('before_course')
+                        @if ($course->coursetype->hasText('before_course'))
+                            <!-- shows a text, about what to do, before attending the course -->
+                            @hasSection('before_course')
                             <div class="layout one-col fixed-width" style="Margin: 0 auto;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;">
                                 <div class="layout__inner" style="border-collapse: collapse;display: table;width: 100%;background-color: #ffffff;">
                                     <!--[if (mso)|(IE)]><table align="center" cellpadding="0" cellspacing="0" role="presentation"><tr class="layout-fixed-width" style="background-color: #ffffff;"><td style="width: 600px" class="w560"><![endif]-->
@@ -665,7 +666,7 @@
 
                                         <div style="Margin-left: 46px;Margin-right: 46px;">
                                             <div style="mso-line-height-rule: exactly;mso-text-raise: 4px;">
-                                                <p class="size-15" style="Margin-top: 0;Margin-bottom: 0;font-size: 15px;line-height: 23px;" lang="x-size-15"><span style="color:#000000">@yield('before_course')</span></p>
+                                                <p class="size-15" style="Margin-top: 0;Margin-bottom: 0;font-size: 15px;line-height: 23px;" lang="x-size-15"><span style="color:#000000">{{ $course->coursetype->getText('before_course') }}</span></p>
                                             </div>
                                         </div>
 
@@ -687,6 +688,7 @@
                                     <!--[if (mso)|(IE)]></td></tr></table><![endif]-->
                                 </div>
                             </div>
+                        @endif
                         @endif
 
                         <!-- TODO: handle course link -->

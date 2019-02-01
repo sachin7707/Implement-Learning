@@ -207,4 +207,32 @@ class Course extends Model
     {
         return empty($this->language) ? 'Dansk' : $this->language;
     }
+
+    /**
+     * Checks if there is a text for the given type
+     * @param string $type the type of text to check, e.g. before_course
+     * @return bool
+     */
+    public function hasText(string $type)
+    {
+        return $this->coursetype->texts()
+            ->where('type', $type)
+            // TODO: add order language?
+            ->first() ? true : false;
+    }
+
+    /**
+     * Fetches the text for the given $type
+     * @param string $type the type of text to fetch, e.g. before_course
+     * @return string
+     */
+    public function getText(string $type)
+    {
+        $courseTypeText = $this->coursetype->texts()
+            ->where('type', $type)
+            // TODO: add order language?
+            ->first();
+
+        return $courseTypeText->text;
+    }
 }
