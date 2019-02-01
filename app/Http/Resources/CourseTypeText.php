@@ -6,9 +6,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * @author jimmiw
- * @since 2018-11-21
  */
-class CourseType extends JsonResource
+class CourseTypeText extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,11 +16,6 @@ class CourseType extends JsonResource
      */
     public function toArray($request)
     {
-        return array_merge(
-            parent::toArray($request),
-            [
-                'texts' => CourseTypeText::collection($this->texts),
-            ]
-        );
+        return parent::toArray($request);
     }
 }

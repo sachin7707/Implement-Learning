@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\CourseType;
+use App\CourseTypeText;
 use App\Http\Resources\CourseType as CourseTypeResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 /**
  * @author jimmiw
@@ -56,6 +56,31 @@ class CourseTypeController extends Controller
         $courseType->name = $request->input('name');
 
         // TODO: handle $request->input('texts')['before_course'] text+language
+
+        // handles various texts
+        if ($request->input('texts')) {
+            foreach ($request->input('texts') as $data) {
+                $courseTypeText = CourseTypeText::where('type', $data['type'])
+                    ->where('language', $data['language'])
+                    ->where('courseId', $courseType->id)
+                    ->first();
+
+                if ($courseTypeText) {
+                    $courseTypeText->type = $data['type'];
+                    $courseTypeText->text = $data['text'];
+                    $courseTypeText->language = $data['language'];
+                } else {
+                    $courseTypeText = new CourseTypeText([
+                        'type' => $data['type'],
+                        'text' => $data['text'],
+                        'language' => $data['language'],
+                        'courseId' => $courseType->id
+                    ]);
+                }
+
+                $courseTypeText->save();
+            }
+        }
 
         $courseType->save();
 

@@ -19,6 +19,11 @@ class CourseType extends Model
         return $this->hasMany(Course::class);
     }
 
+    public function texts()
+    {
+        return $this->hasMany(CourseTypeText::class);
+    }
+
     /**
      * Fetches the coursetype, that has the given maconomy id
      * @param string $maconomyId
