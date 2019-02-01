@@ -1,5 +1,5 @@
 @extends('layouts.email', ['courses' => $order->courses, 'footer' => json_decode($footer->text)])
-@section('title', )
+@section('title', 'DELTAGER EMAIL')
 @section('intro', str_replace('$name', $participant->name, $intro->text))
 
 @section('participant')
