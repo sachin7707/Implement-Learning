@@ -145,7 +145,7 @@ class Maconomy implements ClientAbstract
                 );
 
                 // if the response is an array, assume all is well, since we are not getting an error response
-                if (is_array($response)) {
+                if ($response) {
                     // fetches the participant, so we can update the maconomy_id
                     $participant = \App\Participant::find($orderParticipant->getId());
                     $participant->maconomy_id = $response->maconomy_id;
