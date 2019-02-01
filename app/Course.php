@@ -217,10 +217,12 @@ class Course extends Model
      */
     public function hasText(string $type)
     {
-        return $this->coursetype->texts()
+        $courseTypeText = $this->coursetype->texts()
             ->where('type', $type)
             // TODO: add order language?
-            ->first() ? true : false;
+            ->first();
+
+        return ! empty($courseTypeText->text);
     }
 
     /**
