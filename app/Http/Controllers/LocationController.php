@@ -6,6 +6,7 @@ use App\Location;
 use Illuminate\Http\JsonResponse;
 use App\Http\Resources\Location as LocationResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @author jimmiw
@@ -32,20 +33,18 @@ class LocationController extends Controller
             'address' => 'string',
             'postal' => 'string',
             'city' => 'string',
-            'country' => 'string',
         ]);
 
         /** @var Location $location */
         $location = Location::getByExternalId($id);
 
         if ($location) {
-            $location->save([
-                'name' => $request->input('name'),
-                'address' => $request->input('address'),
-                'postal' => $request->input('postal'),
-                'city' => $request->input('city'),
-                'country' => $request->input('country'),
-            ]);
+            $location->name = $request->input('name');
+            $location->address = $request->input('address');
+            $location->postal = $request->input('postal');
+            $location->city = $request->input('city');
+            $location->country = $request->input('country');
+            $location->save();
 
             return new JsonResponse([
                 'message' => 'Location ' . $id . ' has been updated',
