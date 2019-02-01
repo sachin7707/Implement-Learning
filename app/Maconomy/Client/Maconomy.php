@@ -150,7 +150,14 @@ class Maconomy implements ClientAbstract
                     $participant->save();
                 }
             } catch (RequestException $e) {
-                throw new ParticipantException('Could not save participant', $orderParticipant->getData(), 0, $e);
+                throw new ParticipantException(
+                    'Could not save participant',
+                    array_merge($orderParticipant->getData(), [
+                        'response' => $response
+                    ]),
+                    0,
+                    $e
+                );
             }
         }
 
