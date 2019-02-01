@@ -39,13 +39,13 @@ class SyncOrder extends Job
         $client->setOrder(new OrderAdapter($this->order));
 
         try {
-            if ($this->order->state === Order::STATE_CONFIRMED) {
-                $response = $client->orderUpdate();
-            } else {
+//            if ($this->order->state === Order::STATE_CONFIRMED) {
+//                $response = $client->orderUpdate();
+//            } else {
                 $response = $client->orderCreate();
-            }
+//            }
         } catch (ParticipantException $e) {
-            Log::error($e->getMessage() . print_r($e->getData()));
+            Log::error($e->getMessage() . ', with data: ' . print_r($e->getData(),1));
         }
     }
 }
