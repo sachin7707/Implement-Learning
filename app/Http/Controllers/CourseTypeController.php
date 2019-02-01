@@ -62,7 +62,7 @@ class CourseTypeController extends Controller
             foreach ($request->input('texts') as $data) {
                 $courseTypeText = CourseTypeText::where('type', $data['type'])
                     ->where('language', $data['language'])
-                    ->where('courseId', $courseType->id)
+                    ->where('course_type_id', $courseType->id)
                     ->first();
 
                 if ($courseTypeText) {
@@ -74,7 +74,7 @@ class CourseTypeController extends Controller
                         'type' => $data['type'],
                         'text' => $data['text'],
                         'language' => $data['language'],
-                        'courseId' => $courseType->id
+                        'course_type_id' => $courseType->id
                     ]);
                 }
 
