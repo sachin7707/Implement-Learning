@@ -162,9 +162,11 @@ class Course extends Model
         $dates = [];
         $dates[] = new Carbon($startTime->format('c'));
 
-        foreach (range(1, $duration-1) as $days) {
-            $startTime->add(new \DateInterval('P1D'));
-            $dates[] = new Carbon($startTime->format('c'));
+        if ($duration > 1) {
+            foreach (range(1, $duration-1) as $days) {
+                $startTime->add(new \DateInterval('P1D'));
+                $dates[] = new Carbon($startTime->format('c'));
+            }
         }
 
         return $dates;
