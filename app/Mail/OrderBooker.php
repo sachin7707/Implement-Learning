@@ -44,6 +44,7 @@ class OrderBooker extends Mailable
     public function build()
     {
         return $this->view('emails.orders.booker')
-            ->text('emails.orders.booker_plain');
+            ->text('emails.orders.booker_plain')
+            ->subject(str_replace('%Kursusnavn%', Helper::getTitle($this->order), 'Ordrebekræftelse - %Kursusnavn%'));
     }
 }

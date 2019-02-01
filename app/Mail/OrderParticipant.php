@@ -57,27 +57,6 @@ class OrderParticipant extends Mailable
 
         return $this->view('emails.orders.participant')
             ->text('emails.orders.participant_plain')
-            ->subject($this->getTitle());
-    }
-
-    /**
-     * Fetches the email title to use
-     * @return string
-     */
-    private function getTitle()
-    {
-        $courseName = '';
-        if ($this->order->education) {
-            $courseName = $this->order->education->name;
-        } else {
-            // not part of an education, just use the first course on the order.
-            $course = $this->order->courses()->first();
-
-            if ($course) {
-                $courseName = $course->getTitle();
-            }
-        }
-
-        return str_replace('%Kursusnavn%', $courseName, 'Tilmelding til %Kursusnavn%');
+            ->subject(str_replace('%Kursusnavn%', Helper::getTitle($this->order), 'Tilmelding til %Kursusnavn%'));
     }
 }
