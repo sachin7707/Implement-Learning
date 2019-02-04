@@ -215,7 +215,8 @@ class OrderController extends Controller
 
         $this->validate($request, [
             'participants' => 'required',
-            'company' => 'required'
+            'company' => 'required',
+            'lang' => 'string'
         ]);
 
         // fails if the order is past deadline for signups
@@ -227,6 +228,9 @@ class OrderController extends Controller
 
         $company = $request->input('company', []);
         $participants = $request->input('participants', []);
+
+        // saving the language, the order is "made on"
+        $order->language = $request->input('lang', 'da');
 
         // closes the order
         $this->orderService->closeOrder($order, $participants, $company);
