@@ -32,10 +32,13 @@ class OrderTransformData
      */
     private function transformData(ParameterBag $bag)
     {
-        $bag->replace([
-            'company' => $this->transformCompany($bag->get('company'), $bag->get('billing')),
-            'participants' => $this->transformParticipants($bag->get('participants'))
-        ]);
+        $bag->set('company', $this->transformCompany($bag->get('company'), $bag->get('billing')));
+        $bag->set('participants', $this->transformParticipants($bag->get('participants')));
+        $bag->remove('billing');
+//        $bag->replace([
+//            'company' => $this->transformCompany($bag->get('company'), $bag->get('billing')),
+//            'participants' => $this->transformParticipants($bag->get('participants'))
+//        ]);
     }
 
     /**

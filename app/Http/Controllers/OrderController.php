@@ -229,7 +229,7 @@ class OrderController extends Controller
         $company = $request->input('company', []);
         $participants = $request->input('participants', []);
 
-        // saving the language, the order is "made on"
+        // saving the language, the order is "made on" - ILI-602
         $order->language = $request->input('lang', 'da');
 
         // closes the order
