@@ -10,6 +10,19 @@ use Illuminate\Http\Resources\Json\JsonResource;
  */
 class Course extends JsonResource
 {
+    private $languageInternal;
+
+    /**
+     * Course constructor.
+     * @param mixed $resource
+     * @param string $language
+     */
+    public function __construct($resource, string $language = 'da')
+    {
+        $this->languageInternal = $language;
+        parent::__construct($resource);
+    }
+
     /**
      * Transform the resource into an array.
      * @param \Illuminate\Http\Request $request
@@ -30,7 +43,7 @@ class Course extends JsonResource
                 'duration' => $diff->days + 1,
                 'seats_available_including_reservations' => $this->getAvailableSeats(),
                 'location' => $this->location,
-                'dates' => $this->getCourseDatesFormatted()
+                'dates' => $this->getCourseDatesFormatted($this->languageInternal)
             ]
         );
     }

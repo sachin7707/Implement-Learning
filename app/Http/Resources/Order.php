@@ -26,11 +26,27 @@ class Order extends JsonResource
                 'state_text' => $this->getStateAsText(),
                 'on_waitinglist_text' => $this->getOnWaitingListAsText(),
                 'education' => new CourseTypeResource($this->education),
-                'courses' => CourseResource::collection($this->courses),
+                'courses' => $this->getCourseCollection(),
                 'company' => new CompanyResource($this->company),
                 'total_price' => $this->getTotalPrice(),
                 'total_price_text' => 'DKK ' . $this->getTotalPrice() . ',- ekskl. moms',
             ]
         );
+    }
+
+    /**
+     * Fetching the courses' on the order, but setting the language to use, so we are getting the correct language
+     * on the dates.
+     * @return array
+     */
+    private function getCourseCollection()
+    {
+        $courses = [];
+
+        foreach ($this->courses as $course) {
+            $courses[] = new CourseResource($course, $this->language);
+        }
+
+        return $courses;
     }
 }

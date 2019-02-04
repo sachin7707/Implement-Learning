@@ -51,6 +51,8 @@ class Course extends Model
 {
     use SoftDeletes;
 
+    const LANGUAGES = ['da' => 'da_DK', 'en' => 'en_GB'];
+
     protected $guarded = [];
     protected $hidden = ['created_at', 'updated_at', 'pivot', 'id'];
     protected $dates = ['deleted_at', 'last_sync_date', 'start_time', 'end_time'];
@@ -177,12 +179,12 @@ class Course extends Model
      * @return array
      * @throws \Exception
      */
-    public function getCourseDatesFormatted()
+    public function getCourseDatesFormatted($languageCode = 'da')
     {
         $formattedDates = [];
 
         $dates = $this->getCourseDates();
-        setlocale(LC_TIME, 'da_DK');
+        setlocale(LC_TIME, self::LANGUAGES[$languageCode]);
 
         /** @var Carbon $date */
         foreach ($dates as $date) {
