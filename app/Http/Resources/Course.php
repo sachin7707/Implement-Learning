@@ -10,16 +10,15 @@ use Illuminate\Http\Resources\Json\JsonResource;
  */
 class Course extends JsonResource
 {
-    private $languageInternal;
+    private $languageInternal = 'da';
 
     /**
      * Course constructor.
      * @param mixed $resource
      * @param string $language
      */
-    public function __construct($resource, string $language = 'da')
+    public function __construct($resource)
     {
-        $this->languageInternal = $language;
         parent::__construct($resource);
     }
 
@@ -46,5 +45,14 @@ class Course extends JsonResource
                 'dates' => $this->getCourseDatesFormatted($this->languageInternal)
             ]
         );
+    }
+
+    /**
+     * Set the language to display the course in
+     * @param string $language use da or en
+     */
+    public function setLanguage($language = 'da')
+    {
+        $this->languageInternal = $language;
     }
 }

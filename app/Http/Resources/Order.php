@@ -44,7 +44,9 @@ class Order extends JsonResource
         $courses = [];
 
         foreach ($this->courses as $course) {
-            $courses[] = new CourseResource($course, $this->language);
+            $resource = new CourseResource($course);
+            $resource->setLanguage($this->language);
+            $courses[] = $resource;
         }
 
         return $courses;
