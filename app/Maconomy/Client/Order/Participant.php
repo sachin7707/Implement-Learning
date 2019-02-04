@@ -36,7 +36,7 @@ class Participant
      */
     public function getId(): int
     {
-        return (int)$this->data['id'];
+        return (int)$this->data['externalidField'];
     }
 
     /**

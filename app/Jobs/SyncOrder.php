@@ -7,6 +7,7 @@ use App\Maconomy\Client\Maconomy;
 use App\Maconomy\Client\OrderAdapter;
 use App\Order;
 use Illuminate\Support\Facades\Log;
+use Raven_Client;
 
 /**
  * @author jimmiw
@@ -33,18 +34,15 @@ class SyncOrder extends Job
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \App\Maconomy\Client\Exception\Order\ParticipantException
      */
-    public function handle(Maconomy $client)
+    public function handle(Maconomy $client, Raven_Client $sentry)
     {
         // sets the order on the client, but wrapping it in the adapter first
         $client->setOrder(new OrderAdapter($this->order));
 
         try {
-//            if ($this->order->state === Order::STATE_CONFIRMED) {
-//                $response = $client->orderUpdate();
-//            } else {
-                $response = $client->orderCreate();
-//            }
+            $client->orderCreate();
         } catch (ParticipantException $e) {
+            $sentry->captureException($e, $e->getData());
             Log::error($e->getMessage() . ', with data: ' . print_r($e->getData(),1));
         }
     }

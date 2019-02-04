@@ -10,6 +10,7 @@ use App\Maconomy\Collection\CourseCollection;
 use App\Maconomy\Collection\CourseTypeCollection;
 use App\Maconomy\Token;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Log;
 
@@ -137,23 +138,24 @@ class Maconomy implements ClientAbstract
             $response = '';
 
             try {
+                $this->getToken();
                 // sends the data to the webservice
                 $response = $this->callWebservice(
                     $url,
                     $method,
-                    $orderParticipant->getData()
+                    ['json' => $orderParticipant->getData()]
                 );
 
                 // if the response is an array, assume all is well, since we are not getting an error response
-                if ($response) {
+                if (! empty($response[0])) {
                     // fetches the participant, so we can update the maconomy_id
                     $participant = \App\Participant::find($orderParticipant->getId());
-                    $participant->maconomy_id = $response->maconomy_id;
+                    $participant->maconomy_id = $response[0]->instancekeyField;
                     $participant->save();
                 }
             } catch (RequestException $e) {
                 throw new ParticipantException(
-                    'Could not save participant',
+                    'Could not save participant using ' . $method,
                     array_merge($orderParticipant->getData(), [
                         'response' => $response
                     ]),
