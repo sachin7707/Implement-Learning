@@ -157,6 +157,10 @@ class Course extends Model
      */
     public function getCourseDates()
     {
+        if (empty($this->coursetype)) {
+            return [];
+        }
+
         // fetching the duration from the course type
         $duration = (int)$this->coursetype->duration;
 
