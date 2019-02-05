@@ -71,10 +71,10 @@ class OrderAdapter
                     'packageidField' => $this->order->education->maconomy_id ?? '',
                     'coursenumberField' => $course->maconomy_id,
                     // participant information
-                    "participantnameField" => "Jimmi Westerberg",
-                    "participantemailField" => "jw@konform.com",
-                    "participantphoneField" => "11223344",
-                    "participanttitleField" => "Udvikler",
+                    "participantnameField" => $dbParticipant->name,
+                    "participantemailField" => $dbParticipant->email,
+                    "participantphoneField" => $dbParticipant->phone,
+                    "participanttitleField" => $dbParticipant->title,
                     // company information
                     "compnameField" => $company->name,
                     "compcvrField" => $company->cvr,
@@ -85,17 +85,17 @@ class OrderAdapter
                     "compcountryField" => $company->country,
                     "compemailField" => $company->email,
                     "compphoneField" => $company->phone,
-                    "compeanField" => "",
-                    "comppurchaseorderField" => "",
+                    "compeanField" => $company->ean,
+                    "comppurchaseorderField" => $company->purchase_no,
                     // rest of the fields are used, if the billing address is not the same.
-                    "altcompnameField" => "",
-                    "altcompattField" => "",
-                    "altcompaddressField" => "",
-                    "altcompzipcodeField" => "",
-                    "altcompcityField" => "",
-                    "altcompcountryField" => "",
-                    "altcompemailField" => "",
-                    "altcompphoneField" => "",
+                    "altcompnameField" => $company->biling_name,
+                    "altcompattField" => $company->biling_attention,
+                    "altcompaddressField" => $company->biling_address,
+                    "altcompzipcodeField" => $company->biling_postal,
+                    "altcompcityField" => $company->biling_city,
+                    "altcompcountryField" => $company->biling_country,
+                    "altcompemailField" => $company->biling_email,
+                    "altcompphoneField" => $company->biling_phone,
                 ]);
             }
         }
