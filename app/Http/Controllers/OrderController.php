@@ -267,14 +267,14 @@ class OrderController extends Controller
     public function resyncOrder($id)
     {
         $order = Order::where('id', $id)
-            ->first;
+            ->first();
 
         if (empty($order)) {
             return response()->json(['message' => 'Order with id ' . $id . ' was not found... cannot resync it']);
         }
 
         // syncing the order to maconomy
-        Queue::later(1, new SyncOrder($order));
+//        Queue::later(1, new SyncOrder($order));
 
         return response()->json(['message' => 'Order with id ' . $id . ' was added to sync queue']);
     }
