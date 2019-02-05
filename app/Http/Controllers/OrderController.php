@@ -7,6 +7,7 @@ use App\CourseType;
 use App\Http\Resources\Order as OrderResource;
 use App\Jobs\ImportCourses;
 use App\Jobs\SyncOrder;
+use App\Maconomy\Client\OrderAdapter;
 use App\Maconomy\Service\CourseService;
 use App\Maconomy\Service\OrderService;
 use App\Order;
