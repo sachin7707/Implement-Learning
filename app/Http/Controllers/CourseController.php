@@ -139,6 +139,12 @@ class CourseController extends Controller
             $changed = true;
         }
 
+        // handles creating/update trainers on a given course
+        if ($request->input('trainers', null) !== null) {
+            // TODO: add trainers to a course here, using course_trainer table - ILI-230
+//            $changed = true;
+        }
+
         // no changes? just return the current $course, before calling save
         if ($changed === false) {
             return new JsonResponse([

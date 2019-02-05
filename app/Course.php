@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 /**
  * App\Course
@@ -70,6 +69,11 @@ class Course extends Model
     public function location()
     {
         return $this->belongsTo(Location::class);
+    }
+
+    public function trainers()
+    {
+        return $this->belongsToMany(Trainer::class);
     }
 
     /**

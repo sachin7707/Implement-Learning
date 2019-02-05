@@ -92,3 +92,17 @@ The reason we have one action for both update or create is that WP does not know
 
 Requires the following data:
 * name: string, changes the location name
+
+### GET: /api/v1/trainer
+Fetches the trainers from our local database
+
+### PUT: /api/v1/trainer/{id}
+Updates or Creates the data on the selected trainer.
+
+The reason we have one action for both update or create is that WP does not know if it's one or the other...
+
+Requires the following data:
+* name: string, changes the trainer name
+* email: string, changes the trainer email
+* phone: string, changes the trainer phone
+* externalId: string, changes the trainer external_id

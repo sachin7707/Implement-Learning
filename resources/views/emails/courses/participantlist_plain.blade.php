@@ -1,0 +1,1 @@
+Deltagerliste for {{ $course->getTitle() }}

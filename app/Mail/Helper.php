@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Order;
+use Illuminate\Support\Facades\Mail;
 
 /**
  * @author jimmiw
@@ -30,5 +31,24 @@ class Helper
         }
 
         return $courseName;
+    }
+
+    /**
+     * Generates a mail object, with BCC email added
+     * @param string $receiver
+     * @param bool $withBcc true if you want to BCC mail implement, else false
+     * @return \Illuminate\Mail\PendingMail
+     */
+    public static function getMailer(string $receiver, bool $withBcc)
+    {
+        // queues the mail to the booker
+        $mailer = Mail::to($receiver);
+
+        if (! empty(env('MAIL_ORDER_BCC_EMAIL')) && $withBcc === true) {
+            // bcc'ing the mail to implement as well
+            $mailer->bcc(env('MAIL_ORDER_BCC_EMAIL'));
+        }
+
+        return $mailer;
     }
 }

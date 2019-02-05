@@ -5,6 +5,7 @@ namespace App\Maconomy\Service;
 use App\Company;
 use App\Course;
 use App\Jobs\SyncOrder;
+use App\Mail\Helper;
 use App\Mail\OrderBooker;
 use App\Mail\OrderParticipant;
 use App\Order;
@@ -148,23 +149,14 @@ class OrderService
             $company->participants()->create($participant);
         }
 
-        // TODO: send the order data to maconomy... later?
-
-        // queues the mail to the booker
-        $orderMail = Mail::to($order->company->email);
-
-        if (! empty(env('MAIL_ORDER_BCC_EMAIL'))) {
-            // bcc'ing the mail to implement as well
-            $orderMail->bcc(env('MAIL_ORDER_BCC_EMAIL'));
-        }
-
+        $orderMail = Helper::getMailer($order->company->email, true);
         $orderMail->queue(new OrderBooker($order));
 
         // queues the mails to the participants
         foreach ($order->company->participants as $participant) {
+            $participantMail = Helper::getMailer($participant->email, false);
             // queues the mail to the booker
-            Mail::to($participant->email)
-                ->queue(new OrderParticipant($order, $participant));
+            $participantMail->queue(new OrderParticipant($order, $participant));
         }
 
         // syncing the order to maconomy
