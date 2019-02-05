@@ -274,7 +274,7 @@ class OrderController extends Controller
         }
 
         // syncing the order to maconomy
-//        Queue::later(1, new SyncOrder($order));
+        Queue::later(1, new SyncOrder($order));
 
         return response()->json(['message' => 'Order with id ' . $id . ' was added to sync queue']);
     }
