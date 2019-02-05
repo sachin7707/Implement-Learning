@@ -258,4 +258,24 @@ class OrderController extends Controller
             }
         }
     }
+
+    /**
+     * Manually resync an order, with the given id
+     * @param string $id the id of the order to add to the sync queue
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function resyncOrder($id)
+    {
+        $order = Order::where($id)
+            ->first;
+
+        if (empty($order)) {
+            return response()->json(['message' => 'Order with id ' . $id . ' was not found... cannot resync it']);
+        }
+
+        // syncing the order to maconomy
+        Queue::later(1, new SyncOrder($order));
+
+        return response()->json(['message' => 'Order with id ' . $id . ' was added to sync queue']);
+    }
 }

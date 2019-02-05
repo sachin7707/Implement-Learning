@@ -31,6 +31,9 @@ Requires the following data:
 * participants: array, a list of participant data (name, email etc) to send to maconomy
 * company: array, the company information as an indexed array
 
+### POST: /api/v1/orders/{id}/resync
+Resyncs the order with the given id, with maconomy
+
 ## Course routes
 
 ### GET: /api/v1/sync

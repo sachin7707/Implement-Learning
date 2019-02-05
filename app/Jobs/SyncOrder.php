@@ -33,6 +33,12 @@ class SyncOrder extends Job
      */
     public function handle(Maconomy $client)
     {
+        $this->order->refresh();
+        // we skip the order, if it's already synced.
+        if ($this->order->state === Order::STATE_CONFIRMED) {
+            return;
+        }
+
         // sets the order on the client, but wrapping it in the adapter first
         $client->setOrder(new OrderAdapter($this->order));
         $client->orderCreate();
