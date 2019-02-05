@@ -266,7 +266,7 @@ class OrderController extends Controller
      */
     public function resyncOrder($id)
     {
-        $order = Order::where($id)
+        $order = Order::where('id', $id)
             ->first;
 
         if (empty($order)) {
