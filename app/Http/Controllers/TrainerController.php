@@ -32,9 +32,8 @@ class TrainerController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|string',
-            'address' => 'string',
-            'postal' => 'string',
-            'city' => 'string',
+            'phone' => 'string',
+            'email' => 'string'
         ]);
 
         /** @var Trainer $trainer */
