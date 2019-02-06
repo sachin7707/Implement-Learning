@@ -36,6 +36,8 @@ class SendParticipantList extends Job
      */
     private function sendParticipantListToTrainers(Course $course, int $daysTo)
     {
+        // TODO: get participants from webservice: api/participants + api/webparticipants
+
         // NOTE: type is not used atm, it "should" be used though.
         foreach ($course->trainers as $trainer) {
             Helper::getMailer($trainer->email, false)
