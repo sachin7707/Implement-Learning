@@ -56,7 +56,7 @@ class TrainerController extends Controller
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'phone' => $request->input('phone'),
-            'externalId' => $id
+            'external_id' => $id
         ]);
         $trainer->save();
 
