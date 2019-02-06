@@ -33,7 +33,8 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             $job = new ImportCourses();
             dispatch($job);
-        })->description('ImportCourses')->daily();
+        })->description('ImportCourses')
+            ->hourly();
 
         $schedule->call(function () {
             $job = new ClearReservations();
