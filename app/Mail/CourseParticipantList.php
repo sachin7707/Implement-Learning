@@ -19,6 +19,7 @@ class CourseParticipantList extends Mailable
 
     public $course;
     public $trainer;
+    public $daysTo;
 
     // mail texts
     public $footer;
@@ -28,10 +29,11 @@ class CourseParticipantList extends Mailable
      * @param Course $course the course to send information about
      * @param Trainer $trainer the trainer to send the information to
      */
-    public function __construct(Course $course, Trainer $trainer)
+    public function __construct(Course $course, Trainer $trainer, int $daysTo)
     {
         $this->course = $course;
         $this->trainer = $trainer;
+        $this->daysTo = $daysTo;
 
         $this->footer = MailText::getByTypeAndLanguage(MailText::TYPE_MAIL_FOOTER, 'da');
     }

@@ -32,14 +32,18 @@ class SendParticipantList extends Job
     /**
      * Sends the list of participants, to the trainers on the given course
      * @param Course $course the course to use, when sending out a participant list
-     * @param int $type the type to send. @see TYPE_X
+     * @param int $daysTo number of days until the course starts
      */
-    private function sendParticipantListToTrainers(Course $course, int $type)
+    private function sendParticipantListToTrainers(Course $course, int $daysTo)
     {
         // NOTE: type is not used atm, it "should" be used though.
         foreach ($course->trainers as $trainer) {
             Helper::getMailer($trainer->email, false)
-                ->queue(new CourseParticipantList($course, $trainer));
+                ->queue(new CourseParticipantList(
+                    $course,
+                    $trainer,
+                    $daysTo
+                ));
         }
     }
 
@@ -50,7 +54,7 @@ class SendParticipantList extends Job
     private function send5DaysReminder(): void
     {
         $now = new Carbon();
-        $now->add(new \DateInterval('P5D'));
+        $now->add(new \DateInterval('P' . self::TYPE_FIVE_DAYS_BEFORE . 'D'));
 
         $courses = Course::whereDate('start_time', '=', $now->format('Y-m-d'))
             ->where('reminder5days', 0)
@@ -73,7 +77,7 @@ class SendParticipantList extends Job
     private function send1DayReminder()
     {
         $now = new Carbon();
-        $now->add(new \DateInterval('P1D'));
+        $now->add(new \DateInterval('P' . self::TYPE_ONE_DAY_BEFORE . 'D'));
 
         $courses = Course::whereDate('start_time', '=', $now->format('Y-m-d'))
             ->where('reminder1day', 0)
