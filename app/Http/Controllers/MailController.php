@@ -18,10 +18,6 @@ class MailController extends Controller
      */
     public function update(Request $request)
     {
-//        $this->validate($request, [
-//            'texts' => 'required',
-//            'lang' => 'required|string'
-//        ]);
         $texts = $request->input('texts');
         $language = $request->input('language');
 
