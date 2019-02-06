@@ -43,11 +43,11 @@ class Kernel extends ConsoleKernel
         // broken in 5.7.1
         //$schedule->job(new ClearReservations())->everyFiveMinutes();
 
-        $schedule->call(function () {
-            $job = new SendParticipantList();
-            dispatch($job);
-        })->description('SendParticipantList')
-            ->timezone('Europe/Copenhagen')
-            ->dailyAt('7:00');
+//        $schedule->call(function () {
+//            $job = new SendParticipantList();
+//            dispatch($job);
+//        })->description('SendParticipantList')
+//            ->timezone('Europe/Copenhagen')
+//            ->dailyAt('7:00');
     }
 }
