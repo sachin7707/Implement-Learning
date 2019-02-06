@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Jobs\ClearReservations;
 use App\Jobs\ImportCourses;
+use App\Jobs\SendParticipantList;
 use Illuminate\Console\Scheduling\Schedule;
 use Laravel\Lumen\Console\Kernel as ConsoleKernel;
 
@@ -40,5 +41,11 @@ class Kernel extends ConsoleKernel
         })->description('ClearReservations')->everyFiveMinutes();
         // broken in 5.7.1
         //$schedule->job(new ClearReservations())->everyFiveMinutes();
+
+        $schedule->call(function () {
+            $job = new SendParticipantList();
+            dispatch($job);
+        })->description('ClearReservations')
+            ->dailyAt('7:00');
     }
 }
