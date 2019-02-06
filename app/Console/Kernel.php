@@ -46,7 +46,8 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             $job = new SendParticipantList();
             dispatch($job);
-        })->description('ClearReservations')
+        })->description('SendParticipantList')
+            ->timezone('Europe/Copenhagen')
             ->dailyAt('7:00');
     }
 }
