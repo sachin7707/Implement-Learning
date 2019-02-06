@@ -84,6 +84,7 @@ $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\EventServiceProvider::class);
 $app->register(App\Providers\MaconomySerivceProvider::class);
 $app->register(App\Providers\WordpressServiceProvider::class);
+$app->register(App\Providers\NewsletterServiceProvider::class);
 $app->register(\Sentry\SentryLaravel\SentryLumenServiceProvider::class);
 $app->register(Illuminate\Mail\MailServiceProvider::class);
 

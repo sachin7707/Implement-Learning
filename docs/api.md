@@ -106,3 +106,11 @@ Requires the following data:
 * email: string, changes the trainer email
 * phone: string, changes the trainer phone
 * externalId: string, changes the trainer external_id
+
+### POST: /api/v1/newsletter/signup
+Adds a person to the newsletter
+
+Requires the following data:
+* firstname: string
+* lastname: string
+* email: string

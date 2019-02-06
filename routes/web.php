@@ -47,6 +47,9 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
 
     $router->get('/location', 'LocationController@index');
     $router->put('/location/{id}', 'LocationController@update');
+
+    // newsletter signup routes
+    $router->post('/newsletter/signup', 'NewsletterController@signup');
 });
 
 
