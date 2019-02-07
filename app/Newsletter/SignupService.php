@@ -36,10 +36,12 @@ class SignupService implements NewsletterService
     {
         $client = $this->getClient();
         $response = $client->post($this->url, [
-            'firstname' => $firstname,
-            'lastname' => $lastname,
-            'email' => $email,
-            'terms' => 1
+            'body' => [
+                'firstname' => $firstname,
+                'lastname' => $lastname,
+                'email' => $email,
+                'terms' => 1
+            ]
         ]);
 
         return json_decode((string)$response->getBody());
