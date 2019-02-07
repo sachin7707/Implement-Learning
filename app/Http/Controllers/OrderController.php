@@ -124,6 +124,11 @@ class OrderController extends Controller
 
         $requiredSeats = (int)$request->input('seats', 1);
 
+        // handles resetting the waiting list status on the order - ILI-629
+        if ((int)$request->get('refresh', 0) === 1) {
+            $order->on_waitinglist = 0;
+        }
+
         // seats are required, so do NOT use a default value
         if ($this->orderService->reserveSeats($order, $requiredSeats, $courses)) {
             $order->refresh();
