@@ -70,6 +70,7 @@ class OrderAdapter
                     'instancekeyField' => $dbParticipant->maconomy_id,
                     'packageidField' => $this->order->education->maconomy_id ?? '',
                     'coursenumberField' => $course->maconomy_id,
+                    'waitlistField' => (bool)$this->order->on_waitinglist,
                     // participant information
                     "participantnameField" => $dbParticipant->name,
                     "participantemailField" => $dbParticipant->email,
