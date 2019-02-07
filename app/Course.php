@@ -147,7 +147,7 @@ class Course extends Model
     {
         // checking if the course type exists, and uses that name
         if ($this->coursetype) {
-            return $this->coursetype->name;
+            return $this->coursetype->title;
         }
 
         // no course type found, just use the course's name instead.

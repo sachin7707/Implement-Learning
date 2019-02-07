@@ -53,7 +53,8 @@ class CourseTypeController extends Controller
         $courseType = CourseType::getByMaconomyIdOrFail($id);
 
         $courseType->link = $request->input('link');
-        $courseType->name = $request->input('name');
+        // NOTE: now saving the input "name" into title field instead - ILI-638
+        $courseType->title = $request->input('name');
 
         // TODO: handle $request->input('texts')['before_course'] text+language
 

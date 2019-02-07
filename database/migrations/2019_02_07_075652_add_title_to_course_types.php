@@ -16,6 +16,8 @@ class AddTitleToCourseTypes extends Migration
         Schema::table('course_types', function (Blueprint $table) {
             $table->string('title')->default('')->comment('used in emails');
         });
+
+        DB::table('course_types')->update(['title' => DB::raw('name')]);
     }
 
     /**
