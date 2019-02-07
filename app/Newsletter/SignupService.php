@@ -36,7 +36,7 @@ class SignupService implements NewsletterService
     {
         $client = $this->getClient();
         $response = $client->post($this->url, [
-            'body' => [
+            'form_params' => [
                 'firstname' => $firstname,
                 'lastname' => $lastname,
                 'email' => $email,
