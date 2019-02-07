@@ -12,6 +12,7 @@ use Eluceo\iCal\Component\Event;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Queue;
 
 /**
@@ -38,12 +39,27 @@ class CourseController extends Controller
      */
     public function index(Request $request)
     {
-        $collection = null;
-        if ((int)$request->get('withtrashed', 0) === 0) {
-            $collection = Course::all();
-        } else {
-            $collection = Course::withTrashed()->get();
+        // initializing the model query
+        $query = Course::query();
+
+        if ((int)$request->get('withtrashed', 0) === 1) {
+            $query->withTrashed();
         }
+
+        // handling getting courses, using the given list of course_type skus'
+        if ($request->get('sku', null) !== null) {
+            $skus = explode(',', $request->get('sku'));
+            $courseIds = DB::table('courses')
+                ->leftJoin('course_types', 'courses.coursetype_id', '=', 'course_types.id')
+                ->whereIn('course_types.number', $skus)
+                ->pluck('courses.id');
+
+            // adding the course IDs to the query
+            $query->whereIn('id', $courseIds->toArray());
+        }
+
+        $collection = $query->orderBy('start_time', 'asc')
+            ->get();
 
         return new JsonResponse(CourseResource::collection($collection));
     }

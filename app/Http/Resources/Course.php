@@ -42,7 +42,8 @@ class Course extends JsonResource
                 'duration' => $diff->days + 1,
                 'seats_available_including_reservations' => $this->getAvailableSeats(),
                 'location' => $this->location,
-                'dates' => $this->getCourseDatesFormatted($this->languageInternal)
+                'dates' => $this->getCourseDatesFormatted($this->languageInternal),
+                'sku' => $this->coursetype->number ?? null
             ]
         );
     }
