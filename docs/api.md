@@ -60,7 +60,8 @@ Requires the following data:
 ### GET: /api/v1/course
 Fetches the courses from our local database
 
-Add _?withtrashed=1_ to the URL, to get all courses, including deleted ones.
+* Add _?withtrashed=1_ to the URL, to get all courses, including deleted ones.
+* Add ?sku=22111,15678,XXX to filter courses, based on their parent sku
 
 ### GET: /api/v1/course/{id}
 Fetches a single course from our local database.
