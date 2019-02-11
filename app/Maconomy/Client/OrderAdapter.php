@@ -89,14 +89,14 @@ class OrderAdapter
                     "compeanField" => $company->ean,
                     "comppurchaseorderField" => $company->purchase_no,
                     // rest of the fields are used, if the billing address is not the same.
-                    "altcompnameField" => $company->biling_name ?? '',
-                    "altcompattField" => $company->biling_attention ?? '',
-                    "altcompaddressField" => $company->biling_address ?? '',
-                    "altcompzipcodeField" => $company->biling_postal ?? '',
-                    "altcompcityField" => $company->biling_city ?? '',
-                    "altcompcountryField" => $company->biling_country ?? '',
-                    "altcompemailField" => $company->biling_email ?? '',
-                    "altcompphoneField" => $company->biling_phone ?? '',
+                    "altcompnameField" => $company->billing_name ?? '',
+                    "altcompattField" => $company->billing_attention ?? '',
+                    "altcompaddressField" => $company->billing_address ?? '',
+                    "altcompzipcodeField" => $company->billing_postal ?? '',
+                    "altcompcityField" => $company->billing_city ?? '',
+                    "altcompcountryField" => $company->billing_country ?? '',
+                    "altcompemailField" => $company->billing_email ?? '',
+                    "altcompphoneField" => $company->billing_phone ?? '',
                 ]);
             }
         }
