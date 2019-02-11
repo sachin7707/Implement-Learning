@@ -40,5 +40,7 @@ class CourseTest extends TestCase
         $this->assertInstanceOf(CourseType::class, $course->coursetype);
 
         print_r($course->getCoursePeriodsFormatted());
+        print_r($course->getCourseDates());
+        print_r($course->getCourseDatesFormatted());
     }
 }

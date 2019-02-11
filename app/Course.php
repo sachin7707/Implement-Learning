@@ -165,6 +165,30 @@ class Course extends Model
             return [];
         }
 
+        // if there are periods defined, use these instead of course dates - ILI-618
+        $periods = $this->getCoursePeriods();
+        if (! empty($periods)) {
+            $dates = [];
+
+            foreach ($periods as $period) {
+                /** @var Carbon $start */
+                $start = current($period);
+                /** @var Carbon $end */
+                $end = end($period);
+                $dates[] = new Carbon($start->format('c'));
+
+                $duration = $start->diffInDays($end);
+                if ($duration > 0) {
+                    foreach (range(1, $duration) as $days) {
+                        $start->add(new \DateInterval('P1D'));
+                        $dates[] = new Carbon($start->format('c'));
+                    }
+                }
+            }
+
+            return $dates;
+        }
+
         // fetching the duration from the course type
         $duration = (int)$this->coursetype->duration;
 
