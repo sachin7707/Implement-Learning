@@ -155,6 +155,12 @@ class CourseController extends Controller
             $changed = true;
         }
 
+        // you can now update the course day's name as well ILI-500
+        if ($request->input('periods') !== null) {
+            $course->periods = preg_replace('#\s+#', ',', $request->input('periods'));
+            $changed = true;
+        }
+
         // handles creating/update trainers on a given course
         if ($request->input('trainers', null) !== null) {
             // TODO: add trainers to a course here, using course_trainer table - ILI-230

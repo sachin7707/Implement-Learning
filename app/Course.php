@@ -183,6 +183,64 @@ class Course extends Model
     }
 
     /**
+     * Fetches the course dates, but using the data in the "periods" field instead of the coursetype's duration
+     * @return array
+     */
+    public function getCoursePeriods()
+    {
+        $dates = [];
+
+        $periods = explode(',', $this->periods);
+
+        foreach ($periods as $period) {
+            $intervals = [];
+            $periodDates = explode('-', $period);
+            foreach ($periodDates as $periodDate) {
+                $intervals[] = new Carbon($periodDate);
+            }
+
+            $dates[] = $intervals;
+        }
+
+
+        return $dates;
+    }
+
+    /**
+     * Fetches the course periods parsed as a short text
+     * @param string $languageCode
+     * @return array
+     */
+    public function getCoursePeriodsFormatted($languageCode = 'da')
+    {
+        $periods = $this->getCoursePeriods();
+
+        $formattedDates = [];
+
+        setlocale(LC_TIME, self::LANGUAGES[$languageCode]);
+
+        foreach ($periods as $dates) {
+            $formattedPeriod = [];
+            $dateValues = array_values($dates);
+            /** @var Carbon $start */
+            $start = current($dateValues);
+            /** @var Carbon $end */
+            $end = end($dateValues);
+
+            $formattedPeriod[] = $this->getNiceDateField($start->formatLocalized('%e'))
+                . $this->getNiceDateField($start->formatLocalized('/%m'));
+            // only add the "end" value, if it's different from start
+            if (! $start->eq($end)) {
+                $formattedPeriod[] = $this->getNiceDateField($end->formatLocalized('%e'))
+                    . $this->getNiceDateField($end->formatLocalized('/%m'));
+            }
+            $formattedDates[] = implode('-', $formattedPeriod);
+        }
+
+        return $formattedDates;
+    }
+
+    /**
      * Fetches the course dates formatted as nice strings
      * @return array
      * @throws \Exception
@@ -248,5 +306,14 @@ class Course extends Model
             ->first();
 
         return $courseTypeText->text;
+    }
+
+    /**
+     * @param string $dateField
+     * @return string
+     */
+    private function getNiceDateField($dateField): string
+    {
+        return str_pad(trim($dateField), 2, '0', STR_PAD_LEFT);
     }
 }

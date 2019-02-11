@@ -43,7 +43,8 @@ class Course extends JsonResource
                 'seats_available_including_reservations' => $this->getAvailableSeats(),
                 'location' => $this->location,
                 'dates' => $this->getCourseDatesFormatted($this->languageInternal),
-                'sku' => $this->coursetype->number ?? null
+                'sku' => $this->coursetype->number ?? null,
+                'periods' => $this->getCoursePeriodsFormatted($this->languageInternal),
             ]
         );
     }
