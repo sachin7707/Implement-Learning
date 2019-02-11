@@ -45,7 +45,7 @@ class Participant
      */
     public function getMaconomyId(): string
     {
-        return (string)$this->data['instancekey'];
+        return (string)$this->data['instancekeyField'];
     }
 
     /**
@@ -54,7 +54,7 @@ class Participant
      */
     public function setMaconomyId(string $key): void
     {
-        $this->data['instancekey'] = $key;
+        $this->data['instancekeyField'] = $key;
     }
 
     /**
@@ -63,7 +63,7 @@ class Participant
      */
     public function hasMaconomyId(): bool
     {
-        return !empty($this->data['instancekey']);
+        return !empty($this->data['instancekeyField']);
     }
 
     /**
