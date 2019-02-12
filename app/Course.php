@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 /**
  * App\Course
@@ -161,34 +162,36 @@ class Course extends Model
      */
     public function getCourseDates()
     {
-        if (empty($this->coursetype)) {
-            return [];
-        }
-
-
         $dates = [];
 
         // if there are periods defined, use these instead of course dates - ILI-618
         $periods = $this->getCoursePeriods();
-        if (! empty($periods)) {
-            foreach ($periods as $period) {
-                $start = $end = $period;
-                if (is_array($period)) {
-                    /** @var Carbon $start */
-                    $start = current($period);
-                    /** @var Carbon $end */
-                    $end = end($period);
-                }
-                $dates[] = new Carbon($start->format('c'));
+        try {
+            if (!empty($periods)) {
+                foreach ($periods as $period) {
+                    $start = $end = $period;
+                    if (is_array($period)) {
+                        /** @var Carbon $start */
+                        $start = current($period);
+                        /** @var Carbon $end */
+                        $end = end($period);
+                    }
+                    if (! is_object($start)) {
+                        throw new \Exception('Cannot getCourseDates() for ' . $this->id);
+                    }
+                    $dates[] = new Carbon($start->format('c'));
 
-                $duration = $start->diffInDays($end);
-                if ($duration > 0) {
-                    foreach (range(1, $duration) as $days) {
-                        $start->add(new \DateInterval('P1D'));
-                        $dates[] = new Carbon($start->format('c'));
+                    $duration = $start->diffInDays($end);
+                    if ($duration > 0) {
+                        foreach (range(1, $duration) as $days) {
+                            $start->add(new \DateInterval('P1D'));
+                            $dates[] = new Carbon($start->format('c'));
+                        }
                     }
                 }
             }
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
         }
 
         return $dates;
@@ -205,6 +208,10 @@ class Course extends Model
 
         if (empty($this->periods)) {
             $dates = $this->getCourseDatesByDuration();
+
+            if (empty($dates)) {
+                return [];
+            }
 
             return [[
                 current($dates),
@@ -349,7 +356,10 @@ class Course extends Model
      */
     private function getCourseDatesByDuration(): array
     {
-// fetching the duration from the course type
+        if (empty($this->coursetype)) {
+            return [];
+        }
+        // fetching the duration from the course type
         $duration = (int)$this->coursetype->duration;
 
         $startTime = $this->start_time;
