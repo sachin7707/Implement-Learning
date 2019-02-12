@@ -154,6 +154,7 @@ class ImportCourses extends Job
                 'coursetype_id' => $courseType->id ?? null,
                 'deadline' => $signupDeadline,
                 'last_sync_date' => $now,
+                'periods' => ''
             ];
 
             /** @var Course $dbCourse */
