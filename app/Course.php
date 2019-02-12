@@ -204,7 +204,12 @@ class Course extends Model
         $dates = [];
 
         if (empty($this->periods)) {
-            return $this->getCourseDatesByDuration();
+            $dates = $this->getCourseDatesByDuration();
+
+            return [[
+                current($dates),
+                end($dates)
+            ]];
         }
 
         $periods = explode(',', $this->periods);
