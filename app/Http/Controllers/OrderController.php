@@ -189,7 +189,8 @@ class OrderController extends Controller
         /** @var Course $course */
         foreach ($order->courses as $course) {
             // no seats available? tell wordpress to resync the course, to bust the cache in their end
-            if ($course->getAvailableSeats($order) <= 0) {
+            // NOTE: no longer passing the order, since we want to update WP more frequently
+            if ($course->getAvailableSeats() <= 0) {
                 Queue::later(1, new ImportCourses($course->maconomy_id));
             }
         }

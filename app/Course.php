@@ -98,7 +98,7 @@ class Course extends Model
         }
 
         // fetches the seat count
-        $reservedSeats = $select->value('seat_count');
+        $reservedSeats = (int)$select->value('seat_count');
         // calculates the number of available seats, using max and current number of participants
         $seatsAvailable = $this->participants_max - $this->participants_current;
 
