@@ -165,16 +165,20 @@ class Course extends Model
             return [];
         }
 
+
+        $dates = [];
+
         // if there are periods defined, use these instead of course dates - ILI-618
         $periods = $this->getCoursePeriods();
         if (! empty($periods)) {
-            $dates = [];
-
             foreach ($periods as $period) {
-                /** @var Carbon $start */
-                $start = current($period);
-                /** @var Carbon $end */
-                $end = end($period);
+                $start = $end = $period;
+                if (is_array($period)) {
+                    /** @var Carbon $start */
+                    $start = current($period);
+                    /** @var Carbon $end */
+                    $end = end($period);
+                }
                 $dates[] = new Carbon($start->format('c'));
 
                 $duration = $start->diffInDays($end);
@@ -185,22 +189,6 @@ class Course extends Model
                     }
                 }
             }
-
-            return $dates;
-        }
-
-        // fetching the duration from the course type
-        $duration = (int)$this->coursetype->duration;
-
-        $startTime = $this->start_time;
-        $dates = [];
-        $dates[] = new Carbon($startTime->format('c'));
-
-        if ($duration > 1) {
-            foreach (range(1, $duration-1) as $days) {
-                $startTime->add(new \DateInterval('P1D'));
-                $dates[] = new Carbon($startTime->format('c'));
-            }
         }
 
         return $dates;
@@ -209,10 +197,15 @@ class Course extends Model
     /**
      * Fetches the course dates, but using the data in the "periods" field instead of the coursetype's duration
      * @return array
+     * @throws \Exception
      */
     public function getCoursePeriods()
     {
         $dates = [];
+
+        if (empty($this->periods)) {
+            return $this->getCourseDatesByDuration();
+        }
 
         $periods = explode(',', $this->periods);
 
@@ -225,7 +218,6 @@ class Course extends Model
 
             $dates[] = $intervals;
         }
-
 
         return $dates;
     }
@@ -245,11 +237,14 @@ class Course extends Model
 
         foreach ($periods as $dates) {
             $formattedPeriod = [];
-            $dateValues = array_values($dates);
-            /** @var Carbon $start */
-            $start = current($dateValues);
-            /** @var Carbon $end */
-            $end = end($dateValues);
+
+            $start = $end = $dates;
+            if (is_array($dates)) {
+                /** @var Carbon $start */
+                $start = current($dates);
+                /** @var Carbon $end */
+                $end = end($dates);
+            }
 
             $formattedPeriod[] = $this->getNiceDateField($start->formatLocalized('%e'))
                 . $this->getNiceDateField($start->formatLocalized('/%m'));
@@ -339,5 +334,28 @@ class Course extends Model
     private function getNiceDateField($dateField): string
     {
         return str_pad(trim($dateField), 2, '0', STR_PAD_LEFT);
+    }
+
+    /**
+     * @return array
+     * @throws \Exception
+     */
+    private function getCourseDatesByDuration(): array
+    {
+// fetching the duration from the course type
+        $duration = (int)$this->coursetype->duration;
+
+        $startTime = $this->start_time;
+        $dates = [];
+        $dates[] = new Carbon($startTime->format('c'));
+
+        if ($duration > 1) {
+            foreach (range(1, $duration - 1) as $days) {
+                $startTime->add(new \DateInterval('P1D'));
+                $dates[] = new Carbon($startTime->format('c'));
+            }
+        }
+
+        return $dates;
     }
 }
