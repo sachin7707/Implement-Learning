@@ -251,12 +251,14 @@ class Course extends Model
                 $end = end($dates);
             }
 
-            $formattedPeriod[] = $this->getNiceDateField($start->formatLocalized('%e'))
-                . $this->getNiceDateField($start->formatLocalized('/%m'));
+            $formattedPeriod[] = $this->formatDateValue($start->formatLocalized('%e'))
+                . '/'
+                . $this->formatDateValue($start->formatLocalized('%m'));
             // only add the "end" value, if it's different from start
             if (! $start->eq($end)) {
-                $formattedPeriod[] = $this->getNiceDateField($end->formatLocalized('%e'))
-                    . $this->getNiceDateField($end->formatLocalized('/%m'));
+                $formattedPeriod[] = $this->formatDateValue($end->formatLocalized('%e'))
+                    . '/'
+                    . $this->formatDateValue($end->formatLocalized('%m'));
             }
             $formattedDates[] = implode('-', $formattedPeriod);
         }
@@ -333,12 +335,12 @@ class Course extends Model
     }
 
     /**
-     * @param string $dateField
+     * @param string $date
      * @return string
      */
-    private function getNiceDateField($dateField): string
+    private function formatDateValue($date): string
     {
-        return str_pad(trim($dateField), 2, '0', STR_PAD_LEFT);
+        return (int)$date; //str_pad(trim($dateField), 2, '0', STR_PAD_LEFT);
     }
 
     /**
