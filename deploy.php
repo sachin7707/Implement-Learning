@@ -22,6 +22,13 @@ host('next')
     ->set('branch', 'develop')
     ->set('deploy_path', '/domains/konform/sites/{{application}}');
 
+host('production')
+    ->hostname('ili01.konformit.com')
+    ->stage('production')
+    ->roles(['db','web'])
+    ->set('branch', 'master')
+    ->set('deploy_path', '/domains/implement/learninginstitutebackend/');
+
 // default stage host is selected as next
 set('default_stage', 'next');
 
