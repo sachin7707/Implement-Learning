@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 class MailText extends Model
 {
     const TYPE_DEFAULT_PARTICIPANT = 'default_participant_mail';
+    const TYPE_WAITINGLIST_PARTICIPANT = 'default_waitinglist_participant_mail';
     const TYPE_DEFAULT_WELCOME_HOME = 'default_welcome_home_mail';
     const TYPE_REMINDER = 'remindermail';
     const TYPE_MAIL_FOOTER = 'mailfooter';
@@ -39,6 +40,7 @@ class MailText extends Model
     {
         return in_array($type, [
             self::TYPE_DEFAULT_PARTICIPANT,
+            self::TYPE_WAITINGLIST_PARTICIPANT,
             self::TYPE_DEFAULT_WELCOME_HOME,
             self::TYPE_MAIL_FOOTER,
             self::TYPE_REMINDER

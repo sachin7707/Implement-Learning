@@ -41,8 +41,13 @@ class OrderParticipant extends Mailable
 
         // TODO: should change language! just using DA atm
         // setting general mail texts
-        $this->intro = MailText::getByTypeAndLanguage(MailText::TYPE_DEFAULT_PARTICIPANT, 'da');
-        $this->footer = MailText::getByTypeAndLanguage(MailText::TYPE_MAIL_FOOTER, 'da');
+        $introType = MailText::TYPE_DEFAULT_PARTICIPANT;
+        if ($this->order->on_waitinglist) {
+            $introType = MailText::TYPE_WAITINGLIST_PARTICIPANT;
+        }
+
+        $this->intro = MailText::getByTypeAndLanguage($introType, $this->order->language);
+        $this->footer = MailText::getByTypeAndLanguage(MailText::TYPE_MAIL_FOOTER, $this->order->language);
     }
 
     /**
@@ -51,9 +56,6 @@ class OrderParticipant extends Mailable
     public function build()
     {
         // TODO: we need to get the course material to "include" in the email. Kontainer vs Attachment?
-
-        // TODO: check if we are sending a waiting list email
-        // $this->order->isOnWaitingList();
 
         return $this->view('emails.orders.participant')
             ->text('emails.orders.participant_plain')
