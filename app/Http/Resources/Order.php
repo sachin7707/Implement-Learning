@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Course as CourseResource;
 use App\Http\Resources\CourseType as CourseTypeResource;
@@ -43,7 +44,7 @@ class Order extends JsonResource
     {
         $courses = [];
 
-        foreach ($this->courses as $course) {
+        foreach ($this->courses()->withTrashed()->get() as $course) {
             $resource = new CourseResource($course);
             $resource->setLanguage($this->language);
             $courses[] = $resource;
