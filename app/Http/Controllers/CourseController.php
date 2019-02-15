@@ -155,9 +155,15 @@ class CourseController extends Controller
             $changed = true;
         }
 
-        // you can now update the course day's name as well ILI-500
+        // you can now update the course day's periods as well ILI-500
         if ($request->input('periods') !== null) {
             $course->periods = preg_replace('#\s+#', ',', $request->input('periods'));
+            $changed = true;
+        }
+
+        // you can now update the course day's times as well ILI-651
+        if ($request->input('times') !== null) {
+            $course->times = preg_replace('#\s+#', ',', $request->input('times'));
             $changed = true;
         }
 
