@@ -6,6 +6,10 @@ baseurl for API is: /api/v1
 
 ### GET: /api/v1/orders
 Fetches a list of current orders
+
+Optional data:
+* state: array of states to fetch orders for. 0 for deleted, 1 for close, 2 for synced to maconomy
+
 ### GET: /api/v1/orders/{id}
 Fetches one order, to show it's information
 ### POST: /api/v1/orders

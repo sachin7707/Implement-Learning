@@ -44,7 +44,7 @@ class OrderController extends Controller
         $orders = Order::orderByDesc('id');
 
         if ($request->has('state')) {
-            $orders->where('state', $request->get('state'));
+            $orders->whereIn('state', explode(',', $request->get('state')));
         }
         if ($request->has('waitinglist')) {
             $orders->where('on_waitinglist', $request->get('waitinglist'));
