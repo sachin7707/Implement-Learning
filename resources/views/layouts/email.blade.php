@@ -609,7 +609,12 @@
                                                     @foreach ($course->getCourseDatesFormatted($order->language) as $index => $date)
                                                         <tr class="size-15" style="Margin-top: 20px;Margin-bottom: 0;font-size: 15px;line-height: 23px;" lang="x-size-15">
                                                             <td style="color:#8e8e8e; width: 20%">Dag {{ $index + 1 }}:</td>
-                                                            <td style="color:#000000">{{ $date }}</td>
+                                                            <td style="color:#000000">
+                                                                {{ $date }}
+                                                                @if (! empty($course->getCourseTimes()[$index]))
+                                                                    <br/>{{ $course->getCourseTimes()[$index] }}
+                                                                @endif
+                                                            </td>
                                                         </tr>
                                                     @endforeach
                                                 </table>

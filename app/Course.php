@@ -375,4 +375,16 @@ class Course extends Model
 
         return $dates;
     }
+
+    /**
+     * Fetches the course times as an array
+     * @return array
+     */
+    public function getCourseTimes()
+    {
+        if (empty($this->times)) {
+            return [];
+        }
+        return explode(',', $this->times);
+    }
 }
