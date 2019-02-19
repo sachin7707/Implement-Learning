@@ -612,11 +612,11 @@
                                                             <td style="color:#000000">
                                                                 {{ $date }}
                                                             </td>
-                                                            <td style="color:#000000">
-                                                                @if (! empty($course->getCourseTimes()[$index]))
+                                                            @if (! empty($course->getCourseTimes()[$index]))
+                                                                <td style="color:#000000">
                                                                     {{ $course->getCourseTimes()[$index] }}
-                                                                @endif
-                                                            </td>
+                                                                </td>
+                                                            @endif
                                                         </tr>
                                                     @endforeach
                                                 </table>
@@ -849,6 +849,11 @@
                                                     <tr class="size-15" style="Margin-top: 20px;Margin-bottom: 0;font-size: 15px;line-height: 23px;" lang="x-size-15">
                                                         <td style="color:#8e8e8e; width: 20%">Dag {{ $index + 1 }}:</td>
                                                         <td style="color:#000000">{{ $date }}</td>
+                                                        @if (! empty($course->getCourseTimes()[$index]))
+                                                            <td style="color:#000000">
+                                                                {{ $course->getCourseTimes()[$index] }}
+                                                            </td>
+                                                        @endif
                                                     </tr>
                                                 @endforeach
                                             </table>
