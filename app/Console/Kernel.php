@@ -2,9 +2,9 @@
 
 namespace App\Console;
 
+use App\Console\Commands\SyncCourse;
 use App\Jobs\ClearReservations;
 use App\Jobs\ImportCourses;
-use App\Jobs\SendParticipantList;
 use Illuminate\Console\Scheduling\Schedule;
 use Laravel\Lumen\Console\Kernel as ConsoleKernel;
 
@@ -16,7 +16,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        SyncCourse::class,
     ];
 
     /**

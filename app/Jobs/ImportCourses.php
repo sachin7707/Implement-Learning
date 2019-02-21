@@ -32,15 +32,14 @@ class ImportCourses extends Job
     /**
      * Starts the import of the courses
      * @param Maconomy $client the maconomy client to use, when syncing the course(s)
-     * @param CourseService $courseService
      * @throws GuzzleException
      */
-    public function handle(Maconomy $client, CourseService $courseService)
+    public function handle(Maconomy $client)
     {
         // syncs the course types first
         $this->syncCourseTypes($client);
         // then syncs the courses
-        $this->syncCourses($client, $courseService);
+        $this->syncCourses($client);
 
         // sends a notification to wordpress
         Event::dispatch(new CoursesSyncedEvent($this->maconomyId));
@@ -57,7 +56,7 @@ class ImportCourses extends Job
 
         $courseType = CourseType::where('number', $matches[0])
             ->first();
-        
+
         return $courseType;
     }
 
@@ -114,7 +113,7 @@ class ImportCourses extends Job
      * @throws GuzzleException
      * @throws \Exception
      */
-    private function syncCourses(Maconomy $client, CourseService $courseService): void
+    private function syncCourses(Maconomy $client): void
     {
         $courses = $this->getCourses($client);
 
