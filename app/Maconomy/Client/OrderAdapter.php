@@ -62,12 +62,16 @@ class OrderAdapter
         foreach ($this->order->courses as $course) {
             /** @var \App\Participant $dbParticipant */
             foreach ($company->participants as $dbParticipant) {
+                // This is done to fix a bug in ILI-717, where maconomy cannot understand the same participant id
+                // is used for multiple courses on a single order.
+                $participantMaconomy = $dbParticipant->getMaconomyByCourse($course->id);
+
                 $participants[] = new Participant([
                     // sending our internal id with as well, so we can update db after ws-sync
                     // NOTE: this field is crucial, since it decides if a participant is created or updated
-                    'externalidField' => (int)$dbParticipant->id,
+                    'externalidField' => $course->id .'.'.$dbParticipant->id,
                     // instancekeyField is used, if you wish to change data about a participant (should not be needed?)
-                    'instancekeyField' => $dbParticipant->maconomy_id,
+                    'instancekeyField' => $participantMaconomy ? $participantMaconomy->maconomy_id : '',
                     'packageidField' => $this->order->education->maconomy_id ?? '',
                     'coursenumberField' => $course->maconomy_id,
                     'waitlistField' => (bool)$this->order->on_waitinglist,
@@ -97,7 +101,7 @@ class OrderAdapter
                     "altcompcountryField" => $company->billing_country ?? '',
                     "altcompemailField" => $company->billing_email ?? '',
                     "altcompphoneField" => $company->billing_phone ?? '',
-                ]);
+                ], $course->id);
             }
         }
 

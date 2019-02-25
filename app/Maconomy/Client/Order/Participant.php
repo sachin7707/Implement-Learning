@@ -11,14 +11,18 @@ class Participant
 {
     /** @var array */
     private $data;
+    /** @var int */
+    private $courseId;
 
     /**
      * Participant constructor.
      * @param array $data the data to set on the participant
+     * @param int $courseId
      */
-    public function __construct(array $data)
+    public function __construct(array $data, int $courseId)
     {
         $this->data = $data;
+        $this->courseId = $courseId;
     }
 
     /**
@@ -36,7 +40,8 @@ class Participant
      */
     public function getId(): int
     {
-        return (int)$this->data['externalidField'];
+        $idSplit = explode('.', $this->data['externalidField']);
+        return $idSplit[1] ?? $this->data['externalidField'];
     }
 
     /**
@@ -73,5 +78,14 @@ class Participant
     public function getCourseNumber(): string
     {
         return (string)$this->data['coursenumber'];
+    }
+
+    /**
+     * Fetches the course id, the order participant belongs to
+     * @return int
+     */
+    public function getCourseId(): int
+    {
+        return $this->courseId;
     }
 }

@@ -147,10 +147,16 @@ class Maconomy implements ClientAbstract
                 );
 
                 // if the response is an array, assume all is well, since we are not getting an error response
-                if (! empty($response[0])) {
+                if (! empty($response[0]) && ! $orderParticipant->hasMaconomyId()) {
                     // fetches the participant, so we can update the maconomy_id
                     $participant = \App\Participant::find($orderParticipant->getId());
-                    $participant->maconomy_id = $response[0]->instancekeyField;
+                    $participant->maconomy()->save(
+                        new \App\Participant\Maconomy([
+                            'course_id' => $orderParticipant->getCourseId(),
+                            'maconomy_id' => $response[0]->instancekeyField,
+                        ])
+                    );
+//                    $participant->maconomy_id = $response[0]->instancekeyField;
                     $participant->save();
                 }
             } catch (RequestException $e) {
