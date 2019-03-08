@@ -286,4 +286,24 @@ class OrderController extends Controller
 
         return response()->json(['message' => 'Order with id ' . $id . ' was added to sync queue']);
     }
+
+    /**
+     * Manually resend the emails, that should be sent, on a given order
+     * @param string $id the id of the order to add to the resend emails queue
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function resendEmailsOrder($id)
+    {
+        $order = Order::where('id', $id)
+            ->first();
+
+        if (empty($order)) {
+            return response()->json(['message' => 'Order with id ' . $id . ' was not found... cannot resync it']);
+        }
+
+        // sends the emails, for the given order
+        $this->orderService->sendOrderEmails($order);
+
+        return response()->json(['message' => 'Order with id ' . $id . ' was added to resend emails queue']);
+    }
 }

@@ -39,8 +39,10 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
     $router->put('/orders/{id}', 'OrderController@update');
     // updates a given order
     $router->post('/orders/{id}/close', ['middleware' => 'transform.order', 'uses' => 'OrderController@closeOrder']);
-    // creates a new order
+    // resyncs the given order to maconomy
     $router->post('/orders/{id}/resync', 'OrderController@resyncOrder');
+    // resends the emails, for the given order
+    $router->post('/orders/{id}/resendemails', 'OrderController@resendEmailsOrder');
 
     // handle mail texts from wp
     $router->put('/texts/mails', 'MailController@update');

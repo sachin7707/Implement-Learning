@@ -38,6 +38,9 @@ Requires the following data:
 ### POST: /api/v1/orders/{id}/resync
 Resyncs the order with the given id, with maconomy
 
+### POST: /api/v1/orders/{id}/resendemails
+Resends the emails for the given order
+
 ## Course routes
 
 ### GET: /api/v1/sync
