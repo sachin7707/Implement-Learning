@@ -35,6 +35,8 @@ class CourseParticipantList extends Mailable
         $this->trainer = $trainer;
         $this->daysTo = $daysTo;
 
+        // TODO: add language handling (en/da)
+
         $this->footer = MailText::getByTypeAndLanguage(MailText::TYPE_MAIL_FOOTER, 'da');
     }
 

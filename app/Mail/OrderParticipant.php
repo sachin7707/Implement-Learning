@@ -21,6 +21,8 @@ class OrderParticipant extends Mailable
     public $courses;
     public $participant;
     public $calendarUrl;
+    /** @var string the language the email should shown in */
+    public $language;
 
     // mail texts
     public $intro;
@@ -33,8 +35,10 @@ class OrderParticipant extends Mailable
     public function __construct(Order $order, Participant $participant)
     {
         $this->order = $order;
+        $this->language = (string)$order->language ?? 'da';
         $this->courses = $order->courses;
         $this->participant = $participant;
+
         // creating the calendar url for the participants
         // TODO: change this url in the future? since it goes directly to the api instead of WP site.
         $this->calendarUrl = '/api/v1/order/'. str_pad($order->id, 8, '0', STR_PAD_LEFT) .'/cal';
@@ -46,8 +50,8 @@ class OrderParticipant extends Mailable
             $introType = MailText::TYPE_WAITINGLIST_PARTICIPANT;
         }
 
-        $this->intro = MailText::getByTypeAndLanguage($introType, $this->order->language);
-        $this->footer = MailText::getByTypeAndLanguage(MailText::TYPE_MAIL_FOOTER, $this->order->language);
+        $this->intro = MailText::getByTypeAndLanguage($introType, $this->language);
+        $this->footer = MailText::getByTypeAndLanguage(MailText::TYPE_MAIL_FOOTER, $this->language);
     }
 
     /**
@@ -57,8 +61,10 @@ class OrderParticipant extends Mailable
     {
         // TODO: we need to get the course material to "include" in the email. Kontainer vs Attachment?
 
+        $subject = $this->language === 'da' ? 'Tilmelding til %Kursusnavn%' : 'Signup for %Kursusnavn%';
+
         return $this->view('emails.orders.participant')
             ->text('emails.orders.participant_plain')
-            ->subject(str_replace('%Kursusnavn%', Helper::getTitle($this->order), 'Tilmelding til %Kursusnavn%'));
+            ->subject(str_replace('%Kursusnavn%', Helper::getTitle($this->order), $subject));
     }
 }

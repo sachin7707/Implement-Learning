@@ -22,6 +22,8 @@ class OrderBooker extends Mailable
     /** @var Order $order the order to get access to in the views */
     public $order;
     public $courses;
+    /** @var string the language the email should shown in */
+    public $language;
 
     // mail texts
     public $footer;
@@ -34,8 +36,9 @@ class OrderBooker extends Mailable
     {
         $this->order = $order;
         $this->courses = $order->courses;
+        $this->language = (string)$order->language ?? 'da';
 
-        $this->footer = MailText::getByTypeAndLanguage(MailText::TYPE_MAIL_FOOTER, 'da');
+        $this->footer = MailText::getByTypeAndLanguage(MailText::TYPE_MAIL_FOOTER, $this->language);
     }
 
     /**
@@ -43,8 +46,10 @@ class OrderBooker extends Mailable
      */
     public function build()
     {
+        $subject = $this->language === 'da' ? 'Ordrebekræftelse - %Kursusnavn%' : 'Order confirmation - %Kursusnavn%';
+
         return $this->view('emails.orders.booker')
             ->text('emails.orders.booker_plain')
-            ->subject(str_replace('%Kursusnavn%', Helper::getTitle($this->order), 'Ordrebekræftelse - %Kursusnavn%'));
+            ->subject(str_replace('%Kursusnavn%', Helper::getTitle($this->order), $subject));
     }
 }
