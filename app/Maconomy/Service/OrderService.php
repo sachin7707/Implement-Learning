@@ -149,6 +149,18 @@ class OrderService
             $company->participants()->create($participant);
         }
 
+        $this->sendOrderEmails($order);
+
+        // syncing the order to maconomy
+        Queue::later(1, new SyncOrder($order));
+    }
+
+    /**
+     * Sends the emails, for the given order
+     * @param Order $order
+     */
+    public function sendOrderEmails(Order $order): void
+    {
         $orderMail = Helper::getMailer($order->company->email, true);
         $orderMail->queue(new OrderBooker($order));
 
@@ -158,8 +170,5 @@ class OrderService
             // queues the mail to the booker
             $participantMail->queue(new OrderParticipant($order, $participant));
         }
-
-        // syncing the order to maconomy
-        Queue::later(1, new SyncOrder($order));
     }
 }
