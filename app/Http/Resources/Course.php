@@ -45,7 +45,7 @@ class Course extends JsonResource
                 'dates' => $this->getCourseDatesFormatted($this->languageInternal),
                 'sku' => $this->coursetype->number ?? null,
                 'periods' => $this->getCoursePeriodsFormatted($this->languageInternal),
-                'name' => $this->getTitle(),
+                'name' => $this->getTitle($this->languageInternal),
                 'times' => $this->getCourseTimes(),
             ]
         );

@@ -26,7 +26,7 @@
             @endif
         </span></span></p>
         @foreach ($order->courses as $course)
-            <a style="text-decoration: underline;transition: opacity 0.1s ease-in;color: #000;" href="{{ $course->getLink() }}">{{ $course->getTitle() }} ({{ $course->getLanguage() }})</a>
+            <a style="text-decoration: underline;transition: opacity 0.1s ease-in;color: #000;" href="{{ $course->getLink() }}">{{ $course->getTitle($language) }} ({{ $course->getLanguage() }})</a>
             @if (! $loop->last && count($courses) > 1)
                 <br>
             @endif

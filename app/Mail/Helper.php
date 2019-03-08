@@ -27,7 +27,7 @@ class Helper
         $course = $order->courses()->first();
 
         if ($course) {
-            $courseName = $course->getTitle();
+            $courseName = $course->getTitle($order->language);
         }
 
         return $courseName;

@@ -47,7 +47,7 @@ class CourseParticipantList extends Mailable
     {
         return $this->view('emails.courses.participantlist')
             ->text('emails.courses.participantlist_plain')
-            ->subject(str_replace('%Kursusnavn%', $this->course->getTitle(), 'Deltagerliste for %Kursusnavn%'));
+            ->subject(str_replace('%Kursusnavn%', $this->course->getTitle('da'), 'Deltagerliste for %Kursusnavn%'));
     }
 
 }

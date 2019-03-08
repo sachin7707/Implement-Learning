@@ -144,10 +144,26 @@ class Course extends Model
      * Fetches the title of the course, by first checking the course type, else falling back to own name.
      * @return string
      */
-    public function getTitle()
+    public function getTitle($language = 'da')
     {
         // checking if the course type exists, and uses that name
         if ($this->coursetype) {
+            $text = $this->coursetype->texts()
+                ->where('type', 'title')
+                ->where('language', $language)
+                ->first();
+
+            if ($text) {
+                return $text->text;
+            }
+//            foreach ($this->coursetype->texts as $text) {
+//                // if the title was set on the coursetype's texts, use that
+//                if ($text->type === 'title' && $text->language === $language) {
+//                    return $text->text;
+//                }
+//            }
+
+            // doing a fallback to the coursetype's title
             return $this->coursetype->title;
         }
 
