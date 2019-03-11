@@ -20,6 +20,8 @@ class CourseParticipantList extends Mailable
     public $course;
     public $trainer;
     public $daysTo;
+    /** @var string  */
+    public $language;
 
     // mail texts
     public $footer;
@@ -34,10 +36,11 @@ class CourseParticipantList extends Mailable
         $this->course = $course;
         $this->trainer = $trainer;
         $this->daysTo = $daysTo;
+        $this->language = 'da';
 
         // TODO: add language handling (en/da)
 
-        $this->footer = MailText::getByTypeAndLanguage(MailText::TYPE_MAIL_FOOTER, 'da');
+        $this->footer = MailText::getByTypeAndLanguage(MailText::TYPE_MAIL_FOOTER, $this->language);
     }
 
     /**
@@ -45,9 +48,11 @@ class CourseParticipantList extends Mailable
      */
     public function build()
     {
+        $subject = $this->language === 'da' ? 'Deltagerliste for %Kursusnavn%' : 'Participant list for %Kursusnavn%';
+
         return $this->view('emails.courses.participantlist')
             ->text('emails.courses.participantlist_plain')
-            ->subject(str_replace('%Kursusnavn%', $this->course->getTitle('da'), 'Deltagerliste for %Kursusnavn%'));
+            ->subject(str_replace('%Kursusnavn%', $this->course->getTitle($this->language), $subject));
     }
 
 }
