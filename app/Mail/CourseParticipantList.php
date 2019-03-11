@@ -4,6 +4,7 @@ namespace App\Mail;
 
 use App\Course;
 use App\MailText;
+use App\Order;
 use App\Trainer;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -22,6 +23,7 @@ class CourseParticipantList extends Mailable
     public $daysTo;
     /** @var string  */
     public $language;
+    public $participants;
 
     // mail texts
     public $footer;
@@ -36,9 +38,11 @@ class CourseParticipantList extends Mailable
         $this->course = $course;
         $this->trainer = $trainer;
         $this->daysTo = $daysTo;
+        // language on the email, comes from the trainer
         $this->language = $trainer->language;
 
-        // TODO: add language handling (en/da)
+        // sets the list of participants
+        $this->participants = $this->fetchParticipants($course);
 
         $this->footer = MailText::getByTypeAndLanguage(MailText::TYPE_MAIL_FOOTER, $this->language);
     }
@@ -55,4 +59,33 @@ class CourseParticipantList extends Mailable
             ->subject(str_replace('%Kursusnavn%', $this->course->getTitle($this->language), $subject));
     }
 
+    /**
+     * Fetches the list of participants, that are signed up for the given course
+     * @param Course $course
+     * @return array the list of participants on the course
+     */
+    private function fetchParticipants(Course $course): array
+    {
+        $participantsOnCourse = [];
+
+        // we are only fetching orders, that is not on waiting list
+        $orders = Order::where('on_waitinglist', 0)
+            // only fetching confirmed (synced to maconomy) orders
+            ->where('state', Order::STATE_CONFIRMED)
+            ->whereHas('courses', function ($query) use ($course) {
+                $query->where('courses.id', $course->id)
+                    ->withTrashed();
+            })
+            ->with(['companies'])
+            ->get();
+
+        // runs through the orders found, getting the participants
+        foreach ($orders as $order) {
+            foreach ($order->company->participants as $participant) {
+                $participantsOnCourse[] = $participant;
+            }
+        }
+
+        return $participantsOnCourse;
+    }
 }
