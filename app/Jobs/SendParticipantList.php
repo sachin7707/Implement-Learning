@@ -16,12 +16,44 @@ class SendParticipantList extends Job
     const TYPE_ONE_DAY_BEFORE = 1;
     const TYPE_FIVE_DAYS_BEFORE = 5;
 
+    private $courseId = 0;
+    private $type = 0;
+
+    /**
+     * Sets the course to send emails for
+     * @param int $courseId
+     */
+    public function setCourse(int $courseId)
+    {
+        $this->courseId = $courseId;
+    }
+
+    /**
+     * Sets the email type to send
+     * @param int $type
+     */
+    public function setType(int $type)
+    {
+        $this->type = $type;
+    }
+
     /**
      * Sends the participant lists
      * @throws \Exception
      */
     public function handle()
     {
+        // handle sending to a single course
+        if ($this->courseId > 0) {
+            $this->sendParticipantListToTrainers(
+                Course::where('id', $this->courseId)
+                    ->withTrashed()
+                    ->first(),
+                $this->type
+            );
+            return;
+        }
+
         // sends 5 days before reminders
         $this->send5DaysReminder();
 
@@ -53,12 +85,7 @@ class SendParticipantList extends Job
      */
     private function send5DaysReminder(): void
     {
-        $now = new Carbon();
-        $now->add(new \DateInterval('P' . self::TYPE_FIVE_DAYS_BEFORE . 'D'));
-
-        $courses = Course::whereDate('start_time', 'like', $now->format('Y-m-d') .'%')
-            ->where('reminder5days', 0)
-            ->get();
+        $courses = $this->getCoursesForType(self::TYPE_FIVE_DAYS_BEFORE);
 
         /** @var Course $course */
         foreach ($courses as $course) {
@@ -76,12 +103,7 @@ class SendParticipantList extends Job
      */
     private function send1DayReminder()
     {
-        $now = new Carbon();
-        $now->add(new \DateInterval('P' . self::TYPE_ONE_DAY_BEFORE . 'D'));
-
-        $courses = Course::whereDate('start_time', 'like', $now->format('Y-m-d') .'%')
-            ->where('reminder1day', 0)
-            ->get();
+        $courses = $this->getCoursesForType(self::TYPE_ONE_DAY_BEFORE);
 
         /** @var Course $course */
         foreach ($courses as $course) {
@@ -91,5 +113,27 @@ class SendParticipantList extends Job
             $course->reminder1day = 1;
             $course->save();
         }
+    }
+
+    /**
+     * Fetches the courses, for the given type
+     * @param int $type the type of reminder field to search for
+     * @return array the list of courses to send to
+     * @throws \Exception
+     */
+    private function getCoursesForType(int $type)
+    {
+        $now = new Carbon();
+        $now->add(new \DateInterval('P' . $type . 'D'));
+
+        $query = Course::whereDate('start_time', 'like', $now->format('Y-m-d') . '%');
+
+        if ($type === self::TYPE_FIVE_DAYS_BEFORE) {
+            $query->where('reminder5days', 0);
+        } else {
+            $query->where('reminder1day', 0);
+        }
+
+        return $query->get();
     }
 }

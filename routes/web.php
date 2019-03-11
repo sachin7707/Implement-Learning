@@ -24,6 +24,8 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
     $router->get('/course/{id}', 'CourseController@show');
     $router->put('/course/{id}', 'CourseController@update');
     $router->get('/course/{id}/cal', 'CourseController@calendar');
+    // resends the emails, for the given order
+    $router->post('/course/{id}/sendemails/{type}', 'CourseController@sendEmailsCourse');
 
     $router->get('/coursetype', 'CourseTypeController@index');
     $router->put('/coursetype/{id}', 'CourseTypeController@update');

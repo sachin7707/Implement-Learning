@@ -76,7 +76,7 @@ class CourseParticipantList extends Mailable
                 $query->where('courses.id', $course->id)
                     ->withTrashed();
             })
-            ->with(['companies'])
+            ->with(['company'])
             ->get();
 
         // runs through the orders found, getting the participants

@@ -21,6 +21,15 @@
         </div>
     </div>
 
-    @component('emails.components.participants', ['participants' => $participants])
+    @component('emails.components.participants', ['participants' => $participants, 'language' => $language])
+    @endcomponent
+
+    @component('emails.components.spacer', ['color' => '#ffffff'])
+    @endcomponent
+
+    @component('emails.components.course', ['course' => $course, 'language' => $language])
+    @endcomponent
+
+    @component('emails.components.spacer', ['color' => '#ffffff'])
     @endcomponent
 @endsection

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Course;
 use App\Http\Resources\Course as CourseResource;
 use App\Jobs\ImportCourses;
+use App\Jobs\SendParticipantList;
 use App\Location;
 use App\Maconomy\Client\Maconomy;
 use Eluceo\iCal\Component\Calendar;
@@ -214,5 +215,34 @@ class CourseController extends Controller
             'Content-Type: text/calendar; charset=utf-8',
             'Content-Disposition: attachment; filename="cal.ics"'
         ]);
+    }
+
+    /**
+     * Manually resend the emails, that should be sent, on a given course
+     * @param string $id the id of the course to add to the resend emails queue
+     * @param int $type the type of email to send to the course
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function sendEmailsCourse($id, $type)
+    {
+        $course = Course::where('maconomy_id', '=', $id)
+            ->withTrashed()
+            ->first();
+
+        if (empty($course)) {
+            return response()->json(['message' => 'Course (' . $id . ') was not found... cannot send email']);
+        }
+        if (empty($course->trainers)) {
+            return response()->json(['message' => 'Course (' . $id . ') has no trainers... cannot send email']);
+        }
+
+        // constructs the sender and sets the course and type to use
+        $sender = new SendParticipantList();
+        $sender->setCourse($course->id);
+        $sender->setType($type);
+
+        Queue::later(1, $sender);
+
+        return response()->json(['message' => 'Course (' . $id . ') was added to send emails queue']);
     }
 }
