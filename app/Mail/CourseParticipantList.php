@@ -36,7 +36,7 @@ class CourseParticipantList extends Mailable
         $this->course = $course;
         $this->trainer = $trainer;
         $this->daysTo = $daysTo;
-        $this->language = 'da';
+        $this->language = $trainer->language;
 
         // TODO: add language handling (en/da)
 
