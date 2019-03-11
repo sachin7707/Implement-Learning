@@ -36,8 +36,6 @@ class SendParticipantList extends Job
      */
     private function sendParticipantListToTrainers(Course $course, int $daysTo)
     {
-        // TODO: get participants from webservice: api/participants + api/webparticipants
-
         // NOTE: type is not used atm, it "should" be used though.
         foreach ($course->trainers as $trainer) {
             Helper::getMailer($trainer->email, false)
@@ -58,7 +56,7 @@ class SendParticipantList extends Job
         $now = new Carbon();
         $now->add(new \DateInterval('P' . self::TYPE_FIVE_DAYS_BEFORE . 'D'));
 
-        $courses = Course::whereDate('start_time', '=', $now->format('Y-m-d'))
+        $courses = Course::whereDate('start_time', 'like', $now->format('Y-m-d') .'%')
             ->where('reminder5days', 0)
             ->get();
 
@@ -81,7 +79,7 @@ class SendParticipantList extends Job
         $now = new Carbon();
         $now->add(new \DateInterval('P' . self::TYPE_ONE_DAY_BEFORE . 'D'));
 
-        $courses = Course::whereDate('start_time', '=', $now->format('Y-m-d'))
+        $courses = Course::whereDate('start_time', 'like', $now->format('Y-m-d') .'%')
             ->where('reminder1day', 0)
             ->get();
 
