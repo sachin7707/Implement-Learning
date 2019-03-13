@@ -81,6 +81,8 @@ class OrderController extends Controller
         // creates the new order object, and returns the data
         $order = new Order();
         $order->state = Order::STATE_NEW;
+        // saving the language, the order is "made on" - ILI-602/ILI-724
+        $order->language = $request->input('lang', 'da');
 
         $this->setEducationOnOrder($order, $request->input('education', ''));
 
@@ -127,6 +129,11 @@ class OrderController extends Controller
         // handles resetting the waiting list status on the order - ILI-629
         if ((int)$request->get('refresh', 0) === 1) {
             $order->on_waitinglist = 0;
+        }
+
+        if ($request->input('lang')) {
+            // saving the language, the order is "made on" - ILI-602/ILI-724
+            $order->language = $request->input('lang');
         }
 
         // seats are required, so do NOT use a default value
