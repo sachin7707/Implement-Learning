@@ -168,6 +168,12 @@ class CourseController extends Controller
             $changed = true;
         }
 
+        if (! empty($request->input('language', null))) {
+            // Sets the course language (defaulting to 'da')
+            $course->language = $request->input('language', 'da');
+            $changed = true;
+        }
+
         // handles creating/update trainers on a given course
         if ($request->input('trainers', null) !== null) {
             // TODO: add trainers to a course here, using course_trainer table - ILI-230
