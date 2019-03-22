@@ -47,6 +47,8 @@ class Course extends JsonResource
                 'periods' => $this->getCoursePeriodsFormatted($this->languageInternal),
                 'name' => $this->getTitle($this->languageInternal),
                 'times' => $this->getCourseTimes(),
+                // NOTE: name_internal is only used in WP admin, so they can see what specific courseday they are using
+                'name_internal' => $this->name,
             ]
         );
     }
