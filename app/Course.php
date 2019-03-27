@@ -363,7 +363,7 @@ class Course extends Model
      */
     private function formatDateValue($date): string
     {
-        return (int)$date; //str_pad(trim($dateField), 2, '0', STR_PAD_LEFT);
+        return str_pad(trim($date), 2, '0', STR_PAD_LEFT);
     }
 
     /**
