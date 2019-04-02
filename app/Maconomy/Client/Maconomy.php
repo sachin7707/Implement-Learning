@@ -343,6 +343,11 @@ class Maconomy implements ClientAbstract
         $participants = [];
 
         foreach ($data as $row) {
+            // only adding signup participants (i'm guessing that those on waitinglists have a 0 instead?)
+            if ((int)$row->signedUp !== 1) {
+                continue;
+            }
+
             $participants[] = new ParticipantCourse(
                 '',
                 $row->personName,
