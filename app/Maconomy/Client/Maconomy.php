@@ -5,6 +5,7 @@ namespace App\Maconomy\Client;
 use App\Maconomy\Client\AbstractFactory\ParserFactory;
 use App\Maconomy\Client\Exception\NoOrderException;
 use App\Maconomy\Client\Exception\Order\ParticipantException;
+use App\Maconomy\Client\Models\Course\Participant as ParticipantCourse;
 use App\Maconomy\Client\Order\Participant;
 use App\Maconomy\Collection\CourseCollection;
 use App\Maconomy\Collection\CourseTypeCollection;
@@ -327,5 +328,31 @@ class Maconomy implements ClientAbstract
         $token->refresh();
 
         return $token;
+    }
+
+    /**
+     * Fetches the participants on the given course, on the maconomy server.
+     * @param string $maconomyId the course maconomy id
+     * @return array the list of participants
+     * @throws GuzzleException
+     */
+    public function getParticipantsOnCourse(string $maconomyId): array
+    {
+        $data = $this->callWebservice("api/participant/$maconomyId");
+
+        $participants = [];
+
+        foreach ($data as $row) {
+            $participants[] = new ParticipantCourse(
+                '',
+                $row->personName,
+                $row->email,
+                $row->companyName,
+                'some phone number',//$row->phone,
+                'some random title'//$row->title
+            );
+        }
+
+        return $participants;
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Order;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 /**
@@ -41,6 +42,11 @@ class Helper
      */
     public static function getMailer(string $receiver, bool $withBcc)
     {
+        // if the email is NOT in whitelist
+        if (! self::isWhiteListed($receiver)) {
+            Mail::fake();
+        }
+
         // queues the mail to the booker
         $mailer = Mail::to($receiver);
 
@@ -50,5 +56,24 @@ class Helper
         }
 
         return $mailer;
+    }
+
+    /**
+     * Checks if the given email is in the whitelist
+     * @param string $email the email to check
+     * @return bool true if the email is whitelisted, else false
+     */
+    public static function isWhiteListed(string $email): bool
+    {
+        if (empty(env('WHITELIST'))) {
+            Log::info('No whitelist set');
+            // no whitelist? just return true :D
+            return true;
+        }
+
+        // we are exploding the whitelist emails (or domains) to get a nice array
+        $whitelist = explode(',', env('WHITELIST'));
+
+        return (in_array($email, $whitelist) || in_array(substr(strrchr($email, '@'), 0), $whitelist));
     }
 }

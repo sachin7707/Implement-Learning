@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Course;
+use App\Maconomy\Client\Maconomy;
 use App\Mail\CourseParticipantList;
 use App\Mail\Helper;
 use Carbon\Carbon;
@@ -18,6 +19,9 @@ class SendParticipantList extends Job
 
     private $courseId = 0;
     private $type = 0;
+
+    /** @var Maconomy */
+    private $client;
 
     /**
      * Sets the course to send emails for
@@ -39,18 +43,28 @@ class SendParticipantList extends Job
 
     /**
      * Sends the participant lists
+     * @param Maconomy $client the maconomy client is injected into the job, so we can get the list of participants
      * @throws \Exception
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function handle()
+    public function handle(Maconomy $client)
     {
+        $this->client = $client;
+
         // handle sending to a single course
         if ($this->courseId > 0) {
-            $this->sendParticipantListToTrainers(
-                Course::where('id', $this->courseId)
-                    ->withTrashed()
-                    ->first(),
-                $this->type
-            );
+            $course = Course::where('id', $this->courseId)
+                ->withTrashed()
+                ->first();
+
+            // if the course was found, send the participant list to the trainers
+            if ($course) {
+                $this->sendParticipantListToTrainers(
+                    $course,
+                    $this->type
+                );
+            }
+
             return;
         }
 
@@ -65,16 +79,20 @@ class SendParticipantList extends Job
      * Sends the list of participants, to the trainers on the given course
      * @param Course $course the course to use, when sending out a participant list
      * @param int $daysTo number of days until the course starts
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     private function sendParticipantListToTrainers(Course $course, int $daysTo)
     {
+        $participants = $this->client->getParticipantsOnCourse($course->maconomy_id);
+
         // NOTE: type is not used atm, it "should" be used though.
         foreach ($course->trainers as $trainer) {
             Helper::getMailer($trainer->email, false)
                 ->queue(new CourseParticipantList(
                     $course,
                     $trainer,
-                    $daysTo
+                    $daysTo,
+                    $participants
                 ));
         }
     }
@@ -82,6 +100,7 @@ class SendParticipantList extends Job
     /**
      * Finds the courses to send a "5 day before" reminder to, and sends the trainers' the participant list
      * @throws \Exception
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     private function send5DaysReminder(): void
     {
@@ -100,6 +119,7 @@ class SendParticipantList extends Job
     /**
      * Finds the courses to send a "1 day before" reminder to, and sends the trainers' the participant list
      * @throws \Exception
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     private function send1DayReminder()
     {

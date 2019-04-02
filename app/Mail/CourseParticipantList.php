@@ -4,7 +4,6 @@ namespace App\Mail;
 
 use App\Course;
 use App\MailText;
-use App\Order;
 use App\Trainer;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -32,8 +31,10 @@ class CourseParticipantList extends Mailable
      * CourseParticipantList constructor.
      * @param Course $course the course to send information about
      * @param Trainer $trainer the trainer to send the information to
+     * @param int $daysTo number of days until the given course starts
+     * @param array $participants the list of participants that are on the course
      */
-    public function __construct(Course $course, Trainer $trainer, int $daysTo)
+    public function __construct(Course $course, Trainer $trainer, int $daysTo, array $participants)
     {
         $this->course = $course;
         $this->trainer = $trainer;
@@ -41,14 +42,14 @@ class CourseParticipantList extends Mailable
         // language on the email, comes from the trainer
         $this->language = $trainer->language;
 
-        // sets the list of participants
-        $this->participants = $this->fetchParticipants($course);
+        $this->participants = $participants;
 
         $this->footer = MailText::getByTypeAndLanguage(MailText::TYPE_MAIL_FOOTER, $this->language);
     }
 
     /**
      * @return CourseParticipantList
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function build()
     {
@@ -57,35 +58,5 @@ class CourseParticipantList extends Mailable
         return $this->view('emails.courses.participantlist')
             ->text('emails.courses.participantlist_plain')
             ->subject(str_replace('%Kursusnavn%', $this->course->getTitle($this->language), $subject));
-    }
-
-    /**
-     * Fetches the list of participants, that are signed up for the given course
-     * @param Course $course
-     * @return array the list of participants on the course
-     */
-    private function fetchParticipants(Course $course): array
-    {
-        $participantsOnCourse = [];
-
-        // we are only fetching orders, that is not on waiting list
-        $orders = Order::where('on_waitinglist', 0)
-            // only fetching confirmed (synced to maconomy) orders
-            ->where('state', Order::STATE_CONFIRMED)
-            ->whereHas('courses', function ($query) use ($course) {
-                $query->where('courses.id', $course->id)
-                    ->withTrashed();
-            })
-            ->with(['company'])
-            ->get();
-
-        // runs through the orders found, getting the participants
-        foreach ($orders as $order) {
-            foreach ($order->company->participants as $participant) {
-                $participantsOnCourse[] = $participant;
-            }
-        }
-
-        return $participantsOnCourse;
     }
 }
