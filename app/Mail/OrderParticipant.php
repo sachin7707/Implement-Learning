@@ -27,6 +27,7 @@ class OrderParticipant extends Mailable
     // mail texts
     public $intro;
     public $footer;
+    public $beforeCourseHeader;
 
     /**
      * OrderParticipant constructor.
@@ -52,6 +53,16 @@ class OrderParticipant extends Mailable
 
         $this->intro = MailText::getByTypeAndLanguage($introType, $this->language);
         $this->footer = MailText::getByTypeAndLanguage(MailText::TYPE_MAIL_FOOTER, $this->language);
+
+        $this->beforeCourseHeader = MailText::getByTypeAndLanguage(
+            MailText::TYPE_DEFAULT_PARTICIPANT_BEFORE_COURSE,
+            $this->language
+        );
+
+        // handles empty before course headers, by using "old" defaults
+        if (empty($this->beforeCourseHeader)) {
+            $this->beforeCourseHeader = ($this->language === 'da' ? 'F&#248;r kurset skal du' : 'Before course start');
+        }
     }
 
     /**
