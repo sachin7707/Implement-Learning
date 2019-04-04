@@ -4,7 +4,7 @@ namespace App\Maconomy\Client;
 
 use App\Company;
 use App\Course;
-use App\Maconomy\Client\Order\Participant;
+use App\Maconomy\Client\Order\ParticipantAdapter;
 use App\Order;
 
 /**
@@ -13,7 +13,7 @@ use App\Order;
  */
 class OrderAdapter
 {
-    /** @var Participant[] $participants holds the list of participant data we need */
+    /** @var ParticipantAdapter[] $participants holds the list of participant data we need */
     private $participants;
     /** @var Order $order the current order */
     private $order;
@@ -66,7 +66,7 @@ class OrderAdapter
                 // is used for multiple courses on a single order.
                 $participantMaconomy = $dbParticipant->getMaconomyByCourse($course->id);
 
-                $participants[] = new Participant([
+                $participants[] = new ParticipantAdapter([
                     // sending our internal id with as well, so we can update db after ws-sync
                     // NOTE: this field is crucial, since it decides if a participant is created or updated
                     'externalidField' => $course->id .'.'.$dbParticipant->id,

@@ -11,13 +11,13 @@
                             <table style="width: 100%; margin-bottom: 10px;">
                                 <tr class="size-15" style="Margin-top: 20px;Margin-bottom: 0;font-size: 15px;line-height: 23px;" lang="x-size-15">
                                     <td style="color:#8e8e8e; width: 25%;">{{ $language === 'da' ? 'Deltager' : 'Participant' }} {{ $loop->iteration }}:</td>
-                                    <td style="color:#000000">{{ $participant->name }}</td>
-                                    <td style="color:#000000">{{ $participant->title }}</td>
+                                    <td style="color:#000000">{{ $participant->getName() }}</td>
+                                    <td style="color:#000000">{{ $participant->getTitle() }}</td>
                                 </tr>
                                 <tr class="size-15" style="Margin-top: 20px;Margin-bottom: 0;font-size: 15px;line-height: 23px;" lang="x-size-15">
                                     <td style="color:#8e8e8e; width: 25%"></td>
-                                    <td style="color:#000000">{{ $language === 'da' ? 'tlf.' : 'Phone' }} {{ $participant->phone }}</td>
-                                    <td style="color:#000000"><a style="text-decoration: underline;transition: opacity 0.1s ease-in;color: #000;" href="mailto: {{ $participant->email }}">{{ $participant->email }}</a></td>
+                                    <td style="color:#000000">{{ $language === 'da' ? 'tlf.' : 'Phone' }} {{ $participant->getPhone() }}</td>
+                                    <td style="color:#000000"><a style="text-decoration: underline;transition: opacity 0.1s ease-in;color: #000;" href="mailto: {{ $participant->getEmail() }}">{{ $participant->getEmail() }}</a></td>
                                 </tr>
                             </table>
                         @endforeach

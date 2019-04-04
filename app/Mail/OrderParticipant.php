@@ -32,12 +32,14 @@ class OrderParticipant extends Mailable
     /**
      * OrderParticipant constructor.
      * @param Order $order
+     * @param Participant $participant
      */
     public function __construct(Order $order, Participant $participant)
     {
         $this->order = $order;
         $this->language = (string)$order->language ?? 'da';
         $this->courses = $order->courses;
+        // we wrap the participant in an adapter, to be able to use the data in the email
         $this->participant = $participant;
 
         // creating the calendar url for the participants

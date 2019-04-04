@@ -2,6 +2,8 @@
 
 namespace App\Mail;
 
+use App\Mail\Adapters\Participant;
+use App\Mail\Adapters\ParticipantAdapter;
 use App\MailText;
 use App\Order;
 use Illuminate\Bus\Queueable;
@@ -27,6 +29,8 @@ class OrderBooker extends Mailable
 
     // mail texts
     public $footer;
+    /** @var Participant[] */
+    public $participants;
 
     /**
      * OrderBooker constructor.
@@ -37,6 +41,14 @@ class OrderBooker extends Mailable
         $this->order = $order;
         $this->courses = $order->courses;
         $this->language = (string)$order->language ?? 'da';
+
+        // Converting the participants on the order, to the proper mail participants, so we are sure that
+        // they will have correct methods for usage in the email.
+        $participants = [];
+        foreach ($order->company->participants as $participant) {
+            $participants[] = new ParticipantAdapter($participant);
+        }
+        $this->participants = $participants;
 
         $this->footer = MailText::getByTypeAndLanguage(MailText::TYPE_MAIL_FOOTER, $this->language);
     }

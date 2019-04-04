@@ -7,7 +7,7 @@ namespace App\Maconomy\Client\Order;
  * @author jimmiw
  * @since 2018-11-19
  */
-class Participant
+class ParticipantAdapter
 {
     /** @var array */
     private $data;

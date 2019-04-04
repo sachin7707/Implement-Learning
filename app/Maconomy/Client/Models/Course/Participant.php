@@ -3,12 +3,13 @@
 namespace App\Maconomy\Client\Models\Course;
 
 /**
+ * Participant class, for handling participants from maconomy api.
+ * We implement the mail participant interface, to be usable in various mails.
  * @author jimmiw
  * @since 2019-04-02
  */
-class Participant
+class Participant implements \App\Mail\Adapters\Participant
 {
-    private $maconomyId;
     private $name;
     private $title;
     private $email;
@@ -17,29 +18,19 @@ class Participant
 
     /**
      * Participant constructor.
-     * @param string $maconomyId
      * @param string $name
      * @param string $email
      * @param string $companyName
      * @param string $phone
      * @param string $title
      */
-    public function __construct(string $maconomyId, string $name, string $email, string $companyName, string $phone, string $title)
+    public function __construct(string $name, string $email, string $companyName, string $phone, string $title)
     {
-        $this->maconomyId = $maconomyId;
         $this->name = $name;
         $this->email = $email;
         $this->companyName = $companyName;
         $this->phone = $phone;
         $this->title = $title;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMaconomyId(): string
-    {
-        return $this->maconomyId;
     }
 
     /**
