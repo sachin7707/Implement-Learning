@@ -353,8 +353,8 @@ class Maconomy implements ClientAbstract
                 $row->personName,
                 $row->email,
                 $row->companyName,
-                'some phone number',//$row->phone,
-                'some random title'//$row->title
+                $row->phone ?? '',
+                $row->title ?? ''
             );
         }
 
