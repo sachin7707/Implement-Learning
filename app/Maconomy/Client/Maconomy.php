@@ -6,7 +6,7 @@ use App\Maconomy\Client\AbstractFactory\ParserFactory;
 use App\Maconomy\Client\Exception\NoOrderException;
 use App\Maconomy\Client\Exception\Order\ParticipantException;
 use App\Maconomy\Client\Models\Course\Participant as ParticipantCourse;
-use App\Maconomy\Client\Order\Participant;
+use App\Maconomy\Client\Order\ParticipantAdapter;
 use App\Maconomy\Collection\CourseCollection;
 use App\Maconomy\Collection\CourseTypeCollection;
 use App\Maconomy\Token;
@@ -124,7 +124,7 @@ class Maconomy implements ClientAbstract
         }
 
         // runs though the participants, sending them to the webservice one by one
-        /** @var Participant $orderParticipant */
+        /** @var ParticipantAdapter $orderParticipant */
         foreach ($this->order->getParticipants() as $orderParticipant) {
             // sets the participant url
             $url = 'api/webparticipant';
@@ -349,7 +349,6 @@ class Maconomy implements ClientAbstract
             }
 
             $participants[] = new ParticipantCourse(
-                '',
                 $row->personName,
                 $row->email,
                 $row->companyName,

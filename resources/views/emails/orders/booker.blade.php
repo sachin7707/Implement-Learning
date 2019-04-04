@@ -23,7 +23,7 @@
         </div>
     </div>
 
-    @component('emails.components.participants', ['participants' => $order->company->participants, 'language' => $language])
+    @component('emails.components.participants', ['participants' => $participants, 'language' => $language])
     @endcomponent
 
     <div style="mso-line-height-rule: exactly;line-height: 1px;font-size: 1px;">&nbsp;</div>

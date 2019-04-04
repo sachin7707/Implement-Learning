@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Course;
+use App\Mail\Adapters\Participant;
 use App\MailText;
 use App\Trainer;
 use Illuminate\Bus\Queueable;
@@ -32,7 +33,7 @@ class CourseParticipantList extends Mailable
      * @param Course $course the course to send information about
      * @param Trainer $trainer the trainer to send the information to
      * @param int $daysTo number of days until the given course starts
-     * @param array $participants the list of participants that are on the course
+     * @param Participant[] $participants the list of participants that are on the course
      */
     public function __construct(Course $course, Trainer $trainer, int $daysTo, array $participants)
     {
