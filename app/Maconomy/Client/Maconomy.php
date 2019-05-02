@@ -217,7 +217,8 @@ class Maconomy implements ClientAbstract
     public function getEnrolledSeats(string $maconomyId): int
     {
         $data = $this->callWebservice("api/course/$maconomyId");
-        return (int)$data->enrolledField;
+
+        return (int)($data->enrolledField ?? $data->enrolled);
     }
 
     /**
