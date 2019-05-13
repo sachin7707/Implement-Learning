@@ -19,7 +19,7 @@ host('next')
     ->hostname('dev.konform.com')
     ->stage('develop')
     ->roles(['db','web'])
-    ->set('branch', 'develop')
+    ->set('branch', 'next')
     ->set('deploy_path', '/domains/konform/sites/{{application}}');
 
 host('production')
