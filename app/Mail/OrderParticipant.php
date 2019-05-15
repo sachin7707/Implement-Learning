@@ -45,7 +45,7 @@ class OrderParticipant extends Mailable
         // creating the calendar url for the participants
         // TODO: change this url in the future? since it goes directly to the api instead of WP site.
 
-        $this->calendarUrl = '/api/v1/calendar/' . $order->getHash() . '/'. $participant->getHash();
+        $this->calendarUrl = '/api/v1/calendar/' . $order->getHash();
 
         // TODO: should change language! just using DA atm
         // setting general mail texts

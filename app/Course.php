@@ -328,6 +328,15 @@ class Course extends Model
     }
 
     /**
+     * Fetches the short language (da,en) used on the course
+     * @return string
+     */
+    public function getShortLanguage()
+    {
+        return $this->getLanguage() === 'Dansk' ? 'da' : 'en';
+    }
+
+    /**
      * Checks if there is a text for the given type
      * @param string $type the type of text to check, e.g. before_course
      * @return bool

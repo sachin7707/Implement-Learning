@@ -60,7 +60,7 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
 
 
     // handles calenders for participants on the orders
-    $router->get('/calendar/{orderHash}/{participantHash}', 'CalendarController@show');
+    $router->get('/calendar/{orderHash}', 'CalendarController@show');
 });
 
 
