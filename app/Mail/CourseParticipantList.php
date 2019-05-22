@@ -40,8 +40,8 @@ class CourseParticipantList extends Mailable
         $this->course = $course;
         $this->trainer = $trainer;
         $this->daysTo = $daysTo;
-        // language on the email, comes from the trainer
-        $this->language = $trainer->language;
+        // language on the email, comes from the course. It was from trainer, but they changed it in comments on ILI-230
+        $this->language = $course->getShortLanguage();
 
         $this->participants = $participants;
 
