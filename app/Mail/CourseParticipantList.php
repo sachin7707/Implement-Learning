@@ -23,7 +23,10 @@ class CourseParticipantList extends Mailable
     public $daysTo;
     /** @var string  */
     public $language;
+    /** @var array $participants the participants that are signed up */
     public $participants;
+    /** @var array $participantsOnWaitingList the participants that are on the waiting list */
+    public $participantsOnWaitingList;
 
     // mail texts
     public $footer;
@@ -43,7 +46,8 @@ class CourseParticipantList extends Mailable
         // language on the email, comes from the course. It was from trainer, but they changed it in comments on ILI-230
         $this->language = $course->getShortLanguage();
 
-        $this->participants = $participants;
+        // sets the participants to show. The participants are sorted into two categories: signed up OR waiting list
+        $this->setParticipants($participants);
 
         $this->footer = MailText::getByTypeAndLanguage(MailText::TYPE_MAIL_FOOTER, $this->language);
     }
@@ -59,5 +63,25 @@ class CourseParticipantList extends Mailable
         return $this->view('emails.courses.participantlist')
             ->text('emails.courses.participantlist_plain')
             ->subject(str_replace('%Kursusnavn%', $this->course->getTitle($this->language), $subject));
+    }
+
+    /**
+     * @param array $participants
+     */
+    private function setParticipants(array $participants): void
+    {
+        // handles participants, that are signed up
+        $this->participants = [];
+        // participants that are on the waiting list
+        $this->participantsOnWaitingList = [];
+
+        /** @var \App\Maconomy\Client\Models\Course\Participant $participant */
+        foreach ($participants as $participant) {
+            if ($participant->isOnWaitingList()) {
+                $this->participantsOnWaitingList[] = $participant;
+            } else {
+                $this->participants[] = $participant;
+            }
+        }
     }
 }
