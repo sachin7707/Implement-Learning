@@ -45,14 +45,4 @@ class Participant extends Model
             ->where('course_id', '=', $courseId)
             ->first();
     }
-
-    /**
-     * Fetches the hash string, for the current participant.
-     * NOTE: we are simply doing a MD5 atm
-     * @return string the hash for the current participant
-     */
-    public function getHash()
-    {
-        return \md5($this->id);
-    }
 }
