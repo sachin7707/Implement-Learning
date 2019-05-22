@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Calendar\OrderCalendar;
 use App\MailText;
 use App\Order;
 use App\Participant;
@@ -45,27 +46,14 @@ class OrderParticipant extends Mailable
         // creating the calendar url for the participants
         // TODO: change this url in the future? since it goes directly to the api instead of WP site.
 
-        $this->calendarUrl = '/api/v1/calendar/' . $order->getHash();
+        // fetches the link to the calendar
+        $generator = new OrderCalendar($order);
+        $this->calendarUrl = $generator->getLink();
 
-        // TODO: should change language! just using DA atm
-        // setting general mail texts
-        $introType = MailText::TYPE_DEFAULT_PARTICIPANT;
-        if ($this->order->on_waitinglist) {
-            $introType = MailText::TYPE_WAITINGLIST_PARTICIPANT;
-        }
-
-        $this->intro = MailText::getByTypeAndLanguage($introType, $this->language);
+        $this->setIntoText();
         $this->footer = MailText::getByTypeAndLanguage(MailText::TYPE_MAIL_FOOTER, $this->language);
 
-        $this->beforeCourseHeader = MailText::getByTypeAndLanguage(
-            MailText::TYPE_DEFAULT_PARTICIPANT_BEFORE_COURSE,
-            $this->language
-        );
-
-        // handles empty before course headers, by using "old" defaults
-        if (empty($this->beforeCourseHeader)) {
-            $this->beforeCourseHeader = ($this->language === 'da' ? 'F&#248;r kurset skal du' : 'Before course start');
-        }
+        $this->setBeforeCourseHeader();
     }
 
     /**
@@ -80,5 +68,35 @@ class OrderParticipant extends Mailable
         return $this->view('emails.orders.participant')
             ->text('emails.orders.participant_plain')
             ->subject(str_replace('%Kursusnavn%', Helper::getTitle($this->order), $subject));
+    }
+
+    /**
+     * Sets the beforeCourse header, by either using one from the CMS or our defaults in danish or english language.
+     */
+    private function setBeforeCourseHeader(): void
+    {
+        $this->beforeCourseHeader = MailText::getByTypeAndLanguage(
+            MailText::TYPE_DEFAULT_PARTICIPANT_BEFORE_COURSE,
+            $this->language
+        );
+
+        // handles empty before course headers, by using "old" defaults
+        if (empty($this->beforeCourseHeader)) {
+            $this->beforeCourseHeader = ($this->language === 'da' ? 'F&#248;r kurset skal du' : 'Before course start');
+        }
+    }
+
+    /**
+     * Sets the intro text to use, based on language and participant type
+     */
+    private function setIntoText(): void
+    {
+        // setting general mail texts
+        $introType = MailText::TYPE_DEFAULT_PARTICIPANT;
+        if ($this->order->on_waitinglist) {
+            $introType = MailText::TYPE_WAITINGLIST_PARTICIPANT;
+        }
+
+        $this->intro = MailText::getByTypeAndLanguage($introType, $this->language);
     }
 }
