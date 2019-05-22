@@ -10,6 +10,8 @@ namespace App\Maconomy\Client\Models\Course;
  */
 class Participant implements \App\Mail\Adapters\Participant
 {
+    /** @var bool $onWaitingList normally false, meaning a participant is signed up. Can be false as well */
+    private $onWaitingList = false;
     private $name;
     private $title;
     private $email;
@@ -71,5 +73,22 @@ class Participant implements \App\Mail\Adapters\Participant
     public function getCompanyName(): string
     {
         return $this->companyName;
+    }
+
+    /**
+     * Marks the participant as being on the waiting list
+     */
+    public function setIsOnWaitingList()
+    {
+        $this->onWaitingList = true;
+    }
+
+    /**
+     * Checks if the current participant is on the waiting list
+     * @return bool
+     */
+    public function isOnWaitingList()
+    {
+        return $this->onWaitingList;
     }
 }
