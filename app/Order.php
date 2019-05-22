@@ -107,4 +107,14 @@ class Order extends Model
     {
         return (bool)$this->on_waitinglist;
     }
+
+    /**
+     * Fetches the hash for the current order.
+     * NOTE: we are simply doing a MD5 atm
+     * @return string
+     */
+    public function getHash()
+    {
+        return md5($this->id);
+    }
 }

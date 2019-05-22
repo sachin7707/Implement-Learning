@@ -57,6 +57,10 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
 
     // newsletter signup routes
     $router->post('/newsletter/signup', 'NewsletterController@signup');
+
+
+    // handles calenders for participants on the orders
+    $router->get('/calendar/{orderHash}', 'CalendarController@show');
 });
 
 
