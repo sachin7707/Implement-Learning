@@ -52,6 +52,8 @@ class Course extends Model
     use SoftDeletes;
 
     const LANGUAGES = ['da' => 'da_DK', 'en' => 'en_GB'];
+    // we use different date formats, based on the language code (en or da)
+    const DATE_FORMAT = ['da' => '%A d. %e. %B %G', 'en' => '%A %e %B %G'];
 
     protected $guarded = [];
     protected $hidden = ['created_at', 'updated_at', 'pivot', 'id'];
@@ -303,7 +305,7 @@ class Course extends Model
 
         /** @var Carbon $date */
         foreach ($dates as $date) {
-            $formattedDates[] = utf8_encode($date->formatLocalized('%A d. %e. %B %G'));
+            $formattedDates[] = utf8_encode($date->formatLocalized(self::DATE_FORMAT[$languageCode]));
         }
 
         return $formattedDates;
