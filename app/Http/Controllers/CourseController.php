@@ -75,7 +75,9 @@ class CourseController extends Controller
         // NOTE: internals are changed, so we always get the course, even if it's deleted - ILI-521
         $course = Course::getByMaconomyIdOrFail($id);
 
-        return new JsonResponse(new CourseResource($course));
+        $resource = new CourseResource($course);
+        $resource->setLanguage($course->getShortLanguage());
+        return new JsonResponse($resource);
     }
 
     /**

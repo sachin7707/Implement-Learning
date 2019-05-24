@@ -326,7 +326,7 @@ class Course extends Model
      */
     public function getLanguage()
     {
-        return empty($this->language) ? 'Dansk' : $this->language;
+        return empty(trim($this->language)) || $this->language === 'da' ? 'Dansk' : $this->language;
     }
 
     /**

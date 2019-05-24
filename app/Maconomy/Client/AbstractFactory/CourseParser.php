@@ -18,19 +18,33 @@ class CourseParser implements Parser
      */
     public function parse($data): Course
     {
+        $startDate = $data->startingDateField ?? null;
+        $endDate = $data->endingDateField ?? null;
+
+        // no start and end dates? must be the newest api (v2.x)
+        if ($startDate === null) {
+            if (! empty($data->dates)) {
+                // use v2.0 parsing, which only have the start date and last end date (just like v1 api)
+                if (count($data->dates) === 1) {
+                    $startDate = $data->dates[0]->startingDate;
+                    $endDate = $data->dates[0]->endingDate;
+                }
+            }
+        }
+
         $course = new Course();
-        $course->maconomyId = $data->courseNumberField;
-        $course->name = $data->courseNameField;
-        $course->price = $data->priceField;
-        $course->maxParticipants = $data->maxParticipantsField;
-        $course->minParticipants = $data->minParticipantsField;
-        $course->startTime = new \DateTime($data->startingDateField, new \DateTimeZone('GMT'));
-        $course->endTime = new \DateTime($data->endingDateField, new \DateTimeZone('GMT'));
-        $course->language = $data->weblanguageField;
-        $course->venueId = $data->venueField;
-        $course->venueName = $data->venuenameField;
-        $course->seatsAvailable = $data->freeSeatsField;
-        $course->currentParticipants = $data->enrolledField;
+        $course->maconomyId = $data->courseNumberField ?? $data->courseNumber;
+        $course->name = $data->courseNameField ?? $data->courseName;
+        $course->price = $data->priceField ?? $data->price;
+        $course->maxParticipants = $data->maxParticipantsField ?? $data->maxParticipants;
+        $course->minParticipants = $data->minParticipantsField ?? $data->minParticipants;
+        $course->startTime = new \DateTime($startDate, new \DateTimeZone('GMT'));
+        $course->endTime = new \DateTime($endDate, new \DateTimeZone('GMT'));
+        $course->language = $data->weblanguageField ?? $data->weblanguage;
+        $course->venueId = $data->venueField ?? $data->venue;
+        $course->venueName = $data->venuenameField ?? $data->venuename;
+        $course->seatsAvailable = $data->freeSeatsField ?? $data->freeSeats;
+        $course->currentParticipants = $data->enrolledField ?? $data->enrolled;
 
         return $course;
     }
