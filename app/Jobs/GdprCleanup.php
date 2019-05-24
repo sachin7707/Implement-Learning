@@ -39,16 +39,7 @@ class GdprCleanup extends Job
     }
 
     /**
-     * Fetches the current date
-     * @return \DateTime
-     */
-    public function getNow()
-    {
-        return new \DateTime();
-    }
-
-    /**
-     * @return array
+     * @return Order[]
      * @throws \Exception
      */
     public function getOrders(): array
@@ -57,9 +48,7 @@ class GdprCleanup extends Job
         if ($this->order) {
             $orders = [$this->order];
         } else {
-            $threeMonthsAgo = $this->getNow();
-            // removing 3 months from the current date
-            $threeMonthsAgo->sub(new \DateInterval('P3M'));
+            $threeMonthsAgo = $this->getThreeMonthsAgo();
 
             // fetch orders, where the created date is 3 months or older
             $allOrders = Order::where('created_at', '<', $threeMonthsAgo)
@@ -86,5 +75,18 @@ class GdprCleanup extends Job
         }
 
         return $orders;
+    }
+
+    /**
+     * @return \DateTime
+     * @throws \Exception
+     */
+    public function getThreeMonthsAgo(): \DateTime
+    {
+        $threeMonthsAgo = new \DateTime();
+        // removing 3 months from the current date
+        $threeMonthsAgo->sub(new \DateInterval('P3M'));
+
+        return $threeMonthsAgo;
     }
 }
