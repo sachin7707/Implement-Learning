@@ -143,7 +143,7 @@
 
                     <div style="Margin-left: 46px;Margin-right: 46px;">
                         <div style="mso-line-height-rule: exactly;mso-text-raise: 4px;">
-                            <p class="size-18" style="Margin-top: 0;Margin-bottom: 0;font-size: 17px;line-height: 26px;" lang="x-size-18"><span style="color:#000000"><a style="text-decoration: underline;transition: opacity 0.1s ease-in;color: #000;" href="{{ $course->getLink() }}">{{ $language === 'da' ? 'G&#229; til side om kurset' : 'Go to page about the course' }} <img style="Margin-left: 20px;border: 0;display: inline-block;height: 17px;width: auto;" alt="" width="auto" src="{{ env('WEBSITE_URL') }}{{ env('MAIL_ARROW_IMAGE') }}"></a>&nbsp;</span></p>
+                            <p class="size-18" style="Margin-top: 0;Margin-bottom: 0;font-size: 17px;line-height: 26px;" lang="x-size-18"><span style="color:#000000"><a style="text-decoration: underline;transition: opacity 0.1s ease-in;color: #000;" href="{{ $course->getLink() }}">{{ $language === 'da' ? 'G&aring; til side om kurset' : 'Go to page about the course' }} <img style="Margin-left: 20px;border: 0;display: inline-block;height: 17px;width: auto;" alt="" width="auto" src="{{ env('WEBSITE_URL') }}{{ env('MAIL_ARROW_IMAGE') }}"></a>&nbsp;</span></p>
                         </div>
                     </div>
 
