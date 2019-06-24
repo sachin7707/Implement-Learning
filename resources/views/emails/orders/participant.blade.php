@@ -80,7 +80,7 @@
                         <div style="Margin-left: 46px;Margin-right: 46px;">
                             <div style="mso-line-height-rule: exactly;mso-text-raise: 4px;">
                                 <p class="size-15" style="Margin-top: 0;Margin-bottom: 0;font-size: 15px;line-height: 23px;" lang="x-size-15">
-                                    <span style="color:#000000">{{ $this->beforeCourseHeader }}</span>
+                                    <span style="color:#000000">{{ $beforeCourseHeader }}</span>
                                 </p>
                             </div>
                         </div>
