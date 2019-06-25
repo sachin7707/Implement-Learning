@@ -4,7 +4,7 @@
     'footer' => json_decode($footer->text),
     'language' => $language,
 ])
-@section('title', $language === 'da' ? 'KVITTERING' : 'RECEIPT')
+@section('title', $language === 'da' ? 'ORDREBEKRÆFTELSE' : 'RECEIPT')
 
 @section('emailcontent')
     <div class="layout one-col fixed-width" style="Margin: 0 auto;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;">
