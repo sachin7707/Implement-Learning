@@ -569,6 +569,26 @@
 
                 @yield('emailcontent')
 
+                @hasSection('default_body')
+                    @component('emails.components.spacer', ['color' => '#ffffff'])
+                    @endcomponent
+
+                    <div class="layout__inner" style="border-collapse: collapse;display: table;width: 100%;background-color: #c4d0cc;">
+                        <!--[if (mso)|(IE)]><table align="center" cellpadding="0" cellspacing="0" role="presentation"><tr class="layout-fixed-width" style="background-color: #c4d0cc;"><td style="width: 600px" class="w560"><![endif]-->
+                        <div class="column" style="text-align: left;color: #2f353e;font-size: 15px;line-height: 23px;font-family: Calibri,Carlito,PT Sans,Trebuchet MS,sans-serif;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);">
+
+                            <div style="Margin-left: 46px;Margin-right: 46px;">
+                                <div style="mso-line-height-rule: exactly;mso-text-raise: 4px; width: 90%;">
+                                    <p></p>
+                                    <p class="size-15" style="Margin-top: 0;Margin-bottom: 0;font-family: calibri,carlito,pt sans,trebuchet ms,sans-serif;font-size: 15px;line-height: 23px;" lang="x-size-15"><span class="font-calibri"><span style="color:#000000">@yield('default_body')</span></span></p>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--[if (mso)|(IE)]></td></tr></table><![endif]-->
+                    </div>
+                @endif
+
                 @component('emails.questions', ['footer' => $footer])
                 @endcomponent
 

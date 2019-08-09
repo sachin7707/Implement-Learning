@@ -4,32 +4,20 @@ namespace App\Mail;
 
 use App\Course;
 use App\Mail\Adapters\Participant;
-use App\MailText;
 use App\Trainer;
-use Illuminate\Bus\Queueable;
-use Illuminate\Mail\Mailable;
-use Illuminate\Queue\SerializesModels;
-
 /**
  * This Mailable sends out a participant list to the trainers on a given course.
  * @author jimmiw
  */
-class CourseParticipantList extends Mailable
+class CourseParticipantList extends MailDefault
 {
-    use Queueable, SerializesModels;
-
     public $course;
     public $trainer;
     public $daysTo;
-    /** @var string  */
-    public $language;
     /** @var array $participants the participants that are signed up */
     public $participants;
     /** @var array $participantsOnWaitingList the participants that are on the waiting list */
     public $participantsOnWaitingList;
-
-    // mail texts
-    public $footer;
 
     /**
      * CourseParticipantList constructor.
@@ -44,12 +32,12 @@ class CourseParticipantList extends Mailable
         $this->trainer = $trainer;
         $this->daysTo = $daysTo;
         // language on the email, comes from the course. It was from trainer, but they changed it in comments on ILI-230
-        $this->language = $course->getShortLanguage();
+        $this->setLanguage($course->getShortLanguage());
 
         // sets the participants to show. The participants are sorted into two categories: signed up OR waiting list
         $this->setParticipants($participants);
 
-        $this->footer = MailText::getByTypeAndLanguage(MailText::TYPE_MAIL_FOOTER, $this->language);
+        $this->initDefaultTexts();
     }
 
     /**

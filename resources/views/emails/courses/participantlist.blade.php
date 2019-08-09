@@ -1,6 +1,7 @@
 @extends('layouts.email', [
     'course' => $course,
-    'footer' => json_decode($footer->text)
+    'footer' => json_decode($footer->text),
+    'default_body' => $defaultBody,
 ])
 @section('title', $language === 'da' ? 'Deltagerliste' : 'Participant list')
 

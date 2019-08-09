@@ -6,28 +6,18 @@ use App\Calendar\OrderCalendar;
 use App\MailText;
 use App\Order;
 use App\Participant;
-use Illuminate\Bus\Queueable;
-use Illuminate\Mail\Mailable;
-use Illuminate\Queue\SerializesModels;
 
 /**
  * @author jimmiw
  * @since 2018-10-30
  */
-class OrderParticipant extends Mailable
+class OrderParticipant extends MailDefault
 {
-    use Queueable, SerializesModels;
-
     public $order;
     public $courses;
     public $participant;
     public $calendarUrl;
-    /** @var string the language the email should shown in */
-    public $language;
 
-    // mail texts
-    public $intro;
-    public $footer;
     public $beforeCourseHeader;
 
     /**
@@ -38,7 +28,7 @@ class OrderParticipant extends Mailable
     public function __construct(Order $order, Participant $participant)
     {
         $this->order = $order;
-        $this->language = (string)$order->language ?? 'da';
+        $this->setLanguage((string)$order->language ?? 'da');
         $this->courses = $order->courses;
         // we wrap the participant in an adapter, to be able to use the data in the email
         $this->participant = $participant;
@@ -51,9 +41,9 @@ class OrderParticipant extends Mailable
         $this->calendarUrl = $generator->getLink();
 
         $this->setIntoText();
-        $this->footer = MailText::getByTypeAndLanguage(MailText::TYPE_MAIL_FOOTER, $this->language);
 
         $this->setBeforeCourseHeader();
+        $this->initDefaultTexts();
     }
 
     /**
