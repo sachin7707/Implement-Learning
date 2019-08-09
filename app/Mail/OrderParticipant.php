@@ -3,6 +3,8 @@
 namespace App\Mail;
 
 use App\Calendar\OrderCalendar;
+use App\Course;
+use App\CourseTypeText;
 use App\MailText;
 use App\Order;
 use App\Participant;
@@ -22,6 +24,8 @@ class OrderParticipant extends Mailable
     public $courses;
     public $participant;
     public $calendarUrl;
+    /** @var array */
+    public $upsells;
     /** @var string the language the email should shown in */
     public $language;
 
@@ -54,6 +58,8 @@ class OrderParticipant extends Mailable
         $this->footer = MailText::getByTypeAndLanguage(MailText::TYPE_MAIL_FOOTER, $this->language);
 
         $this->setBeforeCourseHeader();
+
+        $this->setUpsellInformation();
     }
 
     /**
@@ -98,5 +104,30 @@ class OrderParticipant extends Mailable
         }
 
         $this->intro = MailText::getByTypeAndLanguage($introType, $this->language);
+    }
+
+    /**
+     * adds upsell information to the email
+     */
+    private function setUpsellInformation()
+    {
+        $upsells = [];
+
+        /** @var Course $course */
+        foreach ($this->courses as $course) {
+            if ($course->coursetype) {
+                $texts = $course->coursetype->getUpsellTexts();
+                if (empty($texts)) {
+                    continue;
+                }
+
+                /** @var CourseTypeText $text */
+                foreach ($texts as $text) {
+                    $upsells[] = $text->text;
+                }
+            }
+        }
+
+        $this->upsells = $upsells;
     }
 }

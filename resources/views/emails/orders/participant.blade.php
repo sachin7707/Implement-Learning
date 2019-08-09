@@ -187,6 +187,12 @@
     @endforeach
 
     <!-- participants section end -->
+
+
+    @if (count($upsells) > 0)
+        <!-- ILI-721 should go here :) -->
+    @endif
+
 @endsection
 
 <!--<div>Calendar link: <a href="{{$calendarUrl}}">{{$calendarUrl}}</a></div>-->
