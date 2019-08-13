@@ -123,7 +123,7 @@ class OrderParticipant extends Mailable
 
                 /** @var CourseTypeText $text */
                 foreach ($texts as $text) {
-                    $upsells[] = $text->text;
+                    $upsells[] = json_decode($text->text);
                 }
             }
         }

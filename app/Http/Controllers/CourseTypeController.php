@@ -68,12 +68,12 @@ class CourseTypeController extends Controller
 
                 if ($courseTypeText) {
                     $courseTypeText->type = $data['type'];
-                    $courseTypeText->text = $data['text'];
+                    $courseTypeText->text = $data['text'] ?? '';
                     $courseTypeText->language = $data['language'];
                 } else {
                     $courseTypeText = new CourseTypeText([
                         'type' => $data['type'],
-                        'text' => $data['text'],
+                        'text' => $data['text'] ?? '',
                         'language' => $data['language'],
                         'course_type_id' => $courseType->id
                     ]);
