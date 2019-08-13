@@ -191,6 +191,9 @@
 
     @if (count($upsells) > 0)
         <!-- ILI-721 should go here :) -->
+        @foreach ($upsells as $upsell)
+            {{ $upsell->text }}
+        @endforeach
     @endif
 
 @endsection
