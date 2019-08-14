@@ -57,7 +57,7 @@ class CourseType extends Model
      */
     public function getUpsellTexts()
     {
-        return CourseType::where('type', 'upsell')
+        return CourseTypeText::where('type', 'upsell')
             ->where('course_type_id', $this->id)
             ->get();
     }
