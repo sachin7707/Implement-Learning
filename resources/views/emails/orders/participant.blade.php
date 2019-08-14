@@ -2,6 +2,7 @@
     'courses' => $order->courses,
     'footer' => json_decode($footer->text),
     'language' => $language,
+    'image_url' => $imageUrl,
 ])
 @section('title', $language === 'da' ? 'DELTAGER EMAIL' : 'PARTICIPANT EMAIL')
 @section('intro', str_replace('$name', $participant->name, $intro->text))
