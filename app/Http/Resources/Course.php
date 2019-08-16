@@ -22,7 +22,8 @@ class Course extends JsonResource
         parent::__construct($resource);
 
         // sets the language based on the course language as a default - ILI-741
-        $this->setLanguage(in_array($resource->language, ['Dansk', 'da']) ? 'da' : 'en');
+        // added '' (blank) as danish language as well - ILI-755
+        $this->setLanguage(in_array($resource->language, ['Dansk', 'da', '']) ? 'da' : 'en');
     }
 
     /**
