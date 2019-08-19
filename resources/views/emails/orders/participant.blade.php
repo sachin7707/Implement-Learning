@@ -5,7 +5,7 @@
     'image_url' => $imageUrl,
 ])
 @section('title', $language === 'da' ? 'DELTAGER EMAIL' : 'PARTICIPANT EMAIL')
-@section('intro', str_replace('$name', $participant->name, $intro->text))
+@section('intro', str_replace('$name', $participant->name, ($intro->text ?? '') ))
 
 @section('emailcontent')
     @foreach ($courses as $course)
