@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Log;
  */
 class Maconomy implements ClientAbstract
 {
+    const TIMEOUT_IN_SECONDS = 15;
+
     /** @var OrderAdapter $order current order to sync with maconomy */
     private $order;
     /** @var Client */
@@ -253,6 +255,12 @@ class Maconomy implements ClientAbstract
      */
     private function callWebserviceRaw(string $uri, string $method, array $options)
     {
+        // adding a default timeout, since sometimes the maconomy service is crashed or very slow
+        // and we cannot have the jobs wait forever - ILI-767
+        if (is_array($options) && ! isset($options['timeout'])) {
+            $options['timeout'] = self::TIMEOUT_IN_SECONDS;
+        }
+
         $response = $this->getClient()->request($method, $uri, $options);
         return json_decode((string)$response->getBody());
     }
