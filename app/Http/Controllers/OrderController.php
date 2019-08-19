@@ -49,6 +49,9 @@ class OrderController extends Controller
         if ($request->has('waitinglist')) {
             $orders->where('on_waitinglist', $request->get('waitinglist'));
         }
+        if ($request->has('limit')) {
+            $orders->limit((int)$request->get('limit'));
+        }
 
         return response()->json(OrderResource::collection($orders->get()));
     }
