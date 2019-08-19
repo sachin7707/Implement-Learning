@@ -112,7 +112,7 @@ class OrderParticipant extends Mailable
         // fetching the intro text from the course types, if possible
         $intro = $this->getCourseTypeText('before_course');
         if (! empty($intro)) {
-            $this->intro = $intro;
+            $this->intro = (object)['text' => $intro];
             // returning early
             return;
         }
