@@ -2,7 +2,9 @@
 
 namespace App\Jobs;
 
+use App\Course;
 use App\Order;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Removes orders, where the newest course is over 3 months old.
@@ -52,6 +54,13 @@ class GdprCleanup extends Job
 
         // fetches the from date, currently active
         $fromDate = $this->getFromDate();
+
+        $orders = DB::table('orders')
+            ->leftJoin('course_orders', 'orders.id', '=', 'course_orders.order_id')
+            ->leftJoin('courses', 'courses.id', '=', 'course_orders.course_id')
+            ->where('courses.end_time', '<', $fromDate)
+            ->get();
+
 
         // fetch orders, where the created date is at fromDate or older
         $allOrders = Order::where('created_at', '<', $fromDate)
