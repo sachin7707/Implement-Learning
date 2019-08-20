@@ -39,6 +39,6 @@ class MailDefault extends Mailable
     protected function initDefaultTexts()
     {
         $this->footer = MailText::getByTypeAndLanguage(MailText::TYPE_MAIL_FOOTER, $this->language);
-        $this->default_body =  MailText::getByTypeAndLanguage(MailText::TYPE_DEFAULT_BODY, $this->language);
+        $this->defaultBody =  MailText::getByTypeAndLanguage(MailText::TYPE_DEFAULT_BODY, $this->language);
     }
 }
