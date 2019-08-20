@@ -39,6 +39,7 @@ class GdprCleanup extends Job
     }
 
     /**
+     * Fetches the orders that needs to be deleted
      * @return Order[]
      * @throws \Exception
      */
@@ -46,31 +47,32 @@ class GdprCleanup extends Job
     {
         // handles a single order, given when the job was created. This is mostly used for testing :)
         if ($this->order) {
-            $orders = [$this->order];
-        } else {
-            $threeMonthsAgo = $this->getThreeMonthsAgo();
+            return [$this->order];
+        }
 
-            // fetch orders, where the created date is 3 months or older
-            $allOrders = Order::where('created_at', '<', $threeMonthsAgo)
-                ->with('courses')
-                ->get();
+        // fetches the from date, currently active
+        $fromDate = $this->getFromDate();
 
-            $orders = [];
-            foreach ($allOrders as $order) {
-                $allCoursesAreDone = true;
+        // fetch orders, where the created date is at fromDate or older
+        $allOrders = Order::where('created_at', '<', $fromDate)
+            ->with('courses')
+            ->get();
 
-                // Checks that the courses on the order are ALL with an endtime 3 months before now.
-                // This is done to ensure, that all the courses are done, before we delete the order
-                foreach ($order->courses as $course) {
-                    if ($course->end_time > $threeMonthsAgo) {
-                        $allCoursesAreDone = false;
-                        break; // stopping the loop
-                    }
+        $orders = [];
+        foreach ($allOrders as $order) {
+            $allCoursesAreDone = true;
+
+            // Checks that the courses on the order are ALL with an end time according to fromDate.
+            // This is done to ensure, that all the courses are done, before we delete the order
+            foreach ($order->courses as $course) {
+                if ($course->end_time > $fromDate) {
+                    $allCoursesAreDone = false;
+                    break; // stopping the loop
                 }
+            }
 
-                if ($allCoursesAreDone) {
-                    $orders[] = $order;
-                }
+            if ($allCoursesAreDone) {
+                $orders[] = $order;
             }
         }
 
@@ -78,15 +80,16 @@ class GdprCleanup extends Job
     }
 
     /**
+     * From date is the set max age an order can have.
      * @return \DateTime
      * @throws \Exception
      */
-    public function getThreeMonthsAgo(): \DateTime
+    public function getFromDate(): \DateTime
     {
-        $threeMonthsAgo = new \DateTime();
+        $fromDate = new \DateTime();
         // removing 3 months from the current date
-        $threeMonthsAgo->sub(new \DateInterval('P3M'));
+        $fromDate->sub(new \DateInterval('P3M'));
 
-        return $threeMonthsAgo;
+        return $fromDate;
     }
 }

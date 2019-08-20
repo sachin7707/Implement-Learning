@@ -10,7 +10,7 @@ class GdprCleanupTest extends TestCase
     {
         $job = new \App\Jobs\GdprCleanup();
 
-        $date = $job->getThreeMonthsAgo();
+        $date = $job->getFromDate();
 
         $orders = $job->getOrders();
 
