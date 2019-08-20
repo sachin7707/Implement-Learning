@@ -569,7 +569,7 @@
 
                 @yield('emailcontent')
 
-                @hasSection('default_body')
+                @isset($defaultBody)
                     @component('emails.components.spacer', ['color' => '#ffffff'])
                     @endcomponent
 
@@ -580,14 +580,14 @@
                             <div style="Margin-left: 46px;Margin-right: 46px;">
                                 <div style="mso-line-height-rule: exactly;mso-text-raise: 4px; width: 90%;">
                                     <p></p>
-                                    <p class="size-15" style="Margin-top: 0;Margin-bottom: 0;font-family: calibri,carlito,pt sans,trebuchet ms,sans-serif;font-size: 15px;line-height: 23px;" lang="x-size-15"><span class="font-calibri"><span style="color:#000000">@yield('default_body')</span></span></p>
+                                    <p class="size-15" style="Margin-top: 0;Margin-bottom: 0;font-family: calibri,carlito,pt sans,trebuchet ms,sans-serif;font-size: 15px;line-height: 23px;" lang="x-size-15"><span class="font-calibri"><span style="color:#000000">{{ $defaultBody }}</span></span></p>
                                 </div>
                             </div>
 
                         </div>
                         <!--[if (mso)|(IE)]></td></tr></table><![endif]-->
                     </div>
-                @endif
+                @endisset
 
                 @component('emails.questions', ['footer' => $footer])
                 @endcomponent

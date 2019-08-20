@@ -2,7 +2,7 @@
     'courses' => $order->courses,
     'footer' => json_decode($footer->text),
     'language' => $language,
-    'default_body' => $defaultBody,
+    'defaultBody' => $defaultBody,
 ])
 @section('title', $language === 'da' ? 'DELTAGER EMAIL' : 'PARTICIPANT EMAIL')
 @section('intro', str_replace('$name', $participant->name, $intro->text))
