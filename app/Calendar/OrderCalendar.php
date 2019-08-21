@@ -122,9 +122,9 @@ class OrderCalendar
     public function getAttachmentMime()
     {
         // handling multiple dates
-        return 'application/ics';
+//        return 'application/ics';
 
         // just one day? return this mime to allow gmail for a pretty view
-//        return 'text/calendar';
+        return 'text/calendar';
     }
 }

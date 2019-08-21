@@ -88,7 +88,7 @@ class OrderParticipant extends Mailable
                 $generator->getCalendar()->serialize(),
                 'events.ics',
                 [
-//                    'mime' => $generator->getAttachmentMime(),
+                    'mime' => $generator->getAttachmentMime(),
                 ]
             );
     }
