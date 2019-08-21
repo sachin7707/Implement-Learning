@@ -95,6 +95,7 @@ class OrderCalendar
                     'SEQUENCE' => 0,
                     'DTSTART' => $startDate,
                     'DTEND' => $endDate,
+                    'STATUS' => 'CONFIRMED',
                 ];
 
                 // if the course has a location associated, we add the address for that as well
