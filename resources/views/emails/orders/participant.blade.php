@@ -243,6 +243,7 @@
 								@if ($upsell->text)
 				  					<div style="Margin-left: 20px;Margin-right: 20px;">
 				  						<div style="mso-line-height-rule: exactly;mso-text-raise: 4px;">
+											<p></p>
 				  							<p style="Margin-top: 0;Margin-bottom: 20px;">{{ $upsell->text }}</p>
 				  						</div>
 				  					</div>
