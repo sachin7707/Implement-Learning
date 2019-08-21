@@ -26,7 +26,7 @@ class OrderCalendar
     {
         $this->order = $order;
         // setting the default base url, using the SERVER_URL environment variable
-        $this->baseUrl = env('SERVER_URL');
+        $this->baseUrl = env('SERVER_ICS_URL');
     }
 
     /**
