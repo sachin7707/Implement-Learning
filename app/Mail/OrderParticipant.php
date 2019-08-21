@@ -23,7 +23,7 @@ class OrderParticipant extends Mailable
     public $order;
     public $courses;
     public $participant;
-    public $calendarUrl;
+//    public $calendarUrl;
     /** @var array */
     public $upsells;
     /** @var string the language the email should shown in */
@@ -52,8 +52,8 @@ class OrderParticipant extends Mailable
         // TODO: change this url in the future? since it goes directly to the api instead of WP site.
 
         // fetches the link to the calendar
-        $generator = new OrderCalendar($order);
-        $this->calendarUrl = $generator->getLink();
+//        $generator = new OrderCalendar($order);
+//        $this->calendarUrl = $generator->getLink();
 
 
         $this->footer = MailText::getByTypeAndLanguage(MailText::TYPE_MAIL_FOOTER, $this->language);
@@ -75,10 +75,22 @@ class OrderParticipant extends Mailable
         // TODO: we need to get the course material to "include" in the email. Kontainer vs Attachment?
 
         $subject = $this->language === 'da' ? 'Tilmelding til %Kursusnavn%' : 'Signup for %Kursusnavn%';
+        // doing a bit of replaces in the subject
+        $subject = str_replace('%Kursusnavn%', Helper::getTitle($this->order), $subject);
+
+        // initializes the order calender generator, so we can attach the calendar
+        $generator = new OrderCalendar($this->order);
 
         return $this->view('emails.orders.participant')
             ->text('emails.orders.participant_plain')
-            ->subject(str_replace('%Kursusnavn%', Helper::getTitle($this->order), $subject));
+            ->subject($subject)
+            ->attachData(
+                $generator->getCalendar()->serialize(),
+                'events.ics',
+                [
+                    'mime' => 'text/calendar',
+                ]
+            );
     }
 
     /**
