@@ -63,6 +63,7 @@ class OrderCalendar
 
         // initializes the calender
         $calendar = new VCalendar();
+        $calendar->add('METHOD', 'PUBLISH');
 
         foreach ($this->order->courses as $course) {
             // fetches the course type, so we can get the event dates

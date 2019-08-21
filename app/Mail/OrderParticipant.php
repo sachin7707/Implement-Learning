@@ -56,7 +56,6 @@ class OrderParticipant extends Mailable
 //        $this->calendarUrl = $generator->getLink();
         $this->calendarUrl = '#';
 
-
         $this->footer = MailText::getByTypeAndLanguage(MailText::TYPE_MAIL_FOOTER, $this->language);
 
         // adding texts, first from the course types, else from the general mail texts.
