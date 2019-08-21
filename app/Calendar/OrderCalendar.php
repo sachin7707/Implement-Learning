@@ -17,6 +17,8 @@ class OrderCalendar
     private $baseUrl;
     /** @var Order */
     private $order;
+    /** @var VCalendar */
+    private $calendar;
 
     /**
      * OrderCalendar constructor.
@@ -54,6 +56,11 @@ class OrderCalendar
      */
     public function getCalendar(): VCalendar
     {
+        // if the calendar is already generated, just return it :)
+        if (! empty($this->calendar)) {
+            return $this->calendar;
+        }
+
         // initializes the calender
         $calendar = new VCalendar();
 
@@ -85,6 +92,7 @@ class OrderCalendar
 
                 $calendarData = [
                     'SUMMARY' => $title,
+                    'SEQUENCE' => 0,
                     'DTSTART' => $startDate,
                     'DTEND' => $endDate,
                 ];
@@ -99,6 +107,24 @@ class OrderCalendar
             }
         }
 
-        return $calendar;
+        // saving it for later
+        $this->calendar = $calendar;
+        // returning the generated calendar
+        return $this->calendar;
+    }
+
+    /**
+     * Fetching the appropriate mime to use, based on the number of calendar dates
+     * @return string
+     */
+    public function getAttachmentMime()
+    {
+        // handling multiple dates
+        if ($this->calendar->count() > 1) {
+            return 'application/ics';
+        }
+
+        // just one day? return this mime to allow gmail for a pretty view
+        return 'text/calendar';
     }
 }
