@@ -23,7 +23,7 @@ class OrderParticipant extends Mailable
     public $order;
     public $courses;
     public $participant;
-//    public $calendarUrl;
+    public $calendarUrl;
     /** @var array */
     public $upsells;
     /** @var string the language the email should shown in */
@@ -54,6 +54,7 @@ class OrderParticipant extends Mailable
         // fetches the link to the calendar
 //        $generator = new OrderCalendar($order);
 //        $this->calendarUrl = $generator->getLink();
+        $this->calendarUrl = '#';
 
 
         $this->footer = MailText::getByTypeAndLanguage(MailText::TYPE_MAIL_FOOTER, $this->language);
