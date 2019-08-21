@@ -79,8 +79,8 @@ class OrderCalendar
             /** @var Carbon $date */
             /** @var int $index the dates index, which we use, when finding it's time (if present) */
             foreach ($dates as $index => $date) {
-                $startDate = new Carbon($date);
-                $endDate = new Carbon($date);
+                $startDate = new Carbon($date, new \DateTimeZone('Europe/Copenhagen'));
+                $endDate = new Carbon($date, new \DateTimeZone('Europe/Copenhagen'));
 
                 // if the times have been added, we add this to the date as well
                 if (! empty($times[$index])) {
@@ -120,11 +120,9 @@ class OrderCalendar
     public function getAttachmentMime()
     {
         // handling multiple dates
-        if ($this->calendar->count() > 1) {
-            return 'application/ics';
-        }
+        return 'application/ics';
 
         // just one day? return this mime to allow gmail for a pretty view
-        return 'text/calendar';
+//        return 'text/calendar';
     }
 }
