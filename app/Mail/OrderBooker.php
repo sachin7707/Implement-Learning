@@ -39,7 +39,7 @@ class OrderBooker extends Mailable
     public function __construct(Order $order)
     {
         $this->order = $order;
-        $this->courses = $order->courses()->withPivot('sort')->orderBy('sort', 'ASC')->get();
+        $this->courses = $order->getCoursesSorted();
         $this->language = (string)$order->language ?? 'da';
 
         // Converting the participants on the order, to the proper mail participants, so we are sure that

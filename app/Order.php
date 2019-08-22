@@ -107,4 +107,17 @@ class Order extends Model
     {
         return (bool)$this->on_waitinglist;
     }
+
+    /**
+     * Fetches the courses on the order, sorted by the sort column on course_order table
+     * @return Course[]
+     */
+    public function getCoursesSorted()
+    {
+        return $this->courses()
+            ->withPivot('sort')
+            ->orderBy('sort')
+            ->withTrashed()
+            ->get();
+    }
 }
