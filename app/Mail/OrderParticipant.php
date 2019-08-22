@@ -146,7 +146,7 @@ class OrderParticipant extends Mailable
         $upsells = [];
 
         /** @var Course $course */
-        foreach ($this->courses as $course) {
+        foreach ($this->order->courses as $course) {
             if ($course->coursetype) {
                 $texts = $course->coursetype->getUpsellTexts();
                 if (empty($texts)) {
@@ -171,7 +171,7 @@ class OrderParticipant extends Mailable
      */
     private function getCourseTypeText(string $type): string
     {
-        foreach ($this->courses as $course) {
+        foreach ($this->order->courses as $course) {
             // fetch intro text from course type first
             $courseTypeText = CourseTypeText::where('course_type_id', $course->coursetype_id)
                 ->where('type', $type)
