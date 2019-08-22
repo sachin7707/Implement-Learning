@@ -6,11 +6,6 @@
 @section('title', $language === 'da' ? 'KVITTERING' : 'RECEIPT')
 
 @section('emailcontent')
-    <div>
-        @foreach ($courses as $index => $course)
-            {{$index}}: {{ $course->id }} {{$course->maconomy_id }} {{ $course->getTitle() }}
-        @endforeach
-    </div>
     <div class="layout one-col fixed-width" style="Margin: 0 auto;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;">
         <div class="layout__inner" style="border-collapse: collapse;display: table;width: 100%;background-color: #ffffff;">
             <!--[if (mso)|(IE)]><table align="center" cellpadding="0" cellspacing="0" role="presentation"><tr class="layout-fixed-width" style="background-color: #ffffff;"><td style="width: 600px" class="w560"><![endif]-->
@@ -35,7 +30,7 @@
     @component('emails.components.spacer', ['color' => '#ffffff'])
     @endcomponent
 
-    @foreach ($courses as $index => $course)
+    @foreach ($order->getCoursesSorted() as $index => $course)
         @component('emails.components.course', ['course' => $course, 'language' => $language])
         @endcomponent
 
@@ -90,7 +85,7 @@
             @endif
         @endif
     </span></span></p>
-    @foreach ($courses as $course)
+    @foreach ($order->getCoursesSorted() as $course)
         <a style="text-decoration: underline;transition: opacity 0.1s ease-in;color: #000;" href="{{ $course->getLink() }}">{{ $course->getTitle($language) }} ({{ $course->getLanguage() }})</a>
         @if (! $loop->last && count($courses) > 1)
             <br>

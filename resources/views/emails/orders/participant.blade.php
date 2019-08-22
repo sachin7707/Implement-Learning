@@ -6,12 +6,7 @@
 @section('intro', str_replace('$name', $participant->name, $intro->text))
 
 @section('emailcontent')
-    <div>
-        @foreach ($courses as $index => $course)
-            {{$index}}: {{ $course->id }} {{$course->maconomy_id }} {{ $course->getTitle() }}
-        @endforeach
-    </div>
-    @foreach ($courses as $course)
+    @foreach ($order->getCoursesSorted() as $course)
         <div class="layout one-col fixed-width" style="Margin: 0 auto;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;">
             <div class="layout__inner" style="border-collapse: collapse;display: table;width: 100%;background-color: #ffffff;">
                 <!--[if (mso)|(IE)]><table align="center" cellpadding="0" cellspacing="0" role="presentation"><tr class="layout-fixed-width" style="background-color: #ffffff;"><td style="width: 600px" class="w560"><![endif]-->
@@ -171,7 +166,7 @@
         </div>
 
         <!-- only show this, when more than one course -->
-        @if (count($courses) > 1 && ! $loop->last)
+        @if (count($order->getCoursesSorted()) > 1 && ! $loop->last)
             <div style="mso-line-height-rule: exactly;line-height: 1px;font-size: 1px;">&nbsp;</div>
 
             <div class="layout one-col fixed-width" style="Margin: 0 auto;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;">
