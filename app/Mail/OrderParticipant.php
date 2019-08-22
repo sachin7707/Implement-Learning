@@ -38,7 +38,7 @@ class OrderParticipant extends Mailable
     {
         $this->order = $order;
         $this->language = (string)$order->language ?? 'da';
-        $this->courses = $order->courses;
+        $this->courses = $order->courses()->withPivot('sort')->orderBy('sort', 'ASC')->get();
         // we wrap the participant in an adapter, to be able to use the data in the email
         $this->participant = $participant;
 
