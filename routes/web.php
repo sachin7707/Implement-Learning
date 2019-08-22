@@ -38,7 +38,7 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
     // creates a new order
     $router->post('/orders', 'OrderController@create');
     // updates a given order
-    $router->put('/orders/{id}', 'OrderController@update');
+    $router->put('/orders/{id}', ['middleware' => 'transform.courses', 'uses' => 'OrderController@update']);
     // updates a given order
     $router->post('/orders/{id}/close', ['middleware' => 'transform.order', 'uses' => 'OrderController@closeOrder']);
     // resyncs the given order to maconomy

@@ -44,7 +44,13 @@ class Order extends JsonResource
     {
         $courses = [];
 
-        foreach ($this->courses()->withTrashed()->get() as $course) {
+        $dbCourses = $this->courses()
+            ->withPivot('sort')
+            ->orderBy('sort', 'ASC')
+            ->withTrashed()
+            ->get();
+
+        foreach ($dbCourses as $course) {
             $courses[] = new CourseResource($course);
         }
 

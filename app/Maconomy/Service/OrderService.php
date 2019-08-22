@@ -39,7 +39,7 @@ class OrderService
      * @return bool false if the seats could not be reserved, else true
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function reserveSeats(Order $order, int $requiredSeats, $courses): bool
+    public function reserveSeats(Order $order, int $requiredSeats, $courses, array $courseSorting): bool
     {
         $seatsAreAvailable = true;
         $coursesWithSeatsUnavailable = 0;
@@ -81,6 +81,9 @@ class OrderService
             // adding the courses to be used
             $order->courses()->saveMany($courses);
             $order->save();
+
+            // sorts the courses using the data from the sorting array
+            $this->setCourseSorting($order, $courses, $courseSorting);
 
             return true;
         }
@@ -169,6 +172,26 @@ class OrderService
             $participantMail = Helper::getMailer($participant->email, false);
             // queues the mail to the booker
             $participantMail->queue(new OrderParticipant($order, $participant));
+        }
+    }
+
+    /**
+     * Sets the sorting on the course_order table, so we can handle this according to frontend
+     * @param Order $order the order to update the sorting on
+     * @param Course[] $courses the courses on the order
+     * @param array $courseKeys the sorting, using a key (sort) and value (course maconomy id)
+     */
+    public function setCourseSorting(Order $order, $courses, array $courseKeys)
+    {
+        foreach ($courses as $course) {
+            foreach ($courseKeys as $sort => $key) {
+                if ($key != $course->maconomy_id) {
+                    continue;
+                }
+
+                // updating the sort on the pivot table
+                $order->courses()->updateExistingPivot($course->id, ['sort' => $sort]);
+            }
         }
     }
 }

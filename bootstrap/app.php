@@ -66,6 +66,7 @@ $app->middleware([
 // middleware for transforming data sent from the frontend
 $app->routeMiddleware([
     'transform.order' => App\Http\Middleware\OrderTransformData::class,
+    'transform.courses' => App\Http\Middleware\OrderTransformCourses::class,
 ]);
 
 /*
