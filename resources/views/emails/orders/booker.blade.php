@@ -1,5 +1,5 @@
 @extends('layouts.email', [
-    'courses' => $order->courses,
+    'courses' => $courses,
     'participants' => $order->company->participants,
     'footer' => json_decode($footer->text),
     'language' => $language,
@@ -86,7 +86,7 @@
             @endif
         @endif
     </span></span></p>
-    @foreach ($order->courses as $course)
+    @foreach ($courses as $course)
         <a style="text-decoration: underline;transition: opacity 0.1s ease-in;color: #000;" href="{{ $course->getLink() }}">{{ $course->getTitle($language) }} ({{ $course->getLanguage() }})</a>
         @if (! $loop->last && count($courses) > 1)
             <br>
