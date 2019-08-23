@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Console\Commands\SyncCourse;
 use App\Jobs\ClearReservations;
+use App\Jobs\GdprCleanup;
 use App\Jobs\ImportCourses;
 use App\Jobs\SendParticipantList;
 use Illuminate\Console\Scheduling\Schedule;
@@ -50,5 +51,13 @@ class Kernel extends ConsoleKernel
         })->description('SendParticipantList')
             ->timezone('Europe/Copenhagen')
             ->dailyAt('7:00');
+
+        // Order cleanup job, which removes old orders according to GDPR - ILI-451
+        $schedule->call(function () {
+            $job = new GdprCleanup();
+            dispatch($job);
+        })->description('GdprCleanup')
+            ->timezone('Europe/Copenhagen')
+            ->dailyAt('4:00');
     }
 }

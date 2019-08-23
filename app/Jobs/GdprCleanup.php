@@ -38,6 +38,11 @@ class GdprCleanup extends Job
         if (empty($orders)) {
             return;
         }
+
+        // deletes the orders
+        foreach ($orders as $order) {
+            $order->delete();
+        }
     }
 
     /**
@@ -55,21 +60,22 @@ class GdprCleanup extends Job
         // fetches the from date, currently active
         $fromDate = $this->getFromDate();
 
-        $orders = DB::table('orders')
-            ->leftJoin('course_orders', 'orders.id', '=', 'course_orders.order_id')
-            ->leftJoin('courses', 'courses.id', '=', 'course_orders.course_id')
+        $allOrders = DB::table('orders')
+            ->select(['orders.id'])
+            ->leftJoin('course_order', 'orders.id', '=', 'course_order.order_id')
+            ->leftJoin('courses', 'courses.id', '=', 'course_order.course_id')
             ->where('courses.end_time', '<', $fromDate)
-            ->get();
-
-
-        // fetch orders, where the created date is at fromDate or older
-        $allOrders = Order::where('created_at', '<', $fromDate)
-            ->with('courses')
+            ->orderBy('orders.id', 'ASC')
             ->get();
 
         $orders = [];
-        foreach ($allOrders as $order) {
+        foreach ($allOrders as $orderData) {
             $allCoursesAreDone = true;
+
+            // fetches the order
+            $order = Order::where('id', $orderData->id)
+                ->with('courses')
+                ->first();
 
             // Checks that the courses on the order are ALL with an end time according to fromDate.
             // This is done to ensure, that all the courses are done, before we delete the order
@@ -80,8 +86,8 @@ class GdprCleanup extends Job
                 }
             }
 
-            if ($allCoursesAreDone) {
-                $orders[] = $order;
+            if ($allCoursesAreDone && ! isset($orders[$order->id])) {
+                $orders[$order->id] = $order;
             }
         }
 
