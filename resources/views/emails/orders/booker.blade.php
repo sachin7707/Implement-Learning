@@ -87,7 +87,7 @@
     </span></span></p>
     @foreach ($order->getCoursesSorted() as $course)
         <a style="text-decoration: underline;transition: opacity 0.1s ease-in;color: #000;" href="{{ $course->getLink() }}">{{ $course->getTitle($language) }} ({{ $course->getLanguage() }})</a>
-        @if (! $loop->last && count($courses) > 1)
+        @if ($loop->remaining > 0)
             <br>
         @endif
     @endforeach
