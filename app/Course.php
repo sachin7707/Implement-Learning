@@ -292,9 +292,13 @@ class Course extends Model
      * @return array
      * @throws \Exception
      */
-    public function getCourseDatesFormatted($languageCode = 'da')
+    public function getCourseDatesFormatted($languageCode)
     {
         $formattedDates = [];
+
+        if (empty($languageCode)) {
+            $languageCode = 'da';
+        }
 
         $dates = $this->getCourseDates();
         setlocale(LC_TIME, self::LANGUAGES[$languageCode]);
