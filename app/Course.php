@@ -144,7 +144,7 @@ class Course extends Model
      * Fetches the title of the course, by first checking the course type, else falling back to own name.
      * @return string
      */
-    public function getTitle($language)
+    public function getTitle($language = null)
     {
         if (empty($language)) {
             $language = in_array($this->language, ['Dansk', 'da', '']) ? 'da' : 'en';
