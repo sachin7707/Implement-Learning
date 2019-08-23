@@ -14,7 +14,7 @@
 
                     <div style="Margin-left: 46px;Margin-right: 46px;">
                         <div style="mso-line-height-rule: exactly;mso-text-raise: 4px;">
-                            <h2 class="size-18" style="Margin-top: 0;Margin-bottom: 16px;font-style: normal;font-weight: normal;color: #2f353e;font-size: 17px;line-height: 26px;" lang="x-size-18"><span style="color:#000000">{{ $course->getTitle() }} ({{ $course->getLanguage() }})</span></h2>
+                            <h2 class="size-18" style="Margin-top: 0;Margin-bottom: 16px;font-style: normal;font-weight: normal;color: #2f353e;font-size: 17px;line-height: 26px;" lang="x-size-18"><span style="color:#000000">{{ $course->getTitle() }} ({{ $course->getPrettyLanguage() }})</span></h2>
                         </div>
                     </div>
 

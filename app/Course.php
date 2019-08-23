@@ -409,4 +409,13 @@ class Course extends Model
         }
         return explode(',', $this->times);
     }
+
+    /**
+     * Fetches a nicely formatted language, to use in views
+     * @return string
+     */
+    public function getPrettyLanguage()
+    {
+        return in_array($this->getLanguage(), ['Dansk', 'da']) ? 'Dansk' : 'English';
+    }
 }
