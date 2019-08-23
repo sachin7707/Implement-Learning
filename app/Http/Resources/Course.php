@@ -10,7 +10,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  */
 class Course extends JsonResource
 {
-    private $languageInternal = 'da';
+    private $languageInternal;
 
     /**
      * Course constructor.
@@ -23,7 +23,7 @@ class Course extends JsonResource
 
         // sets the language based on the course language as a default - ILI-741
         // added '' (blank) as danish language as well - ILI-755
-        $this->setLanguage(in_array($resource->language, ['Dansk', 'da', '']) ? 'da' : 'en');
+//        $this->setLanguage(in_array($resource->language, ['Dansk', 'da', '']) ? 'da' : 'en');
     }
 
     /**
@@ -61,7 +61,7 @@ class Course extends JsonResource
      * Set the language to display the course in
      * @param string $language use da or en
      */
-    public function setLanguage($language = 'da')
+    public function setLanguage($language)
     {
         $this->languageInternal = $language;
     }
