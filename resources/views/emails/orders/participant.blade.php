@@ -200,7 +200,7 @@
 				</div>
 				<div style="Margin-left: 20px;Margin-right: 20px;">
 					<div style="mso-line-height-rule: exactly;mso-text-raise: 4px;">
-						<p class="size-18" style="Margin-top: 0;Margin-bottom: 20px;font-size: 17px;line-height: 26px;" lang="x-size-18">Relaterede kurser&nbsp;</p>
+						<p class="size-18" style="Margin-top: 0;Margin-bottom: 20px;font-size: 17px;line-height: 26px;border-bottom:1px solid #f3f3f3" lang="x-size-18">Relaterede kurser&nbsp;</p>
 					</div>
 				</div>
 				<div style="Margin-left: 20px;Margin-right: 20px;">
@@ -215,8 +215,8 @@
 	        <div class="layout__inner" style="border-collapse: collapse;display: table;width: 100%;">
 	        	<!--[if (mso)|(IE)]><table align="center" cellpadding="0" cellspacing="0" role="presentation"><tr><td style="width: 290px" valign="top" class="w250"><![endif]-->
 				@foreach ($upsells as $upsell)
-					<div class="column" style="Float: left;max-width: 320px;min-width: 290px; width: 320px;width: calc(18290px - 3000%);">
-		  	            <table class="column__background" style="border-collapse: collapse;table-layout: fixed;background-color: #f8f5e7;" cellpadding="0" cellspacing="0" width="100%" role="presentation">
+					<div class="column" style="Float: left;max-width: 320px;min-width: 290px; width: 320px;width: calc(18290px - 3000%);background-color: #f8f5e7;">
+		  	            <table class="column__background" style="border-collapse: collapse;table-layout: fixed;" cellpadding="0" cellspacing="0" width="100%" role="presentation">
 		  	              <tbody><tr>
 		  	                <td style="text-align: left;color: #2f353e;font-size: 15px;line-height: 23px;font-family: Calibri,Carlito,PT Sans,Trebuchet MS,sans-serif;">
 
