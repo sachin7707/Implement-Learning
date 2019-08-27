@@ -202,7 +202,7 @@
 				</div>
 				<div style="Margin-left: 20px;Margin-right: 20px;">
 					<div style="mso-line-height-rule: exactly;mso-text-raise: 4px;">
-						<p class="size-18" style="Margin-top: 0;Margin-bottom: 20px;font-size: 17px;line-height: 26px;" lang="x-size-18">Relaterede kurser&nbsp;</p>
+						<p class="size-18" style="Margin-top: 0;Margin-bottom: 20px;font-size: 17px;line-height: 26px;border-bottom:1px solid #f3f3f3" lang="x-size-18">Relaterede kurser&nbsp;</p>
 					</div>
 				</div>
 				<div style="Margin-left: 20px;Margin-right: 20px;">
