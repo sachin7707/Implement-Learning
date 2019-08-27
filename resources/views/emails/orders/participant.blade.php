@@ -191,6 +191,8 @@
 
 
     @if (count($upsells) > 0)
+		@component('emails.components.spacer', ['color' => '#ffffff'])
+		@endcomponent
 		<div class="layout one-col fixed-width" style="Margin: 0 auto;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;">
 			<div class="layout__inner" style="border-collapse: collapse;display: table;width: 100%;background-color: #ffffff;">
 			<!--[if (mso)|(IE)]><table align="center" cellpadding="0" cellspacing="0" role="presentation"><tr class="layout-fixed-width" style="background-color: #ffffff;"><td style="width: 600px" class="w560"><![endif]-->
@@ -200,7 +202,7 @@
 				</div>
 				<div style="Margin-left: 20px;Margin-right: 20px;">
 					<div style="mso-line-height-rule: exactly;mso-text-raise: 4px;">
-						<p class="size-18" style="Margin-top: 0;Margin-bottom: 20px;font-size: 17px;line-height: 26px;border-bottom:1px solid #f3f3f3" lang="x-size-18">Relaterede kurser&nbsp;</p>
+						<p class="size-18" style="Margin-top: 0;Margin-bottom: 20px;font-size: 17px;line-height: 26px;" lang="x-size-18">Relaterede kurser&nbsp;</p>
 					</div>
 				</div>
 				<div style="Margin-left: 20px;Margin-right: 20px;">
@@ -258,7 +260,7 @@
 					</div>
 
 					@if ($loop->iteration % 2 != 0)
-						<!--[if (mso)|(IE)]></td><td style="width: 20px"><![endif]--><div class="gutter" style="Float: left;width: 20px;">&nbsp;</div><!--[if (mso)|(IE)]></td><td style="width: 290px" valign="top" class="w250"><![endif]-->
+						<!--[if (mso)|(IE)]></td><td style="width: 20px"><![endif]--><div class="gutter" style="Float: left;width: 20px;background-color:#fff;">&nbsp;</div><!--[if (mso)|(IE)]></td><td style="width: 290px" valign="top" class="w250"><![endif]-->
 			        @endif
 				@endforeach
 	        	<!--[if (mso)|(IE)]></td></tr></table><![endif]-->
