@@ -44,6 +44,10 @@ class OrderTransformCourses
     {
         $courses = [];
 
+        if (! is_array($data) || empty($data)) {
+            return $courses;
+        }
+
         foreach ($data as $courseObject) {
             // NOTE: sort is starting at 1, so we substract 1, to make it zero based arrays
             $courses[$courseObject['sort']] = $courseObject['id'];
