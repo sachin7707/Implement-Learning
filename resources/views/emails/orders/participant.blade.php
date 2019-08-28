@@ -2,9 +2,10 @@
     'footer' => json_decode($footer->text),
     'language' => $language,
     'image_url' => $imageUrl,
+    'defaultBody' => $defaultBody,
+    'intro' => str_replace('$name', $participant->name, $intro->text),
 ])
 @section('title', $language === 'da' ? 'DELTAGER EMAIL' : 'PARTICIPANT EMAIL')
-@section('intro', str_replace('$name', $participant->name, ($intro->text ?? '') ))
 
 @section('emailcontent')
     @foreach ($order->getCoursesSorted() as $course)

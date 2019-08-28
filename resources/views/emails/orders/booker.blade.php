@@ -2,6 +2,7 @@
     'participants' => $order->company->participants,
     'footer' => json_decode($footer->text),
     'language' => $language,
+    'defaultBody' => $defaultBody,
 ])
 @section('title', $language === 'da' ? 'ORDREBEKRÆFTELSE' : 'RECEIPT')
 

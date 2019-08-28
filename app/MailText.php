@@ -14,6 +14,7 @@ class MailText extends Model
     const TYPE_DEFAULT_PARTICIPANT_BEFORE_COURSE = 'default_participant_mail_before_course';
     const TYPE_DEFAULT_PARTICIPANT_TITLE = 'default_participant_title';
     const TYPE_DEFAULT_PARTICIPANT_IMAGE_ARTICLE = 'default_participant_image_article';
+    const TYPE_DEFAULT_BODY = 'default_mail_body';
     const TYPE_WAITINGLIST_PARTICIPANT = 'default_waitinglist_participant_mail';
     const TYPE_DEFAULT_WELCOME_HOME = 'default_welcome_home_mail';
     const TYPE_REMINDER = 'remindermail';
@@ -46,6 +47,7 @@ class MailText extends Model
             self::TYPE_DEFAULT_PARTICIPANT_BEFORE_COURSE,
             self::TYPE_DEFAULT_PARTICIPANT_TITLE,
             self::TYPE_DEFAULT_PARTICIPANT_IMAGE_ARTICLE,
+            self::TYPE_DEFAULT_BODY,
             self::TYPE_WAITINGLIST_PARTICIPANT,
             self::TYPE_DEFAULT_WELCOME_HOME,
             self::TYPE_MAIL_FOOTER,
