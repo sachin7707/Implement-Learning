@@ -17,6 +17,8 @@ class OrderCalendar
     private $baseUrl;
     /** @var Order */
     private $order;
+    /** @var VCalendar */
+    private $calendar;
 
     /**
      * OrderCalendar constructor.
@@ -54,8 +56,14 @@ class OrderCalendar
      */
     public function getCalendar(): VCalendar
     {
+        // if the calendar is already generated, just return it :)
+        if (! empty($this->calendar)) {
+            return $this->calendar;
+        }
+
         // initializes the calender
         $calendar = new VCalendar();
+        $calendar->add('METHOD', 'PUBLISH');
 
         foreach ($this->order->courses as $course) {
             // fetches the course type, so we can get the event dates
@@ -72,8 +80,8 @@ class OrderCalendar
             /** @var Carbon $date */
             /** @var int $index the dates index, which we use, when finding it's time (if present) */
             foreach ($dates as $index => $date) {
-                $startDate = new Carbon($date);
-                $endDate = new Carbon($date);
+                $startDate = new Carbon($date, new \DateTimeZone('Europe/Copenhagen'));
+                $endDate = new Carbon($date, new \DateTimeZone('Europe/Copenhagen'));
 
                 // if the times have been added, we add this to the date as well
                 if (! empty($times[$index])) {
@@ -85,8 +93,10 @@ class OrderCalendar
 
                 $calendarData = [
                     'SUMMARY' => $title,
+                    'SEQUENCE' => 0,
                     'DTSTART' => $startDate,
                     'DTEND' => $endDate,
+                    'STATUS' => 'CONFIRMED',
                 ];
 
                 // if the course has a location associated, we add the address for that as well
@@ -99,6 +109,22 @@ class OrderCalendar
             }
         }
 
-        return $calendar;
+        // saving it for later
+        $this->calendar = $calendar;
+        // returning the generated calendar
+        return $this->calendar;
+    }
+
+    /**
+     * Fetching the appropriate mime to use, based on the number of calendar dates
+     * @return string
+     */
+    public function getAttachmentMime()
+    {
+        // handling multiple dates
+//        return 'application/ics';
+
+        // just one day? return this mime to allow gmail for a pretty view
+        return 'text/calendar';
     }
 }

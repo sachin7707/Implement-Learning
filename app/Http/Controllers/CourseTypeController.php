@@ -68,16 +68,37 @@ class CourseTypeController extends Controller
 
                 if ($courseTypeText) {
                     $courseTypeText->type = $data['type'];
-                    $courseTypeText->text = $data['text'];
+                    $courseTypeText->text = $data['text'] ?? '';
                     $courseTypeText->language = $data['language'];
                 } else {
                     $courseTypeText = new CourseTypeText([
                         'type' => $data['type'],
-                        'text' => $data['text'],
+                        'text' => $data['text'] ?? '',
                         'language' => $data['language'],
                         'course_type_id' => $courseType->id
                     ]);
                 }
+
+                $courseTypeText->save();
+            }
+        }
+
+        // handling upsell courses - ILI-721
+        if ($request->input('upsell')) {
+            // removing current list of upsell courses, since we do not have id's or anything on them... :/
+            CourseTypeText::where('type', 'upsell')
+                ->where('course_type_id', $courseType->id)
+                ->delete();
+
+            // adding the new upsell courses
+            foreach ($request->input('upsell') as $data) {
+                $courseTypeText = new CourseTypeText([
+                    'type' => 'upsell',
+                    // we are just json encoding the data, so we can pass "more" to frontend
+                    'text' => json_encode($data),
+                    'language' => $data['language'],
+                    'course_type_id' => $courseType->id
+                ]);
 
                 $courseTypeText->save();
             }

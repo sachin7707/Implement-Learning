@@ -50,4 +50,15 @@ class CourseType extends Model
 
         return $courseType;
     }
+
+    /**
+     * Fetches the upsell texts associated with this coursetype
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function getUpsellTexts()
+    {
+        return CourseTypeText::where('type', 'upsell')
+            ->where('course_type_id', $this->id)
+            ->get();
+    }
 }
