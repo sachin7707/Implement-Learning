@@ -140,7 +140,7 @@ class OrderController extends Controller
         }
 
         // seats are required, so do NOT use a default value
-        if ($this->orderService->reserveSeats($order, $requiredSeats, $courses)) {
+        if ($this->orderService->reserveSeats($order, $requiredSeats, $courses, $courseKeys)) {
             $order->refresh();
             // Sends an event to update the course, if needed
             $this->updateCourses($order);

@@ -117,4 +117,17 @@ class Order extends Model
     {
         return md5($this->id);
     }
+
+    /**
+     * Fetches the courses on the order, sorted by the sort column on course_order table
+     * @return Course[]
+     */
+    public function getCoursesSorted()
+    {
+        return $this->courses()
+            ->withPivot('sort')
+            ->orderBy('sort')
+            ->withTrashed()
+            ->get();
+    }
 }

@@ -70,14 +70,18 @@ class CourseController extends Controller
      * @param string $id
      * @return JsonResponse
      */
-    public function show(string $id)
+    public function show(string $id, Request $request)
     {
         // NOTE: internals are changed, so we always get the course, even if it's deleted - ILI-521
         $course = Course::getByMaconomyIdOrFail($id);
 
-        $resource = new CourseResource($course);
-        $resource->setLanguage($course->getShortLanguage());
-        return new JsonResponse($resource);
+        // converting the course into a json resource
+        $courseResource = new CourseResource($course);
+        if ($this->isRequestLanguageValid($request)) {
+            $courseResource->setLanguage($this->getRequestLanguage($request));
+        }
+
+        return new JsonResponse($courseResource);
     }
 
     /**
@@ -252,5 +256,26 @@ class CourseController extends Controller
         Queue::later(1, $sender);
 
         return response()->json(['message' => 'Course (' . $id . ') was added to send emails queue']);
+    }
+
+    /**
+     * Checks if the current language chosen in request parameter, is valid.
+     * @param Request $request the current request, with the ?lang parameter
+     * @return bool
+     */
+    private function isRequestLanguageValid(Request $request)
+    {
+        $language = $this->getRequestLanguage($request);
+        return in_array($language, ['da', 'en']);
+    }
+
+    /**
+     * Fetches the current language, sent in the request
+     * @param Request $request
+     * @return string the language sent in the "lang" request parameter
+     */
+    private function getRequestLanguage(Request $request): string
+    {
+        return (string)$request->get('lang', null);
     }
 }

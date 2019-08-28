@@ -44,10 +44,8 @@ class Order extends JsonResource
     {
         $courses = [];
 
-        foreach ($this->courses()->withTrashed()->get() as $course) {
-            $resource = new CourseResource($course);
-            $resource->setLanguage($this->language);
-            $courses[] = $resource;
+        foreach ($this->getCoursesSorted() as $course) {
+            $courses[] = new CourseResource($course);
         }
 
         return $courses;

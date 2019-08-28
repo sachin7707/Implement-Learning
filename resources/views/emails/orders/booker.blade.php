@@ -1,5 +1,4 @@
 @extends('layouts.email', [
-    'courses' => $order->courses,
     'participants' => $order->company->participants,
     'footer' => json_decode($footer->text),
     'language' => $language,
@@ -31,7 +30,7 @@
     @component('emails.components.spacer', ['color' => '#ffffff'])
     @endcomponent
 
-    @foreach ($courses as $index => $course)
+    @foreach ($order->getCoursesSorted() as $index => $course)
         @component('emails.components.course', ['course' => $course, 'language' => $language])
         @endcomponent
 
@@ -86,9 +85,9 @@
             @endif
         @endif
     </span></span></p>
-    @foreach ($order->courses as $course)
-        <a style="text-decoration: underline;transition: opacity 0.1s ease-in;color: #000;" href="{{ $course->getLink() }}">{{ $course->getTitle($language) }} ({{ $course->getLanguage() }})</a>
-        @if (! $loop->last && count($courses) > 1)
+    @foreach ($order->getCoursesSorted() as $course)
+        <a style="text-decoration: underline;transition: opacity 0.1s ease-in;color: #000;" href="{{ $course->getLink() }}">{{ $course->getTitle() }} ({{ $course->getPrettyLanguage() }})</a>
+        @if ($loop->remaining > 0)
             <br>
         @endif
     @endforeach

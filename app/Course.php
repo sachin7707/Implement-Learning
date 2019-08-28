@@ -146,8 +146,12 @@ class Course extends Model
      * Fetches the title of the course, by first checking the course type, else falling back to own name.
      * @return string
      */
-    public function getTitle($language = 'da')
+    public function getTitle($language = null)
     {
+        if (empty($language)) {
+            $language = in_array($this->language, ['Dansk', 'da', '']) ? 'da' : 'en';
+        }
+
         // checking if the course type exists, and uses that name
         if ($this->coursetype) {
             $text = $this->coursetype->texts()
@@ -158,12 +162,6 @@ class Course extends Model
             if ($text) {
                 return $text->text;
             }
-//            foreach ($this->coursetype->texts as $text) {
-//                // if the title was set on the coursetype's texts, use that
-//                if ($text->type === 'title' && $text->language === $language) {
-//                    return $text->text;
-//                }
-//            }
 
             // doing a fallback to the coursetype's title
             return $this->coursetype->title;
@@ -257,11 +255,15 @@ class Course extends Model
      * @param string $languageCode
      * @return array
      */
-    public function getCoursePeriodsFormatted($languageCode = 'da')
+    public function getCoursePeriodsFormatted($languageCode)
     {
         $periods = $this->getCoursePeriods();
 
         $formattedDates = [];
+
+        if (empty($languageCode)) {
+            $languageCode = 'da';
+        }
 
         setlocale(LC_TIME, self::LANGUAGES[$languageCode]);
 
@@ -296,9 +298,13 @@ class Course extends Model
      * @return array
      * @throws \Exception
      */
-    public function getCourseDatesFormatted($languageCode = 'da')
+    public function getCourseDatesFormatted($languageCode)
     {
         $formattedDates = [];
+
+        if (empty($languageCode)) {
+            $languageCode = 'da';
+        }
 
         $dates = $this->getCourseDates();
         setlocale(LC_TIME, self::LANGUAGES[$languageCode]);
@@ -413,5 +419,14 @@ class Course extends Model
             return [];
         }
         return explode(',', $this->times);
+    }
+
+    /**
+     * Fetches a nicely formatted language, to use in views
+     * @return string
+     */
+    public function getPrettyLanguage()
+    {
+        return in_array($this->getLanguage(), ['Dansk', 'da']) ? 'Dansk' : 'English';
     }
 }
