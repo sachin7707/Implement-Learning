@@ -3,6 +3,7 @@
     'footer' => json_decode($footer->text),
     'language' => $language,
     'defaultBody' => $defaultBody,
+    'imageUrl' => env('WEBSITE_URL') . env('MAIL_HEADER_IMAGE'),
 ])
 @section('title', $language === 'da' ? 'ORDREBEKRÆFTELSE' : 'RECEIPT')
 

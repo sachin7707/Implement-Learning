@@ -24,6 +24,7 @@ class OrderParticipant extends MailDefault
 
     public $beforeCourseHeader;
     public $imageUrl;
+    public $title;
 
     /**
      * OrderParticipant constructor.
@@ -46,12 +47,11 @@ class OrderParticipant extends MailDefault
 //        $this->calendarUrl = $generator->getLink();
         $this->calendarUrl = '#';
 
-        $this->setIntoText();
-
         // adding texts, first from the course types, else from the general mail texts.
         $this->setIntoText();
+        $this->setTitleText();
         $this->setBeforeCourseHeader();
-        $this->setImage();
+        $this->setHeaderImage();
 
         // setting upsell information
         $this->setUpsellInformation();
@@ -130,6 +130,21 @@ class OrderParticipant extends MailDefault
     }
 
     /**
+     * Sets the title. If a custom title is present, we use this, else we use the default title.
+     */
+    private function setTitleText()
+    {
+        // sets the default title
+        $this->title = $this->language === 'da' ? 'DELTAGER EMAIL' : 'PARTICIPANT EMAIL';
+
+        // fetching the intro text from the course types, if possible
+        $title = $this->getCourseTypeText('heading');
+        if (! empty($title)) {
+            $this->title = $title;
+        }
+    }
+
+    /**
      * adds upsell information to the email
      */
     private function setUpsellInformation()
@@ -180,9 +195,9 @@ class OrderParticipant extends MailDefault
     }
 
     /**
-     * Sets the image to use. This can either be a general image or a course type specific one
+     * Sets the header image to use. This can either be a general image or a course type specific one
      */
-    private function setImage()
+    private function setHeaderImage()
     {
         // fetching the intro text from the course types, if possible
         $imageUrl = $this->getCourseTypeText('image');

@@ -1,7 +1,8 @@
 @extends('layouts.email', [
     'course' => $course,
     'footer' => json_decode($footer->text),
-    'default_body' => $defaultBody,
+    'defaultBody' => $defaultBody,
+    'imageUrl' => env('WEBSITE_URL') . env('MAIL_HEADER_IMAGE'),
 ])
 @section('title', $language === 'da' ? 'Deltagerliste' : 'Participant list')
 

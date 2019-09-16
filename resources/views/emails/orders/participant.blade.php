@@ -1,11 +1,11 @@
 @extends('layouts.email', [
     'footer' => json_decode($footer->text),
     'language' => $language,
-    'image_url' => $imageUrl,
     'defaultBody' => $defaultBody,
     'intro' => str_replace('$name', $participant->name, $intro->text),
+    'imageUrl' => $imageUrl ?? env('WEBSITE_URL') . env('MAIL_HEADER_IMAGE'),
 ])
-@section('title', $language === 'da' ? 'DELTAGER EMAIL' : 'PARTICIPANT EMAIL')
+@section('title', $title)
 
 @section('emailcontent')
     @foreach ($order->getCoursesSorted() as $course)

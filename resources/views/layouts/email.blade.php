@@ -557,7 +557,7 @@
                         <!--[if (mso)|(IE)]><table align="center" cellpadding="0" cellspacing="0" role="presentation"><tr class="layout-fixed-width" style="background-color: #ffffff;"><td style="width: 600px" class="w560"><![endif]-->
                         <div class="column" style="text-align: left;color: #2f353e;font-size: 15px;line-height: 23px;font-family: Calibri,Carlito,PT Sans,Trebuchet MS,sans-serif;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);">
                             <div style="font-size: 12px;font-style: normal;font-weight: normal;line-height: 19px;" align="center">
-                                <img class="gnd-corner-image gnd-corner-image-center gnd-corner-image-top gnd-corner-image-bottom" style="border: 0;display: block;height: auto;width: 100%;max-width: 600px;" alt="" width="600" src="{{ env('WEBSITE_URL') }}{{ env('MAIL_HEADER_IMAGE') }}">
+                                <img class="gnd-corner-image gnd-corner-image-center gnd-corner-image-top gnd-corner-image-bottom" style="border: 0;display: block;height: auto;width: 100%;max-width: 600px;" alt="" width="600" src="{{ $imageUrl }}">
                             </div>
                         </div>
                         <!--[if (mso)|(IE)]></td></tr></table><![endif]-->
