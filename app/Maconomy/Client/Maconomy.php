@@ -352,6 +352,12 @@ class Maconomy implements ClientAbstract
         $participants = [];
 
         foreach ($data as $row) {
+            // the use is cancelled, just skip it, no matter what else is set on the participant data
+            if ($this->isParticipantSignupCancelled($row)) {
+                continue;
+            }
+
+
             $participant = new ParticipantCourse(
                 $row->personName,
                 $row->email,
@@ -361,7 +367,7 @@ class Maconomy implements ClientAbstract
             );
 
             // sets the participant to be on the waiting list
-            if ($row->signedUp !== 1) {
+            if ($this->isParticipantRowDataOnWaitingList($row)) {
                 $participant->setIsOnWaitingList();
             }
 
@@ -369,5 +375,40 @@ class Maconomy implements ClientAbstract
         }
 
         return $participants;
+    }
+
+    /**
+     * Checks if the given participant data suggests, that the participant is on the waiting list or not.
+     * @param \stdClass $participantData
+     * @return bool
+     */
+    private function isParticipantRowDataOnWaitingList(\stdClass $participantData)
+    {
+        // user is signed up, so ye... not on the waiting list
+        if ($participantData->signedUp == 1) {
+            return false;
+        }
+
+        // checking for onwaitinglist
+        if (isset($participantData->onwaitinglist) && $participantData->onwaitinglist == 1) {
+            return true;
+        }
+
+        // reservation is also on waitinglist
+        if (isset($participantData->reservation) && $participantData->reservation == 1) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks if the participant data says that the participant is cancelled
+     * @param \stdClass $participantData
+     * @return bool
+     */
+    private function isParticipantSignupCancelled($participantData): bool
+    {
+        return isset($participantData->cancelled) && $participantData->cancelled == 1;
     }
 }
