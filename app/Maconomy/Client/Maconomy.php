@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Log;
  */
 class Maconomy implements ClientAbstract
 {
-    const TIMEOUT_IN_SECONDS = 15;
+    const TIMEOUT_IN_SECONDS = 30;
 
     /** @var OrderAdapter $order current order to sync with maconomy */
     private $order;
