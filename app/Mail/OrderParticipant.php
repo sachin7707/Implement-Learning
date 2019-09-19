@@ -167,6 +167,9 @@ class OrderParticipant extends MailDefault
         }
 
         $this->upsells = $upsells;
+
+        // adding upsell link to course text - ILI-721
+        $this->upsellLinkText = ($this->language == 'da' ? 'Gå til side om kurset' : 'Read more about the course');
     }
 
     /**
