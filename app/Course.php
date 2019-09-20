@@ -80,6 +80,15 @@ class Course extends Model
     }
 
     /**
+     * Fetches the dates of the course
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function coursedates()
+    {
+        return $this->hasMany(CourseDate::class);
+    }
+
+    /**
      * Fetches the number of available seats, on a course, on the given order.
      * @param Course $course the course to check
      * @param Order $order the current order. (can be null)
