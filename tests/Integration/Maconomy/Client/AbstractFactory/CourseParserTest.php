@@ -152,7 +152,7 @@ class CourseParserTest extends TestCase
 
         $startDate = new DateTime('2019-10-07 00:00:00', new DateTimeZone(CourseParser::DEFAULT_TIMEZONE));
         $endDate = new DateTime('2019-12-04 00:00:00', new DateTimeZone(CourseParser::DEFAULT_TIMEZONE));
-        $course = $this->checkCourseData($data, $startDate, $endDate, 'da', 23);
+        $course = $this->checkCourseData($data, $startDate, $endDate, 'da', 21);
 
         $this->assertEquals(3, count($course->dates));
         // just testing the first date object in the dates
