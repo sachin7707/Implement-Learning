@@ -18,8 +18,21 @@ class CourseParser implements Parser
      */
     public function parse($data): Course
     {
-        $startDate = $data->startingDateField ?? null;
-        $endDate = $data->endingDateField ?? null;
+        // handling renaming in startingDate
+        $startDate = null;
+        if (isset($data->startingDateField)) {
+            $startDate = $data->startingDateField;
+        } elseif (isset($data->coursestartingDate)) {
+            $startDate = $data->coursestartingDate;
+        }
+
+        // handling renaming in endingDate
+        $endDate = null;
+        if (isset($data->endingDateField)) {
+            $endDate = $data->endingDateField;
+        } elseif (isset($data->courseendingDate)) {
+            $endDate = $data->courseendingDate;
+        }
 
         // no start and end dates? must be the newest api (v2.x)
         if ($startDate === null) {
