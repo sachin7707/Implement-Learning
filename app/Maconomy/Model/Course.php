@@ -22,4 +22,6 @@ class Course
     public $language;
     public $venueId;
     public $venueName;
+    /** @var array */
+    public $dates;
 }
