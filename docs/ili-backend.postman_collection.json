@@ -1,10 +1,991 @@
 {
 	"info": {
 		"_postman_id": "d5391564-eb2e-4f50-8b91-0024e0082156",
-		"name": "ili-backend",
+		"name": "Implement",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
+		{
+			"name": "ilibackend",
+			"item": [
+				{
+					"name": "api/sync",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{SERVER}}/api/v1/sync",
+							"host": [
+								"{{SERVER}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sync"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/sync/ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{SERVER}}/api/v1/sync/25172-04",
+							"host": [
+								"{{SERVER}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sync",
+								"25172-04"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/course",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"url": {
+							"raw": "{{SERVER}}/api/v1/course",
+							"host": [
+								"{{SERVER}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"course"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/course/ID",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "participants_max",
+									"value": "31",
+									"type": "text"
+								},
+								{
+									"key": "deadline",
+									"value": "2019-11-01 00:00:00",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "ASD Faciliteringsakademi: Basis FABD0319H 11.3/25-26.3/7.5-2019",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "venue",
+									"value": "1234",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{SERVER}}/api/v1/course/22217-06",
+							"host": [
+								"{{SERVER}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"course",
+								"22217-06"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/course/ID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "lang",
+									"value": "da",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{SERVER}}/api/v1/course/25172-04",
+							"host": [
+								"{{SERVER}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"course",
+								"25172-04"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/course/ID/sendemails/TYPE",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{SERVER}}/api/v1/course/15461-44/sendemails/1",
+							"host": [
+								"{{SERVER}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"course",
+								"15461-44",
+								"sendemails",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/course/ID/cal",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"disabled": true
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{SERVER}}/api/v1/course/15386-05/cal",
+							"host": [
+								"{{SERVER}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"course",
+								"15386-05",
+								"cal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/coursetype",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"url": {
+							"raw": "{{SERVER}}/api/v1/coursetype",
+							"host": [
+								"{{SERVER}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"coursetype"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/coursetype/ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"url": {
+							"raw": "{{SERVER}}/api/v1/coursetype/15462",
+							"host": [
+								"{{SERVER}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"coursetype",
+								"15462"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/coursetype/ID",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Encoding",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "PL 1 Få styr på din projektopgave!",
+									"type": "text"
+								},
+								{
+									"key": "link",
+									"value": "https://ili.dev.konform.com/courses/ili-pl-1-faa-styr-paa-din-projektopgave",
+									"type": "text"
+								},
+								{
+									"key": "upsell[0][name]",
+									"value": "upsell name",
+									"type": "text"
+								},
+								{
+									"key": "upsell[0][link]",
+									"value": "upsell linky!",
+									"type": "text"
+								},
+								{
+									"key": "upsell[0][text]",
+									"value": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin feugiat lacinia diam, et luctus erat suscipit eu. Duis scelerisque sodales magna, vel luctus arcu. Donec sit amet felis elit. Pellentesque eget metus eu sapien placerat egestas in ac leo. Quisque tincidunt iaculis erat eget finibus. Sed eget mauris volutpat, tristique diam eu, aliquet purus. Nullam tristique, nisi non bibendum aliquet, ligula lectus pretium felis, non sodales neque risus et eros. Pellentesque interdum malesuada quam, sit amet mattis ipsum gravida eget. Ut tortor sapien, cursus quis varius eu, malesuada sed nunc. Donec metus erat, commodo sit amet tellus eget, porta dictum mauris. Integer metus diam, pharetra sed tincidunt et, lobortis a mi. Praesent molestie, turpis sed fermentum viverra, erat lacus consectetur dolor, eget volutpat ex purus id nisi. Donec luctus varius tellus, sit amet maximus augue vulputate et.",
+									"type": "text"
+								},
+								{
+									"key": "upsell[0][image]",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "upsell[0][category]",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "upsell[0][language]",
+									"value": "da",
+									"type": "text"
+								},
+								{
+									"key": "upsell[1][name]",
+									"value": "upsell name 2",
+									"type": "text"
+								},
+								{
+									"key": "upsell[1][link]",
+									"value": "upsell linky 2!",
+									"type": "text"
+								},
+								{
+									"key": "upsell[1][text]",
+									"value": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin feugiat lacinia diam, et luctus erat suscipit eu. Duis scelerisque sodales magna, vel luctus arcu. Donec sit amet felis elit. Pellentesque eget metus eu sapien placerat egestas in ac leo. Quisque tincidunt iaculis erat eget finibus. Sed eget mauris volutpat, tristique diam eu, aliquet purus. Nullam tristique, nisi non bibendum aliquet, ligula lectus pretium felis, non sodales neque risus et eros. Pellentesque interdum malesuada quam, sit amet mattis ipsum gravida eget. Ut tortor sapien, cursus quis varius eu, malesuada sed nunc. Donec metus erat, commodo sit amet tellus eget, porta dictum mauris. Integer metus diam, pharetra sed tincidunt et, lobortis a mi. Praesent molestie, turpis sed fermentum viverra, erat lacus consectetur dolor, eget volutpat ex purus id nisi. Donec luctus varius tellus, sit amet maximus augue vulputate et.",
+									"type": "text"
+								},
+								{
+									"key": "upsell[1][image]",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "upsell[1][category]",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "upsell[1][language]",
+									"value": "da",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{SERVER}}/api/v1/coursetype/15386",
+							"host": [
+								"{{SERVER}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"coursetype",
+								"15386"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/location",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"url": {
+							"raw": "{{SERVER}}/api/v1/location",
+							"host": [
+								"{{SERVER}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"location"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/location/ID",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "TESTER",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{SERVER}}/api/v1/location/12344",
+							"host": [
+								"{{SERVER}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"location",
+								"12344"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/trainer",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"url": {
+							"raw": "{{SERVER}}/api/v1/trainer",
+							"host": [
+								"{{SERVER}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"trainer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/trainer",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "TESTER",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{SERVER}}/api/v1/trainer",
+							"host": [
+								"{{SERVER}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"trainer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/texts/mails",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "texts",
+									"value": "[]",
+									"type": "text"
+								},
+								{
+									"key": "lang",
+									"value": "da",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{SERVER}}/api/v1/texts/mails",
+							"host": [
+								"{{SERVER}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"texts",
+								"mails"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Order Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "maconomy_id",
+									"value": "22217-06",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "seats",
+									"value": "1",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{SERVER}}/api/v1/orders",
+							"host": [
+								"{{SERVER}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Order update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "seats",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "courses[0][id]",
+									"value": "15386-104",
+									"type": "text"
+								},
+								{
+									"key": "courses[1][id]",
+									"value": "17013-27",
+									"type": "text"
+								},
+								{
+									"key": "education",
+									"value": "15386",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "lang",
+									"value": "da",
+									"type": "text"
+								},
+								{
+									"key": "courses[0][sort]",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "courses[1][sort]",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{SERVER}}/api/v1/orders/38",
+							"host": [
+								"{{SERVER}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"orders",
+								"38"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Order Close",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "company[company]",
+									"value": "Konform A/S",
+									"type": "text"
+								},
+								{
+									"key": "participants[0][fullname]",
+									"value": "Jimmi Westerberg",
+									"type": "text"
+								},
+								{
+									"key": "participants[0][email]",
+									"value": "jw@konform.com",
+									"type": "text"
+								},
+								{
+									"key": "participants[0][phone]",
+									"value": "11223344",
+									"type": "text"
+								},
+								{
+									"key": "participants[0][title]",
+									"value": "Udvikler",
+									"type": "text"
+								},
+								{
+									"key": "participants[1][fullname]",
+									"value": "Jimmi Westerberg",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "participants[1][email]",
+									"value": "jw@konform.com",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "participants[1][phone]",
+									"value": "11223344",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "participants[1][title]",
+									"value": "Udvikler",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "company[email]",
+									"value": "jw@konform.com",
+									"type": "text"
+								},
+								{
+									"key": "billing[company]",
+									"value": "meebook",
+									"type": "text"
+								},
+								{
+									"key": "lang",
+									"value": "da",
+									"type": "text"
+								},
+								{
+									"key": "seats",
+									"value": "1",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{SERVER}}/api/v1/orders/1899/close",
+							"host": [
+								"{{SERVER}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"orders",
+								"1899",
+								"close"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Orders/ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{SERVER}}/api/v1/orders/1796",
+							"host": [
+								"{{SERVER}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"orders",
+								"1796"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Orders/ID/resync",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{SERVER}}/api/v1/orders/1675/resync",
+							"host": [
+								"{{SERVER}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"orders",
+								"1675",
+								"resync"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Orders/ID/resendemails",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{SERVER}}/api/v1/orders/1899/resendemails",
+							"host": [
+								"{{SERVER}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"orders",
+								"1899",
+								"resendemails"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Orders index",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{SERVER}}/api/v1/orders",
+							"host": [
+								"{{SERVER}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Newslettersignup",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "firstname",
+									"value": "Jimmi",
+									"type": "text"
+								},
+								{
+									"key": "lastname",
+									"value": "Westerberg",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "jw@konform.com",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{SERVER}}/api/v1/newsletter/signup",
+							"host": [
+								"{{SERVER}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"newsletter",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Wordpress API",
+			"item": [
+				{
+					"name": "Sync all courses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{WORDPRESS}}/wp-json/kustom/sync",
+							"host": [
+								"{{WORDPRESS}}"
+							],
+							"path": [
+								"wp-json",
+								"kustom",
+								"sync"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "wp-json/wp/v2/courseday",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{WORDPRESS}}/wp-json/wp/v2/courseday?day=24828-04",
+							"host": [
+								"{{WORDPRESS}}"
+							],
+							"path": [
+								"wp-json",
+								"wp",
+								"v2",
+								"courseday"
+							],
+							"query": [
+								{
+									"key": "day",
+									"value": "24828-04"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sync single course",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{WORDPRESS}}/wp-json/kustom/sync/23070-06",
+							"host": [
+								"{{WORDPRESS}}"
+							],
+							"path": [
+								"wp-json",
+								"kustom",
+								"sync",
+								"23070-06"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
 		{
 			"name": "Maconomy API",
 			"item": [
@@ -47,13 +1028,9 @@
 							]
 						},
 						"url": {
-							"raw": "http://40.127.165.81/token",
-							"protocol": "http",
+							"raw": "{{MACONOMY}}/token",
 							"host": [
-								"40",
-								"127",
-								"165",
-								"81"
+								"{{MACONOMY}}"
 							],
 							"path": [
 								"token"
@@ -70,25 +1047,17 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "AupO8_bFNdY6d3_Qelrx5o9MQSnLy8mj_dWYKD0BDxGWwVHt2V-u-NwFZ0UATopxSMLyMzG4o77QIyYRVWpCyvFT5k0HcRiVvNY4X05P7nXZj0eRlEIsKDjVsaGPoeZfi_CJ2UpQOdpti0IyShzr1fKElXHyrLh96ubtPqunJH9wa5ujarIoBfHyf-TkjRSCrGQjE5iYuxQQ_540hXHFB3btuv0sOL5Inje13Y6JH3cPsqz7DsmsppG7k8BohZWtIGRNCxC_oLucO2nrcqBZNKa6izab-NMyGRHuTi87R9pIohBOub4qbeX-A8MG1WUOzQimBQBF0njVzx4w-8m0bXAnarr3exOmf01d4WsMAsCnQHWG65zkXTNq3PHz3wpjM9CZHoPCrtr00tBXF9WsPTxEvzyLxZTDXm-2wptJ2jSPTMH85JQe8yhxaAnWlE5cCqyS8TfLytdbNk8EHnZ4bOaCC-b4qX5GAAh0590b2TY",
+									"value": "{{AUTH_TOKEN}}",
 									"type": "string"
 								}
 							]
 						},
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
-							"raw": "http://40.127.165.81/api/course",
-							"protocol": "http",
+							"raw": "{{MACONOMY}}/api/course",
 							"host": [
-								"40",
-								"127",
-								"165",
-								"81"
+								"{{MACONOMY}}"
 							],
 							"path": [
 								"api",
@@ -106,30 +1075,22 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "6GXOQf_aZXZkwspvga1OzBV7AiGskBSgzaQ5wK0YuLlqnFAiGQDKoX9dIQ_6J582kMT4Rg4-tKbIGZX7VZSQhEslgM0OxLSqy5EDu5dlZd4QGUgXdozI0AUM3XfY1I0U8wiZvNAJXevQ20QKi32xWocNgvmJ-RQhu6omtOJYZNBp_xY9W9OyUwGFj64X3L8PITfBrX29JoUyKVAifZTMUf_0Hf-XzdLrDRZ_YKI1HbCT1OZ2G_1X9AYqc04tVKF-2MDwa-Tpk29Ldnm9OSOdJbqP7SxLtwflDrI3L_JMoUk6TAmyL-VUjBVYEVI_s4zftCjcHUMGRCsk80jvC02GjLpmvs2L0_zi0ZyjUfLM3qoVEQWFtKYb1jAgc_5UhDwONvh6JCHrgkuqbRk0tpsIrakYsQK0z3zZxhEncfuo0mlztu8a9j-zfe8kV_yUQ6MR5k1bLZ0AMDirbf6-m1oYDc_KWB6xLzTAG-R-GR5IhL2o6Iv_Hf43LiAaSf_0qWl4",
+									"value": "{{AUTH_TOKEN}}",
 									"type": "string"
 								}
 							]
 						},
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
-							"raw": "http://40.127.165.81/api/course/15386-100",
-							"protocol": "http",
+							"raw": "{{MACONOMY}}/api/course/25172-04",
 							"host": [
-								"40",
-								"127",
-								"165",
-								"81"
+								"{{MACONOMY}}"
 							],
 							"path": [
 								"api",
 								"course",
-								"15386-100"
+								"25172-04"
 							]
 						}
 					},
@@ -143,25 +1104,17 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "AupO8_bFNdY6d3_Qelrx5o9MQSnLy8mj_dWYKD0BDxGWwVHt2V-u-NwFZ0UATopxSMLyMzG4o77QIyYRVWpCyvFT5k0HcRiVvNY4X05P7nXZj0eRlEIsKDjVsaGPoeZfi_CJ2UpQOdpti0IyShzr1fKElXHyrLh96ubtPqunJH9wa5ujarIoBfHyf-TkjRSCrGQjE5iYuxQQ_540hXHFB3btuv0sOL5Inje13Y6JH3cPsqz7DsmsppG7k8BohZWtIGRNCxC_oLucO2nrcqBZNKa6izab-NMyGRHuTi87R9pIohBOub4qbeX-A8MG1WUOzQimBQBF0njVzx4w-8m0bXAnarr3exOmf01d4WsMAsCnQHWG65zkXTNq3PHz3wpjM9CZHoPCrtr00tBXF9WsPTxEvzyLxZTDXm-2wptJ2jSPTMH85JQe8yhxaAnWlE5cCqyS8TfLytdbNk8EHnZ4bOaCC-b4qX5GAAh0590b2TY",
+									"value": "{{AUTH_TOKEN}}",
 									"type": "string"
 								}
 							]
 						},
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
-							"raw": "http://40.127.165.81/api/courselight",
-							"protocol": "http",
+							"raw": "{{MACONOMY}}/api/courselight",
 							"host": [
-								"40",
-								"127",
-								"165",
-								"81"
+								"{{MACONOMY}}"
 							],
 							"path": [
 								"api",
@@ -179,30 +1132,22 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "AupO8_bFNdY6d3_Qelrx5o9MQSnLy8mj_dWYKD0BDxGWwVHt2V-u-NwFZ0UATopxSMLyMzG4o77QIyYRVWpCyvFT5k0HcRiVvNY4X05P7nXZj0eRlEIsKDjVsaGPoeZfi_CJ2UpQOdpti0IyShzr1fKElXHyrLh96ubtPqunJH9wa5ujarIoBfHyf-TkjRSCrGQjE5iYuxQQ_540hXHFB3btuv0sOL5Inje13Y6JH3cPsqz7DsmsppG7k8BohZWtIGRNCxC_oLucO2nrcqBZNKa6izab-NMyGRHuTi87R9pIohBOub4qbeX-A8MG1WUOzQimBQBF0njVzx4w-8m0bXAnarr3exOmf01d4WsMAsCnQHWG65zkXTNq3PHz3wpjM9CZHoPCrtr00tBXF9WsPTxEvzyLxZTDXm-2wptJ2jSPTMH85JQe8yhxaAnWlE5cCqyS8TfLytdbNk8EHnZ4bOaCC-b4qX5GAAh0590b2TY",
+									"value": "{{AUTH_TOKEN}}",
 									"type": "string"
 								}
 							]
 						},
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
-							"raw": "http://40.127.165.81/api/courselight/15386-94",
-							"protocol": "http",
+							"raw": "{{MACONOMY}}/api/courselight/24828-03",
 							"host": [
-								"40",
-								"127",
-								"165",
-								"81"
+								"{{MACONOMY}}"
 							],
 							"path": [
 								"api",
 								"courselight",
-								"15386-94"
+								"24828-03"
 							]
 						}
 					},
@@ -216,7 +1161,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "AupO8_bFNdY6d3_Qelrx5o9MQSnLy8mj_dWYKD0BDxGWwVHt2V-u-NwFZ0UATopxSMLyMzG4o77QIyYRVWpCyvFT5k0HcRiVvNY4X05P7nXZj0eRlEIsKDjVsaGPoeZfi_CJ2UpQOdpti0IyShzr1fKElXHyrLh96ubtPqunJH9wa5ujarIoBfHyf-TkjRSCrGQjE5iYuxQQ_540hXHFB3btuv0sOL5Inje13Y6JH3cPsqz7DsmsppG7k8BohZWtIGRNCxC_oLucO2nrcqBZNKa6izab-NMyGRHuTi87R9pIohBOub4qbeX-A8MG1WUOzQimBQBF0njVzx4w-8m0bXAnarr3exOmf01d4WsMAsCnQHWG65zkXTNq3PHz3wpjM9CZHoPCrtr00tBXF9WsPTxEvzyLxZTDXm-2wptJ2jSPTMH85JQe8yhxaAnWlE5cCqyS8TfLytdbNk8EHnZ4bOaCC-b4qX5GAAh0590b2TY",
+									"value": "{{AUTH_TOKEN}}",
 									"type": "string"
 								}
 							]
@@ -228,18 +1173,10 @@
 								"value": "application/json"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
-							"raw": "http://40.127.165.81/api/maincourse",
-							"protocol": "http",
+							"raw": "{{MACONOMY}}/api/maincourse",
 							"host": [
-								"40",
-								"127",
-								"165",
-								"81"
+								"{{MACONOMY}}"
 							],
 							"path": [
 								"api",
@@ -257,25 +1194,17 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "AupO8_bFNdY6d3_Qelrx5o9MQSnLy8mj_dWYKD0BDxGWwVHt2V-u-NwFZ0UATopxSMLyMzG4o77QIyYRVWpCyvFT5k0HcRiVvNY4X05P7nXZj0eRlEIsKDjVsaGPoeZfi_CJ2UpQOdpti0IyShzr1fKElXHyrLh96ubtPqunJH9wa5ujarIoBfHyf-TkjRSCrGQjE5iYuxQQ_540hXHFB3btuv0sOL5Inje13Y6JH3cPsqz7DsmsppG7k8BohZWtIGRNCxC_oLucO2nrcqBZNKa6izab-NMyGRHuTi87R9pIohBOub4qbeX-A8MG1WUOzQimBQBF0njVzx4w-8m0bXAnarr3exOmf01d4WsMAsCnQHWG65zkXTNq3PHz3wpjM9CZHoPCrtr00tBXF9WsPTxEvzyLxZTDXm-2wptJ2jSPTMH85JQe8yhxaAnWlE5cCqyS8TfLytdbNk8EHnZ4bOaCC-b4qX5GAAh0590b2TY",
+									"value": "{{AUTH_TOKEN}}",
 									"type": "string"
 								}
 							]
 						},
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
-							"raw": "http://40.127.165.81/api/participant",
-							"protocol": "http",
+							"raw": "{{MACONOMY}}/api/participant",
 							"host": [
-								"40",
-								"127",
-								"165",
-								"81"
+								"{{MACONOMY}}"
 							],
 							"path": [
 								"api",
@@ -293,30 +1222,22 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "AupO8_bFNdY6d3_Qelrx5o9MQSnLy8mj_dWYKD0BDxGWwVHt2V-u-NwFZ0UATopxSMLyMzG4o77QIyYRVWpCyvFT5k0HcRiVvNY4X05P7nXZj0eRlEIsKDjVsaGPoeZfi_CJ2UpQOdpti0IyShzr1fKElXHyrLh96ubtPqunJH9wa5ujarIoBfHyf-TkjRSCrGQjE5iYuxQQ_540hXHFB3btuv0sOL5Inje13Y6JH3cPsqz7DsmsppG7k8BohZWtIGRNCxC_oLucO2nrcqBZNKa6izab-NMyGRHuTi87R9pIohBOub4qbeX-A8MG1WUOzQimBQBF0njVzx4w-8m0bXAnarr3exOmf01d4WsMAsCnQHWG65zkXTNq3PHz3wpjM9CZHoPCrtr00tBXF9WsPTxEvzyLxZTDXm-2wptJ2jSPTMH85JQe8yhxaAnWlE5cCqyS8TfLytdbNk8EHnZ4bOaCC-b4qX5GAAh0590b2TY",
+									"value": "{{AUTH_TOKEN}}",
 									"type": "string"
 								}
 							]
 						},
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
-							"raw": "http://40.127.165.81/api/participant/15386-95",
-							"protocol": "http",
+							"raw": "{{MACONOMY}}/api/participant/23168-03",
 							"host": [
-								"40",
-								"127",
-								"165",
-								"81"
+								"{{MACONOMY}}"
 							],
 							"path": [
 								"api",
 								"participant",
-								"15386-95"
+								"23168-03"
 							]
 						}
 					},
@@ -330,7 +1251,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "AupO8_bFNdY6d3_Qelrx5o9MQSnLy8mj_dWYKD0BDxGWwVHt2V-u-NwFZ0UATopxSMLyMzG4o77QIyYRVWpCyvFT5k0HcRiVvNY4X05P7nXZj0eRlEIsKDjVsaGPoeZfi_CJ2UpQOdpti0IyShzr1fKElXHyrLh96ubtPqunJH9wa5ujarIoBfHyf-TkjRSCrGQjE5iYuxQQ_540hXHFB3btuv0sOL5Inje13Y6JH3cPsqz7DsmsppG7k8BohZWtIGRNCxC_oLucO2nrcqBZNKa6izab-NMyGRHuTi87R9pIohBOub4qbeX-A8MG1WUOzQimBQBF0njVzx4w-8m0bXAnarr3exOmf01d4WsMAsCnQHWG65zkXTNq3PHz3wpjM9CZHoPCrtr00tBXF9WsPTxEvzyLxZTDXm-2wptJ2jSPTMH85JQe8yhxaAnWlE5cCqyS8TfLytdbNk8EHnZ4bOaCC-b4qX5GAAh0590b2TY",
+									"value": "{{AUTH_TOKEN}}",
 									"type": "string"
 								}
 							]
@@ -349,60 +1270,13 @@
 							"raw": "{\n  \"coursenumberField\":\"15461-44\",\n  \"participantnameField\":\"Jimmi Westerberg\",\n  \"participantemailField\":\"jw@konform.com\",\n  \"participantphoneField\":\"11223344\",\n  \"participanttitleField\":\"Udvikler\",\n  \"compnameField\":\"Konform A/S\",\n  \"compcvrField\":\"\",\n  \"compattField\":\"jimmi att?\",\n  \"compaddressField\":\"Studiestræde 19\",\n  \"compzipcodeField\":\"1455\",\n  \"compcityField\":\"København K\",\n  \"compcountryField\": \"Danmark\",\n  \"compemailField\":\"jw@konform.com\",\n  \"compphoneField\":\"11223344\",\n  \"compeanField\":\"\",\n  \"comppurchaseorderField\":\"\",\n  \"altcompnameField\":\"\",\n  \"altcompattField\":\"\",\n  \"altcompaddressField\":\"\",\n  \"altcompzipcodeField\":\"\",\n  \"altcompcityField\":\"\",\n  \"altcompcountryField\": \"\",\n  \"altcompemailField\":\"\",\n  \"altcompphoneField\":\"\",\n  \"packageidField\":\"11111111\",\n  \"externalidField\":\"99999910\"\n}, {\n  \"coursenumberField\":\"15461-44\",\n  \"participantnameField\":\"Jimmi Westerberg\",\n  \"participantemailField\":\"jw@konform.com\",\n  \"participantphoneField\":\"11223344\",\n  \"participanttitleField\":\"Udvikler\",\n  \"compnameField\":\"Konform A/S\",\n  \"compcvrField\":\"\",\n  \"compattField\":\"jimmi att?\",\n  \"compaddressField\":\"Studiestræde 19\",\n  \"compzipcodeField\":\"1455\",\n  \"compcityField\":\"København K\",\n  \"compcountryField\": \"Danmark\",\n  \"compemailField\":\"jw@konform.com\",\n  \"compphoneField\":\"11223344\",\n  \"compeanField\":\"\",\n  \"comppurchaseorderField\":\"\",\n  \"altcompnameField\":\"\",\n  \"altcompattField\":\"\",\n  \"altcompaddressField\":\"\",\n  \"altcompzipcodeField\":\"\",\n  \"altcompcityField\":\"\",\n  \"altcompcountryField\": \"\",\n  \"altcompemailField\":\"\",\n  \"altcompphoneField\":\"\",\n  \"packageidField\":\"11111111\",\n  \"externalidField\":\"99999910\"\n}"
 						},
 						"url": {
-							"raw": "http://40.127.165.81/api/webparticipant",
-							"protocol": "http",
+							"raw": "{{MACONOMY}}/api/webparticipant",
 							"host": [
-								"40",
-								"127",
-								"165",
-								"81"
+								"{{MACONOMY}}"
 							],
 							"path": [
 								"api",
 								"webparticipant"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "api/WebParticipant Copy",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "AupO8_bFNdY6d3_Qelrx5o9MQSnLy8mj_dWYKD0BDxGWwVHt2V-u-NwFZ0UATopxSMLyMzG4o77QIyYRVWpCyvFT5k0HcRiVvNY4X05P7nXZj0eRlEIsKDjVsaGPoeZfi_CJ2UpQOdpti0IyShzr1fKElXHyrLh96ubtPqunJH9wa5ujarIoBfHyf-TkjRSCrGQjE5iYuxQQ_540hXHFB3btuv0sOL5Inje13Y6JH3cPsqz7DsmsppG7k8BohZWtIGRNCxC_oLucO2nrcqBZNKa6izab-NMyGRHuTi87R9pIohBOub4qbeX-A8MG1WUOzQimBQBF0njVzx4w-8m0bXAnarr3exOmf01d4WsMAsCnQHWG65zkXTNq3PHz3wpjM9CZHoPCrtr00tBXF9WsPTxEvzyLxZTDXm-2wptJ2jSPTMH85JQe8yhxaAnWlE5cCqyS8TfLytdbNk8EHnZ4bOaCC-b4qX5GAAh0590b2TY",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"coursenumberField\": \"15386-94\",\n  \"participantnameField\": \"Mads Jensen\",\n  \"participantemailField\": \"mj@whyyy.dk\",\n  \"participantphoneField\": \"+45 53763142\",\n  \"participanttitleField\": \"Ninja\",\n  \"compnameField\": \"Whyyy ApS\",\n  \"compcvrField\": \"39833697\",\n  \"compattField\": \"Rasmus Bertram\",\n  \"compaddressField\": \"Klosterstræde 9\",\n  \"compzipcodeField\": \"1157\",\n  \"compcityField\": \"København K\",\n  \"compcountryField\": \"Danmark\",\n  \"compemailField\": \"ask@whyyy.dk\",\n  \"compphoneField\": \"+45 53763142\",\n  \"compeanField\": \"\",\n  \"comppurchaseorderField\": \"\",\n  \"altcompnameField\": \"\",\n  \"altcompattField\": \"\",\n  \"altcompaddressField\": \"\",\n  \"altcompzipcodeField\": \"\",\n  \"altcompcityField\": \"\",\n  \"altcompcountryField\": \"\",\n  \"altcompemailField\": \"\",\n  \"altcompphoneField\": \"\",\n  \"packageidField\": \"\",\n  \"externalidField\": \"99999996\"\n}"
-						},
-						"url": {
-							"raw": "http://40.127.165.81/api/WebParticipant",
-							"protocol": "http",
-							"host": [
-								"40",
-								"127",
-								"165",
-								"81"
-							],
-							"path": [
-								"api",
-								"WebParticipant"
 							]
 						}
 					},
@@ -416,7 +1290,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "AupO8_bFNdY6d3_Qelrx5o9MQSnLy8mj_dWYKD0BDxGWwVHt2V-u-NwFZ0UATopxSMLyMzG4o77QIyYRVWpCyvFT5k0HcRiVvNY4X05P7nXZj0eRlEIsKDjVsaGPoeZfi_CJ2UpQOdpti0IyShzr1fKElXHyrLh96ubtPqunJH9wa5ujarIoBfHyf-TkjRSCrGQjE5iYuxQQ_540hXHFB3btuv0sOL5Inje13Y6JH3cPsqz7DsmsppG7k8BohZWtIGRNCxC_oLucO2nrcqBZNKa6izab-NMyGRHuTi87R9pIohBOub4qbeX-A8MG1WUOzQimBQBF0njVzx4w-8m0bXAnarr3exOmf01d4WsMAsCnQHWG65zkXTNq3PHz3wpjM9CZHoPCrtr00tBXF9WsPTxEvzyLxZTDXm-2wptJ2jSPTMH85JQe8yhxaAnWlE5cCqyS8TfLytdbNk8EHnZ4bOaCC-b4qX5GAAh0590b2TY",
+									"value": "{{AUTH_TOKEN}}",
 									"type": "string"
 								}
 							]
@@ -430,23 +1304,15 @@
 								"value": "application/json"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
-							"raw": "http://40.127.165.81/api/WebParticipant/2B32E8332475433A91685A6C67ED2F35",
-							"protocol": "http",
+							"raw": "{{MACONOMY}}/api/WebParticipant/A96B8EC75F9E4039BD15BFAA03247027",
 							"host": [
-								"40",
-								"127",
-								"165",
-								"81"
+								"{{MACONOMY}}"
 							],
 							"path": [
 								"api",
 								"WebParticipant",
-								"2B32E8332475433A91685A6C67ED2F35"
+								"A96B8EC75F9E4039BD15BFAA03247027"
 							]
 						}
 					},
@@ -455,1130 +1321,70 @@
 			]
 		},
 		{
-			"name": "local",
+			"name": "ClickDimension",
 			"item": [
 				{
-					"name": "api/sync",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://ilibackend.test/api/v1/sync",
-							"protocol": "http",
-							"host": [
-								"ilibackend",
-								"test"
-							],
-							"path": [
-								"api",
-								"v1",
-								"sync"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "api/sync/ID",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://ilibackend.test/api/v1/sync/25402-01",
-							"protocol": "http",
-							"host": [
-								"ilibackend",
-								"test"
-							],
-							"path": [
-								"api",
-								"v1",
-								"sync",
-								"25402-01"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "api/course",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://ilibackend.test/api/v1/course/",
-							"protocol": "http",
-							"host": [
-								"ilibackend",
-								"test"
-							],
-							"path": [
-								"api",
-								"v1",
-								"course",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "api/course/ID",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "participants_max",
-									"value": "31",
-									"type": "text"
-								},
-								{
-									"key": "deadline",
-									"value": "2019-11-01 00:00:00",
-									"type": "text",
-									"disabled": true
-								},
-								{
-									"key": "name",
-									"value": "ASD Faciliteringsakademi: Basis FABD0319H 11.3/25-26.3/7.5-2019",
-									"type": "text",
-									"disabled": true
-								}
-							]
-						},
-						"url": {
-							"raw": "http://ilibackend.test/api/v1/course/25172-03",
-							"protocol": "http",
-							"host": [
-								"ilibackend",
-								"test"
-							],
-							"path": [
-								"api",
-								"v1",
-								"course",
-								"25172-03"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "api/course/ID",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							},
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://ilibackend.test/api/v1/course/25172-03",
-							"protocol": "http",
-							"host": [
-								"ilibackend",
-								"test"
-							],
-							"path": [
-								"api",
-								"v1",
-								"course",
-								"25172-03"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "api/course/ID/cal",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded",
-								"disabled": true
-							},
-							{
-								"key": "Accept",
-								"type": "text",
-								"value": "application/json",
-								"disabled": true
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://ilibackend.test/api/v1/course/15386-05/cal",
-							"protocol": "http",
-							"host": [
-								"ilibackend",
-								"test"
-							],
-							"path": [
-								"api",
-								"v1",
-								"course",
-								"15386-05",
-								"cal"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "api/coursetype",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://ilibackend.test/api/v1/coursetype",
-							"protocol": "http",
-							"host": [
-								"ilibackend",
-								"test"
-							],
-							"path": [
-								"api",
-								"v1",
-								"coursetype"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "api/texts/mails",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "participants_max",
-									"value": "31",
-									"type": "text",
-									"disabled": true
-								},
-								{
-									"key": "deadline",
-									"value": "2019-11-01 00:00:00",
-									"type": "text",
-									"disabled": true
-								},
-								{
-									"key": "name",
-									"value": "ASD Faciliteringsakademi: Basis FABD0319H 11.3/25-26.3/7.5-2019",
-									"type": "text",
-									"disabled": true
-								}
-							]
-						},
-						"url": {
-							"raw": "http://ilibackend.test/api/v1/texts/mails",
-							"protocol": "http",
-							"host": [
-								"ilibackend",
-								"test"
-							],
-							"path": [
-								"api",
-								"v1",
-								"texts",
-								"mails"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Order Create",
+					"name": "newsletter signup",
 					"request": {
 						"method": "POST",
 						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "maconomy_id",
-									"value": "22217-06",
-									"type": "text",
-									"disabled": true
-								},
-								{
-									"key": "seats",
-									"value": "1",
-									"type": "text",
-									"disabled": true
-								}
-							]
-						},
-						"url": {
-							"raw": "http://ilibackend.test/api/v1/orders",
-							"protocol": "http",
-							"host": [
-								"ilibackend",
-								"test"
-							],
-							"path": [
-								"api",
-								"v1",
-								"orders"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Order update",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "seats",
-									"value": "2",
-									"type": "text"
-								},
-								{
-									"key": "courses[0]",
-									"value": "25402-01",
-									"type": "text"
-								},
-								{
-									"key": "courses[1]",
-									"value": "15386-94",
-									"type": "text"
-								},
-								{
-									"key": "education",
-									"value": "15386",
-									"type": "text",
-									"disabled": true
-								}
-							]
-						},
-						"url": {
-							"raw": "http://ilibackend.test/api/v1/orders/21",
-							"protocol": "http",
-							"host": [
-								"ilibackend",
-								"test"
-							],
-							"path": [
-								"api",
-								"v1",
-								"orders",
-								"21"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Order Close",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "company[company]",
-									"value": "Konform A/S",
-									"type": "text"
-								},
-								{
-									"key": "participants[0][fullname]",
-									"value": "Jimmi Westerberg",
-									"type": "text"
-								},
-								{
-									"key": "participants[0][email]",
-									"value": "jw@konform.com",
-									"type": "text"
-								},
-								{
-									"key": "participants[0][phone]",
-									"value": "11223344",
-									"type": "text"
-								},
-								{
-									"key": "participants[0][title]",
-									"value": "Udvikler",
-									"type": "text"
-								},
-								{
-									"key": "participants[1][fullname]",
-									"value": "Jimmi Westerberg",
-									"type": "text"
-								},
-								{
-									"key": "participants[1][email]",
-									"value": "jw@konform.com",
-									"type": "text"
-								},
-								{
-									"key": "participants[1][phone]",
-									"value": "11223344",
-									"type": "text"
-								},
-								{
-									"key": "participants[1][title]",
-									"value": "Udvikler",
-									"type": "text"
-								},
-								{
-									"key": "company[email]",
-									"value": "jw@konform.com",
-									"type": "text"
-								},
-								{
-									"key": "billing[company]",
-									"value": "mebook",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "http://ilibackend.test/api/v1/orders/20/close",
-							"protocol": "http",
-							"host": [
-								"ilibackend",
-								"test"
-							],
-							"path": [
-								"api",
-								"v1",
-								"orders",
-								"20",
-								"close"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Orders index",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://ilibackend.test/api/v1/orders?state=0&waitinglist=0",
-							"protocol": "http",
-							"host": [
-								"ilibackend",
-								"test"
-							],
-							"path": [
-								"api",
-								"v1",
-								"orders"
-							],
-							"query": [
-								{
-									"key": "state",
-									"value": "0"
-								},
-								{
-									"key": "waitinglist",
-									"value": "0"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Orders/ID",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://ilibackend.test/api/v1/orders/20",
-							"protocol": "http",
-							"host": [
-								"ilibackend",
-								"test"
-							],
-							"path": [
-								"api",
-								"v1",
-								"orders",
-								"20"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "dev",
-			"item": [
-				{
-					"name": "api/sync",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://ilibackend.dev.konform.com/api/v1/sync",
-							"protocol": "http",
-							"host": [
-								"ilibackend",
-								"dev",
-								"konform",
-								"com"
-							],
-							"path": [
-								"api",
-								"v1",
-								"sync"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "api/sync/ID",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://ilibackend.dev.konform.com/api/v1/sync/15386-100",
-							"protocol": "http",
-							"host": [
-								"ilibackend",
-								"dev",
-								"konform",
-								"com"
-							],
-							"path": [
-								"api",
-								"v1",
-								"sync",
-								"15386-100"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "api/course",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://ilibackend.dev.konform.com/api/v1/course/",
-							"protocol": "http",
-							"host": [
-								"ilibackend",
-								"dev",
-								"konform",
-								"com"
-							],
-							"path": [
-								"api",
-								"v1",
-								"course",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "api/course/ID",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "participants_max",
-									"value": "13",
-									"type": "text"
-								},
-								{
-									"key": "name",
-									"value": "Faciliteringsakademi: Basis FABD0319H 11.3/25-26.3/7.5-2019",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "https://ilibackend.dev.konform.com/api/v1/course/25172-03",
-							"protocol": "https",
-							"host": [
-								"ilibackend",
-								"dev",
-								"konform",
-								"com"
-							],
-							"path": [
-								"api",
-								"v1",
-								"course",
-								"25172-03"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "api/course/ID",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "https://ilibackend.dev.konform.com/api/v1/course/15386-100",
-							"protocol": "https",
-							"host": [
-								"ilibackend",
-								"dev",
-								"konform",
-								"com"
-							],
-							"path": [
-								"api",
-								"v1",
-								"course",
-								"15386-100"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "api/coursetype",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "https://ilibackend.dev.konform.com/api/v1/coursetype",
-							"protocol": "https",
-							"host": [
-								"ilibackend",
-								"dev",
-								"konform",
-								"com"
-							],
-							"path": [
-								"api",
-								"v1",
-								"coursetype"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "api/mails/texts",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							},
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "participants_max",
-									"value": "13",
-									"type": "text",
-									"disabled": true
-								},
-								{
-									"key": "name",
-									"value": "Faciliteringsakademi: Basis FABD0319H 11.3/25-26.3/7.5-2019",
-									"type": "text",
-									"disabled": true
-								}
-							]
-						},
-						"url": {
-							"raw": "https://ilibackend.dev.konform.com/api/v1/texts/mails",
-							"protocol": "https",
-							"host": [
-								"ilibackend",
-								"dev",
-								"konform",
-								"com"
-							],
-							"path": [
-								"api",
-								"v1",
-								"texts",
-								"mails"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Order Create",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "maconomy_id",
-									"value": "15386-102",
-									"type": "text"
-								},
-								{
-									"key": "seats",
-									"value": "1",
-									"type": "text",
-									"disabled": true
-								}
-							]
-						},
-						"url": {
-							"raw": "https://ilibackend.dev.konform.com/api/v1/orders",
-							"protocol": "https",
-							"host": [
-								"ilibackend",
-								"dev",
-								"konform",
-								"com"
-							],
-							"path": [
-								"api",
-								"v1",
-								"orders"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Order Close",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "company[company]",
-									"value": "Konform A/S",
-									"type": "text"
-								},
-								{
-									"key": "participants[0][fullname]",
-									"value": "Jimmi Westerberg",
-									"type": "text"
-								},
-								{
-									"key": "participants[0][email]",
-									"value": "jw@konform.com",
-									"type": "text"
-								},
-								{
-									"key": "participants[0][phone]",
-									"value": "11223344",
-									"type": "text"
-								},
-								{
-									"key": "participants[0][title]",
-									"value": "Udvikler",
-									"type": "text"
-								},
-								{
-									"key": "participants[1][fullname]",
-									"value": "Jimmi Westerberg",
-									"type": "text"
-								},
-								{
-									"key": "participants[1][email]",
-									"value": "jw@konform.com",
-									"type": "text"
-								},
-								{
-									"key": "participants[1][phone]",
-									"value": "11223344",
-									"type": "text"
-								},
-								{
-									"key": "participants[1][title]",
-									"value": "Udvikler",
-									"type": "text"
-								},
-								{
-									"key": "company[email]",
-									"value": "jw@konform.com",
-									"type": "text"
-								},
-								{
-									"key": "billing[company]",
-									"value": "mebook",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "https://ilibackend.dev.konform.com/api/v1/orders/18/close",
-							"protocol": "https",
-							"host": [
-								"ilibackend",
-								"dev",
-								"konform",
-								"com"
-							],
-							"path": [
-								"api",
-								"v1",
-								"orders",
-								"18",
-								"close"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Orders index",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "https://ilibackend.dev.konform.com/api/v1/orders",
-							"protocol": "https",
-							"host": [
-								"ilibackend",
-								"dev",
-								"konform",
-								"com"
-							],
-							"path": [
-								"api",
-								"v1",
-								"orders"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Orders/ID",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "https://ilibackend.dev.konform.com/api/v1/orders/39",
-							"protocol": "https",
-							"host": [
-								"ilibackend",
-								"dev",
-								"konform",
-								"com"
-							],
-							"path": [
-								"api",
-								"v1",
-								"orders",
-								"39"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Order update",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json"
-							},
 							{
 								"key": "Content-Type",
 								"name": "Content-Type",
 								"value": "application/x-www-form-urlencoded",
-								"type": "text"
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "domain",
+								"value": "learninginstitute.implement.dk",
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
+							"mode": "formdata",
+							"formdata": [
 								{
-									"key": "seats",
-									"value": "1",
+									"key": "firstname",
+									"value": "Jimmi POSTMAN 5",
 									"type": "text"
 								},
 								{
-									"key": "courses[0]",
-									"value": "25402-01",
-									"type": "text",
-									"disabled": true
-								},
-								{
-									"key": "courses[0]",
-									"value": "15461-46",
+									"key": "lastname",
+									"value": "lastname :)",
 									"type": "text"
 								},
 								{
-									"key": "education",
-									"value": "",
-									"type": "text",
-									"disabled": true
+									"key": "email",
+									"value": "jw@konform.com",
+									"type": "text"
 								},
 								{
-									"key": "courses[0]",
-									"value": "15411-71",
-									"type": "text",
-									"disabled": true
+									"key": "terms",
+									"value": "true",
+									"type": "text"
 								},
 								{
-									"key": "_method",
-									"value": "PUT",
+									"key": "domain",
+									"value": "learninginstitute.implement.dk",
 									"type": "text",
 									"disabled": true
 								}
 							]
 						},
 						"url": {
-							"raw": "https://ilibackend.dev.konform.com/api/v1/orders/39",
+							"raw": "https://analytics-eu.clickdimensions.com/forms/h/aSt7tTypsEqNjLKMNlbOA",
 							"protocol": "https",
 							"host": [
-								"ilibackend",
-								"dev",
-								"konform",
+								"analytics-eu",
+								"clickdimensions",
 								"com"
 							],
 							"path": [
-								"api",
-								"v1",
-								"orders",
-								"39"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Wordpress API DEV",
-			"item": [
-				{
-					"name": "Sync all courses",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "https://ilicms.dev.konform.com/wp-json/kustom/sync",
-							"protocol": "https",
-							"host": [
-								"ilicms",
-								"dev",
-								"konform",
-								"com"
-							],
-							"path": [
-								"wp-json",
-								"kustom",
-								"sync"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Sync single course",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "https://ilicms.dev.konform.com/wp-json/kustom/sync/15461-43",
-							"protocol": "https",
-							"host": [
-								"ilicms",
-								"dev",
-								"konform",
-								"com"
-							],
-							"path": [
-								"wp-json",
-								"kustom",
-								"sync",
-								"15461-43"
+								"forms",
+								"h",
+								"aSt7tTypsEqNjLKMNlbOA"
 							]
 						}
 					},
