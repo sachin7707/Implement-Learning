@@ -251,7 +251,16 @@
 								@endif
 
 			  					<div style="Margin-left: 20px;Margin-right: 20px;">
-			  						<div style="line-height:18px;font-size:1px">&nbsp;</div>
+                                    <div style="line-height:18px;font-size:1px">
+                                        <p class="size-12" style="Margin-top: 0;Margin-bottom: 0;font-size: 15px;line-height: 26px;" lang="x-size-12">
+                                            <span style="color:#000000">
+                                                <a style="text-decoration: underline;transition: opacity 0.1s ease-in;color: #000;" href="{{ $upsell->link }}">{{ $upsellLinkText }} 
+                                                    <img style="Margin-left: 20px;border: 0;display: inline-block;height: 15px;width: auto;" alt="" width="auto" src="{{ env('WEBSITE_URL') }}{{ env('MAIL_ARROW_IMAGE') }}">
+                                                </a>
+                                                &nbsp;
+                                            </span>
+                                        </p>
+                                    </div>
 			  					</div>
 
 		  	                </td>
