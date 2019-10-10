@@ -30,6 +30,32 @@ the site work properly. Make any adjustments needed.
 To get started, just run the migrations and start a sync using the API (see 
 [Postman collection](docs/postman/ili-backend.postman_collection.json))
 
+# Deploying
+
+We are using deployer to deploy the project.
+Simply use 
+```
+composer dep deploy next
+```
+When deploying to next server.
+
+And use 
+```
+composer dep deploy production
+```
+When deploying to production server.
+
+# Cron jobs
+
+We run cron jobs using supervisord.
+This means that supervisord needs to be rebooted, if you make changes to cron jobs.
+
+Supervisord is rebooted when you deploy, but if you are testing something on live, just remember to do it
+manually using:
+```
+sudo systemctl restart supervisord
+```
+
 # Old stuff
 
 We have created a rather large API that wordpress uses to sync courses
