@@ -80,6 +80,15 @@ class Course extends Model
     }
 
     /**
+     * Fetches the dates of the course
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function coursedates()
+    {
+        return $this->hasMany(CourseDate::class);
+    }
+
+    /**
      * Fetches the number of available seats, on a course, on the given order.
      * @param Course $course the course to check
      * @param Order $order the current order. (can be null)
@@ -222,7 +231,23 @@ class Course extends Model
     {
         $dates = [];
 
+        // Periods from wordpress, is the main factor. Anything from maconomy is secondary.
+        // This means that they need to clear periods from a course in wordpress, to use the dates from maconomy
         if (empty($this->periods)) {
+            // checking if the course has any coursedates attached (see ILI-733 for api changes)
+            if (! empty($this->coursedates)) {
+                $courseDates = [];
+                // we need to cast our datetime objects to carbon :)
+                foreach ($this->coursedates as $index => $period) {
+                    // using same data structure as for normal periods (line 263 and forward)
+                    $courseDates[$index] = [];
+                    $courseDates[$index][] = new Carbon($period->start);
+                    $courseDates[$index][] = new Carbon($period->end);
+                }
+
+                return $courseDates;
+            }
+
             $dates = $this->getCourseDatesByDuration();
 
             if (empty($dates)) {

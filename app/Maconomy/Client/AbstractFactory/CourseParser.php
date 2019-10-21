@@ -11,10 +11,14 @@ use App\Maconomy\Model\Course;
  */
 class CourseParser implements Parser
 {
+    /** @var string default timezone used, when creating DateTime objects */
+    const DEFAULT_TIMEZONE = 'GMT';
+
     /**
      * Parses the course in the given response, returning a nice model instead
      * @param mixed $data the data from the webservice
      * @return Course
+     * @throws \Exception
      */
     public function parse($data): Course
     {
@@ -45,19 +49,34 @@ class CourseParser implements Parser
             }
         }
 
+        // making DateTime objects
+        $startDate = $startDate === null ? null : new \DateTime($startDate, new \DateTimeZone(self::DEFAULT_TIMEZONE));
+        $endDate = $endDate === null ? null : new \DateTime($endDate, new \DateTimeZone(self::DEFAULT_TIMEZONE));
+
         $course = new Course();
         $course->maconomyId = $data->courseNumberField ?? $data->courseNumber;
         $course->name = $data->courseNameField ?? $data->courseName;
         $course->price = $data->priceField ?? $data->price;
         $course->maxParticipants = $data->maxParticipantsField ?? $data->maxParticipants;
         $course->minParticipants = $data->minParticipantsField ?? $data->minParticipants;
-        $course->startTime = new \DateTime($startDate, new \DateTimeZone('GMT'));
-        $course->endTime = new \DateTime($endDate, new \DateTimeZone('GMT'));
+        $course->startTime = $startDate;
+        $course->endTime = $endDate;
         $course->language = $data->weblanguageField ?? $data->weblanguage;
         $course->venueId = $data->venueField ?? $data->venue;
         $course->venueName = $data->venuenameField ?? $data->venuename;
         $course->seatsAvailable = $data->freeSeatsField ?? $data->freeSeats;
         $course->currentParticipants = $data->enrolledField ?? $data->enrolled;
+
+        $course->dates = [];
+        // we have dates (periods) from the course modules, let's parse and add them
+        if (! empty($data->dates)) {
+            foreach ($data->dates as $period) {
+                $course->dates[] = (object)[
+                    'start' => new \DateTime($period->startingDate, new \DateTimeZone(self::DEFAULT_TIMEZONE)),
+                    'end' => new \DateTime($period->endingDate, new \DateTimeZone(self::DEFAULT_TIMEZONE)),
+                ];
+            }
+        }
 
         return $course;
     }

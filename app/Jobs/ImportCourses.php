@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Course;
+use App\CourseDate;
 use App\Events\CoursesSyncedEvent;
 use App\Maconomy\Client\Maconomy;
 use App\Maconomy\Collection\CourseCollection;
@@ -183,6 +184,9 @@ class ImportCourses extends Job
 
                 $dbCourse->save();
             }
+
+            // adding the course's module dates to the course in the database
+            $this->addCourseModuleDates($dbCourse->id, $course);
         }
 
         // only delete courses, if we are not syncing a single course, since all other courses would be deleted :)
@@ -201,5 +205,25 @@ class ImportCourses extends Job
     private function isSingleCourseSync(): bool
     {
         return !empty($this->maconomyId);
+    }
+
+    /**
+     * Adding the given course's module dates (what it's called in maconomy) to the course in the database.
+     * @param int $id the curreny db course id
+     * @param \App\Maconomy\Model\Course $course the data from maconomy
+     */
+    private function addCourseModuleDates(int $id, \App\Maconomy\Model\Course $course)
+    {
+        // deletes the current course dates on the course (if any)
+        CourseDate::where('course_id', $id)->delete();
+
+        foreach ($course->dates as $period) {
+            $courseDate = new CourseDate([
+                'start' => $period->start,
+                'end' => $period->end,
+                'course_id' => $id,
+            ]);
+            $courseDate->save();
+        }
     }
 }
