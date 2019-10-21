@@ -271,7 +271,11 @@
 
 					@if ($loop->iteration % 2 != 0)
 						<!--[if (mso)|(IE)]></td><td style="width: 20px"><![endif]--><div class="gutter" style="Float: left;width: 20px;background-color:#fff;">&nbsp;</div><!--[if (mso)|(IE)]></td><td style="width: 290px" valign="top" class="w250"><![endif]-->
-			        @endif
+                    @endif
+                    
+                    @if ($loop->index == 1)
+                        @break
+                    @endif
 				@endforeach
 	        	<!--[if (mso)|(IE)]></td></tr></table><![endif]-->
 	        </div>
