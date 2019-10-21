@@ -39,7 +39,7 @@ class CourseParser implements Parser
         }
 
         // no start and end dates? must be the newest api (v2.x)
-        if ($startDate === null) {
+        if ($startDate === null || $startDate === '0001-01-01T00:00:00') {
             if (! empty($data->dates)) {
                 // use v2.0 parsing, which only have the start date and last end date (just like v1 api)
                 if (count($data->dates) === 1) {
