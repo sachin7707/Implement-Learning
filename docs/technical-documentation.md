@@ -37,3 +37,11 @@ Selve flowet er som følger (for booking af 2 pladser på et kursus):
 * ilibackend sender bekræftigelses email til kunde, samt deltagerne der blev tilmeldt.
 
 ### Sync af kursusdata
+
+ilibackend står for at hente kursusdata fra Maconomy.
+Herefter bliver der (via et cronjob på ilibackend) sendt kursusdata til iliwordpress.
+
+Nuxt site henter data fra iliwordpress, når der skal vises kursus information.
+
+## iliwordpress
+
