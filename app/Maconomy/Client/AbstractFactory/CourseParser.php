@@ -45,6 +45,8 @@ class CourseParser implements Parser
                 if (count($data->dates) === 1) {
                     $startDate = $data->dates[0]->startingDate;
                     $endDate = $data->dates[0]->endingDate;
+                } elseif (count($data->dates) > 1) {
+                    $startDate = $data->dates[0]->startingDate;
                 }
             }
         }
