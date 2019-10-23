@@ -246,12 +246,13 @@ class OrderController extends Controller
 
         $company = $request->input('company', []);
         $participants = $request->input('participants', []);
+        $consentText = $request->input('consent');
 
         // saving the language, the order is "made on" - ILI-602
         $order->language = $request->input('lang', 'da');
 
         // closes the order
-        $this->orderService->closeOrder($order, $participants, $company);
+        $this->orderService->closeOrder($order, $participants, $company, $consentText);
 
         $order->refresh();
 

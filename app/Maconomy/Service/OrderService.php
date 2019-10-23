@@ -127,10 +127,12 @@ class OrderService
      * @param Order $order the order to close and save participants and company info on.
      * @param array $participants the list of participants to add to the order
      * @param array $companyDetails the company information
+     * @param string|null $consentText the consent text that the user agreed to
      */
-    public function closeOrder(Order $order, array $participants, array $companyDetails): void
+    public function closeOrder(Order $order, array $participants, array $companyDetails, ?string $consentText): void
     {
         $order->state = Order::STATE_CLOSED;
+        $order->consent_text = $consentText;
         $order->save();
 
         if ($order->company === null) {
