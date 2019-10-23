@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Consent;
 use App\Course;
 use App\CourseType;
 use App\Http\Resources\Order as OrderResource;
+use App\Http\Resources\Consent as ConsentResource;
 use App\Jobs\ImportCourses;
 use App\Jobs\SyncOrder;
 use App\Maconomy\Client\OrderAdapter;
@@ -316,5 +318,15 @@ class OrderController extends Controller
         $this->orderService->sendOrderEmails($order);
 
         return response()->json(['message' => 'Order with id ' . $id . ' was added to resend emails queue']);
+    }
+
+    /**
+     * Fetches the list of consents for all the orders in the system
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function consents()
+    {
+        return response()->json(ConsentResource::collection(Consent::orderBy('id')
+            ->get()));
     }
 }

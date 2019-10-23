@@ -3,6 +3,7 @@
 namespace App\Maconomy\Service;
 
 use App\Company;
+use App\Consent;
 use App\Course;
 use App\Jobs\SyncOrder;
 use App\Mail\Helper;
@@ -132,7 +133,6 @@ class OrderService
     public function closeOrder(Order $order, array $participants, array $companyDetails, ?string $consentText): void
     {
         $order->state = Order::STATE_CLOSED;
-        $order->consent_text = $consentText;
         $order->save();
 
         if ($order->company === null) {
@@ -146,6 +146,9 @@ class OrderService
         /** @var Company $company saving the company on the order*/
         $order->company->update($companyDetails);
         $company = $order->company;
+
+        // saves the consent data - ILI-789
+        $this->saveConsent($order, $consentText);
 
         // removing "old" participants
         DB::table('participants')->where('company_id', '=', $company->id)->delete();
@@ -195,5 +198,21 @@ class OrderService
                 $order->courses()->updateExistingPivot($course->id, ['sort' => $sort]);
             }
         }
+    }
+
+    /**
+     * Storing the consent information for the given order
+     * @param Order $order the order to store consent data for
+     * @param string|null $consentText the consent text the user has agreed to
+     */
+    private function saveConsent(Order $order, ?string $consentText)
+    {
+        $consent = new Consent();
+        $consent->order_id = $order->id;
+        $consent->consent_text = $consentText;
+        $consent->company = $order->company->name;
+        $consent->name = $order->company->attention;
+        $consent->email = $order->company->email;
+        $consent->save();
     }
 }
