@@ -251,12 +251,12 @@
 								@endif
 
                                 @if ($upsell->link)
-                                    <div style="Margin-left: 20px;Margin-right: 20px;">
+                                    <div style="Margin-left: 10px;Margin-right: 20px;">
                                         <div style="mso-line-height-rule: exactly;mso-text-raise: 4px;">
                                             <p style="Margin-top: 0;Margin-bottom: 20px;">
                                                 <span style="color:#85837c">
                                                     <a style="text-decoration: underline;transition: opacity 0.1s ease-in;color: #000;" href="{{ $upsell->link }}">{{ $language === 'da' ? 'Gå til side om kurset' : 'Go to page about the course' }}
-                                                        <img style="Margin-left: 20px;border: 0;display: inline-block;height: 15px;width: auto;" alt="" width="auto" src="{{ env('WEBSITE_URL') }}{{ env('MAIL_ARROW_IMAGE') }}">
+                                                        <img style="Margin-left: 10px;border: 0;display: inline-block;height: 15px;width: auto;" alt="" width="auto" src="{{ env('WEBSITE_URL') }}{{ env('MAIL_ARROW_IMAGE') }}">
                                                     </a>
                                                 </span>
                                             </p>
