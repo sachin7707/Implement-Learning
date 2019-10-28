@@ -61,4 +61,28 @@ class CourseType extends Model
             ->where('course_type_id', $this->id)
             ->get();
     }
+
+    /**
+     * Fetches the title of the current course type
+     * @param string $language the language to use ('da' or 'en' is supported)
+     * @return string the title of the course type
+     */
+    public function getTitle($language = '')
+    {
+        // making sure we are getting a proper language "tag" to use
+        $language = in_array($language, ['Dansk', 'da', '']) ? 'da' : 'en';
+
+        // checking our course type texts for a title, using the given language
+        $text = $this->texts()
+            ->where('type', 'title')
+            ->where('language', $language)
+            ->first();
+
+        if ($text) {
+            return $text->text;
+        }
+
+        // doing a fallback to the coursetype's title
+        return $this->title;
+    }
 }

@@ -21,14 +21,14 @@ class Helper
     {
         $courseName = '';
         if ($order->education) {
-            return $order->education->name;
+            return $order->education->getTitle($order->language);
         }
 
         // not part of an education, just use the first course on the order.
         $course = $order->courses()->first();
 
         if ($course) {
-            $courseName = $course->getTitle($order->language);
+            $courseName = $course->getTitle();
         }
 
         return $courseName;
