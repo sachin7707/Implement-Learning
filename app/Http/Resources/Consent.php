@@ -24,6 +24,7 @@ class Consent extends JsonResource
                 'email' => $this->email,
                 'order_id' => $this->order_id,
                 'order' => new Order($this->order),
+                'consent' => $this->consent_text,
             ]
         );
     }
