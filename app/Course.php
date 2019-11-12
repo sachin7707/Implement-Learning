@@ -163,17 +163,7 @@ class Course extends Model
 
         // checking if the course type exists, and uses that name
         if ($this->coursetype) {
-            $text = $this->coursetype->texts()
-                ->where('type', 'title')
-                ->where('language', $language)
-                ->first();
-
-            if ($text) {
-                return $text->text;
-            }
-
-            // doing a fallback to the coursetype's title
-            return $this->coursetype->title;
+            return $this->coursetype->getTitle($language);
         }
 
         // no course type found, just use the course's name instead.
