@@ -446,6 +446,8 @@ class Course extends Model
      */
     public function getPrettyLanguage()
     {
+        error_log("Her hentes (Dansk/Engelsk) ud");
+        error_log("Sproget brugt på kurset!!!!!!!!!!!!!: {$this->getLanguage()}");
         return in_array($this->getLanguage(), ['Dansk', 'da']) ? 'Dansk' : 'English';
     }
 }
