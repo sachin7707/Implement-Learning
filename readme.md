@@ -35,13 +35,13 @@ To get started, just run the migrations and start a sync using the API (see
 We are using deployer to deploy the project.
 Simply use 
 ```
-composer dep deploy next
+vendor/bin/dep deploy next
 ```
 When deploying to next server.
 
 And use 
 ```
-composer dep deploy production
+vendor/bin/dep deploy production
 ```
 When deploying to production server.
 
@@ -71,3 +71,11 @@ With supervisord:
 ```bash
 php artisan queue:work --tries=1
 ```
+
+
+## How do i fix it?!
+ilibackend authentication error if you just copied database from dev fx:
+401/400 error in ilibackend api.
+Problem: Your token is valid, but not for localhost usage
+Fixing it: Generate a new.
+ Find method: getToken - remove the check for current valid token, and generate a new by commenting it away.
