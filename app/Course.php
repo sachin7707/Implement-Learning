@@ -157,20 +157,16 @@ class Course extends Model
      */
     public function getTitle($language = null)
     {
-        error_log("Language sent to getTitle: $language");
         if (empty($language)) {
             $language = in_array($this->language, ['Dansk', 'da', '']) ? 'da' : 'en';
-            error_log("Language DISCOVERED in getTitle: $language");
         }
 
         // checking if the course type exists, and uses that name
         if ($this->coursetype) {
-            error_log('COURSETYPE was found');
             return $this->coursetype->getTitle($language);
         }
 
         // no course type found, just use the course's name instead.
-        error_log("No course type {$this->name}");
         return $this->name;
     }
 
@@ -446,8 +442,6 @@ class Course extends Model
      */
     public function getPrettyLanguage()
     {
-        error_log("Her hentes (Dansk/Engelsk) ud");
-        error_log("Sproget brugt på kurset!!!!!!!!!!!!!: {$this->getLanguage()}");
         return in_array($this->getLanguage(), ['Dansk', 'da']) ? 'Dansk' : 'English';
     }
 }

@@ -70,10 +70,8 @@ class CourseType extends Model
      */
     public function getTitle($language = '')
     {
-        error_log("sent language $language");
         // making sure we are getting a proper language "tag" to use
         $language = in_array($language, ['Dansk', 'da', '']) ? 'da' : 'en';
-        error_log("found language: $language");
 
         // checking our course type texts for a title, using the given language
         $text = $this->texts()
@@ -82,12 +80,8 @@ class CourseType extends Model
             ->first();
 
         if ($text) {
-            error_log("we went with a text this seems good: {$text->text}");
             return $text->text;
         }
-
-        error_log("probably not amazing: {$this->title}");
-        // doing a fallback to the coursetype's title
         return $this->title;
     }
 }

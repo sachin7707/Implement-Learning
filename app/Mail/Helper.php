@@ -20,24 +20,17 @@ class Helper
      */
     public static function getTitle($order)
     {
-        error_log("Mail Helper getTitle: ");
         $courseName = '';
         if ($order->education) {
-            error_log("order education was set");
-            error_log("Order language is: $order->language");
             return $order->education->getTitle($order->language);
         }
 
         // not part of an education, just use the first course on the order.
         $course = $order->courses()->first();
-        error_log("Sorry not part of an education");
 
         if ($course) {
-            error_log("Getting course title");
             $courseName = $course->getTitle();
         }
-
-        error_log("This makes coursename $courseName");
 
         return $courseName;
     }
