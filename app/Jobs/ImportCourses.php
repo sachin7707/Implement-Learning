@@ -142,7 +142,8 @@ class ImportCourses extends Job
 
             $data = [
                 'name' => $course->name,
-                'language' => $course->language,
+                // remove language-> overwrites language set in wordpress - with maconomy language ILI-802 and then breaks language
+                //'language' => $course->language,
                 'venue_number' => $course->venueId,
                 'venue_name' => $course->venueName,
                 'start_time' => $course->startTime,
