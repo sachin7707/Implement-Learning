@@ -214,10 +214,10 @@
 		</div>
 
 		<div class="layout two-col has-gutter" style="Margin: 0 auto;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;">
-	        <div class="layout__inner" style="border-collapse: collapse;display: table;width: 100%;">
+	        <div class="layout__inner" style="border-collapse: collapse;display: table;width: 100%; background-color: #f8f5e7;">
 	        	<!--[if (mso)|(IE)]><table align="center" cellpadding="0" cellspacing="0" role="presentation"><tr><td style="width: 290px" valign="top" class="w250"><![endif]-->
 				@foreach ($upsells as $upsell)
-					<div class="column" style="Float: left;max-width: 320px;min-width: 290px; width: 320px;width: calc(18290px - 3000%);background-color: #f8f5e7;">
+					<div class="column" style="Float: left;max-width: 320px;min-width: 290px; width: 320px;width: calc(18290px - 3000%);">
 		  	            <table class="column__background" style="border-collapse: collapse;table-layout: fixed;" cellpadding="0" cellspacing="0" width="100%" role="presentation">
 		  	              <tbody><tr>
 		  	                <td style="text-align: left;color: #2f353e;font-size: 15px;line-height: 23px;font-family: Calibri,Carlito,PT Sans,Trebuchet MS,sans-serif;">
