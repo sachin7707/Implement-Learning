@@ -498,7 +498,7 @@
 
                             <div style="Margin-left: 46px;Margin-right: 46px;">
                                 <div style="mso-line-height-rule: exactly;mso-text-raise: 4px;">
-                                    <h1 class="size-48" style="Margin-top: 0;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #2f353e;font-size: 36px;line-height: 43px;font-family: Oswald,Avenir Next Condensed,Arial Narrow,MS UI Gothic,sans-serif;text-align: left;" lang="x-size-48"><strong><span style="color:#000000">@yield('title')</span></strong></h1>
+                                    <h1 class="size-48" style="Margin-top: 0;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #2f353e;font-size: 36px;line-height: 48px;font-family: Oswald,Avenir Next Condensed,Arial Narrow,MS UI Gothic,sans-serif;text-align: left;" lang="x-size-48"><strong><span style="color:#000000">@yield('title')</span></strong></h1>
                                 </div>
                             </div>
 
